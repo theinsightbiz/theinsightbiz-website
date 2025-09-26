@@ -1,0 +1,13 @@
+.nav-link, .btn, .dropdown-header{transition: all .2s ease}
+.nav-link:hover, .btn:hover{filter:brightness(1.06)}
+
+/* Service cards: vivid brand gradient (solid blues) */
+.svc-card{
+  border-radius:16px; padding:1rem; border:1px solid var(--border);
+  background: linear-gradient(180deg,
+    var(--blue-50) 0%,
+    #f3fbff 40%,
+    #eef9ff 100%
+  );
+  box-shadow: 0 8px 24px rgba(0,0,0,.05);
+}
