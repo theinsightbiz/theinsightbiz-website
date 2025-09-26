@@ -1,10 +1,11 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import heroImg from '../assets/laptop-hero.png'
 
 export default function Hero(){
   const navigate = useNavigate()
   return (
-    <section className="hero" style={{backgroundImage: 'url(/assets/feedback/laptop-hero.png)'}}>
+    <section className="hero" style={{backgroundImage: `url(${heroImg})`}}>
       <div className="hero-overlay">
         <h1 className="hero-title">Insight Beyond Numbers, <br/> Excellence Beyond Limits</h1>
         <div className="hero-ctas">
