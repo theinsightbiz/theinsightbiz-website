@@ -79,7 +79,7 @@ export const SERVICES = [
     title: 'Bank Loan Advisory & Financial Modelling',
     category: 'individuals',
     summary: 'Working capital & term-loan advisory with lender-grade models.',
-    cover: 'src/assets/bankloan.jpg',
+    cover: '/hero/bankloan.jpg',
     details: 'Credit assessment, ratio analysis, CMA data, projections, covenant planning, and liaison with banks until disbursement.'
   },
 
@@ -113,7 +113,7 @@ export const SERVICES = [
     title: 'Company Registration in UK (Companies House)',
     category: 'companies',
     summary: 'Fast LTD setup, HMRC onboarding, VAT & PAYE registrations.',
-    cover: '/hero/laptop-hero.png',
+    cover: '/hero/uk.jpg',
     details: 'Companies House incorporation, confirmation statement, HMRC, VAT, PAYE, and annual accounts assistance.'
   },
   {
@@ -129,7 +129,7 @@ export const SERVICES = [
     title: 'GST Registration',
     category: 'companies',
     summary: 'Multi-state GSTINs, branch transfers & e-invoice readiness.',
-    cover: '/hero/meeting.jpg',
+    cover: '/hero/gst.jpg',
     details: 'Place-of-supply, multi-state/SEZ registration, API/e-invoicing & e-way bill setup, and SOPs for returns.'
   },
   {
@@ -137,7 +137,7 @@ export const SERVICES = [
     title: 'ROC Filings & Annual Returns',
     category: 'companies',
     summary: 'Board/AGM packs, AOC-4, MGT-7, MSME-1, DPT-3 & registers.',
-    cover: '/hero/nonprofit.jpg',
+    cover: '/hero/roc.jpg',
     details: 'Full ROC calendar with drafting, resolutions, e-filings, director KYC, and statutory register maintenance.'
   },
   {
@@ -145,7 +145,7 @@ export const SERVICES = [
     title: 'FEMA, ODI & ECB Compliances (India)',
     category: 'companies',
     summary: 'FDI/ODI consulting, SMF filings, LRN/ECB reporting.',
-    cover: '/hero/laptop-hero.png',
+    cover: '/hero/fema.jpg',
     details: 'Entry routes, pricing guidelines, downstream investment, ODI returns, ECB LRN, and compliance with RBI Master Directions.'
   },
   {
@@ -153,7 +153,7 @@ export const SERVICES = [
     title: 'Statutory, Internal & Tax Audits (India)',
     category: 'companies',
     summary: 'Audit planning, controls testing, CARO/Tax-audit reports.',
-    cover: '/hero/desk.jpg',
+    cover: '/hero/audits.jpg',
     details: 'End-to-end audit execution with checklists, sampling, CARO reporting, and 3CD tax-audit deliverables.'
   },
   {
@@ -161,7 +161,7 @@ export const SERVICES = [
     title: 'VAT Return Filing (UAE & UK)',
     category: 'companies',
     summary: 'VAT onboarding, quarterly returns, EC sales & MTD compliance.',
-    cover: '/hero/meeting.jpg',
+    cover: '/hero/vat.jpg',
     details: 'VAT registration, MTD for UK, return filing, reconciliations, and correspondence with FTA/HMRC.'
   },
   {
@@ -169,7 +169,7 @@ export const SERVICES = [
     title: 'IRS Compliance & Federal/State Tax Filing (USA)',
     category: 'companies',
     summary: 'US federal/state filings, 1099/Payroll, and transfer pricing coordination.',
-    cover: '/hero/nonprofit.jpg',
+    cover: '/hero/irs.jpg',
     details: 'Federal & state returns, 1099/W-8/W-9, nexus study, treaty positions and multi-country coordination.'
   },
   {
@@ -177,7 +177,7 @@ export const SERVICES = [
     title: 'Bookkeeping & Payroll Management',
     category: 'companies',
     summary: 'Monthly books, payroll, FP&A, investor-grade MIS.',
-    cover: '/hero/laptop-hero.png',
+    cover: '/hero/bookkeeping.jpg',
     details: 'GL, AR/AP, payroll, close calendar, MIS, and FP&A models.'
   },
   {
@@ -185,7 +185,7 @@ export const SERVICES = [
     title: 'Income Tax & GST Compliance',
     category: 'companies',
     summary: 'Direct & indirect tax calendars with notice management.',
-    cover: '/hero/desk.jpg',
+    cover: '/hero/tax.jpg',
     details: 'TDS/TCS, advance tax, transfer pricing coordination, GST monthly/annual returns, audits, and litigation support.'
   },
   {
@@ -193,7 +193,7 @@ export const SERVICES = [
     title: 'Virtual CFO Services',
     category: 'companies',
     summary: 'Board packs, budgets, cash-flow, KPI and fundraising support.',
-    cover: '/hero/meeting.jpg',
+    cover: '/hero/virtual.jpg',
     details: 'Budgeting, forecasting, governance, board reporting, and investor relations.'
   },
 
@@ -203,7 +203,7 @@ export const SERVICES = [
     title: 'Income Tax Return Filing',
     category: 'partnerships',
     summary: 'Partnership ITR with partner capital reconciliation.',
-    cover: '/hero/desk.jpg',
+    cover: '/hero/incometaxfiling.jpg',
     details: 'ITR-5, partner drawings/interest, 40(b) compliance, and tax planning.'
   },
   {
@@ -211,7 +211,7 @@ export const SERVICES = [
     title: 'GST Registration',
     category: 'partnerships',
     summary: 'GSTIN with composition/regular evaluation & SOPs.',
-    cover: '/hero/meeting.jpg',
+    cover: '/hero/gst.jpg',
     details: 'End-to-end GSTIN, HSN & PoS mapping, and processes.'
   },
   {
@@ -219,7 +219,7 @@ export const SERVICES = [
     title: 'Bookkeeping & Payroll Management',
     category: 'partnerships',
     summary: 'Monthly books & payroll with partner MIS.',
-    cover: '/hero/nonprofit.jpg',
+    cover: '/hero/bookkeeping.jpg',
     details: 'Reconciliations, payroll, PF/ESI, and monthly MIS.'
   },
   {
@@ -227,7 +227,7 @@ export const SERVICES = [
     title: 'Preparation of Financial Statements',
     category: 'partnerships',
     summary: 'Audit-ready statements & schedules.',
-    cover: '/hero/laptop-hero.png',
+    cover: '/hero/financials.jpg',
     details: 'Balance sheet, P&L, notes, and close entries.'
   },
   {
@@ -235,7 +235,7 @@ export const SERVICES = [
     title: 'Income Tax & GST Compliance',
     category: 'partnerships',
     summary: 'ITR-5, GSTRs & reconciliations.',
-    cover: '/hero/desk.jpg',
+    cover: '/hero/tax.jpg',
     details: 'Calendar-based compliance, notices & rectifications.'
   },
   {
@@ -243,7 +243,7 @@ export const SERVICES = [
     title: 'Virtual CFO Services',
     category: 'partnerships',
     summary: 'Controls, MIS, budgeting for partners.',
-    cover: '/hero/meeting.jpg',
+    cover: '/hero/virtual.jpg',
     details: 'Governance, budgets and reporting.'
   },
   {
@@ -251,7 +251,7 @@ export const SERVICES = [
     title: 'Bank Loan Advisory & Financial Modelling',
     category: 'partnerships',
     summary: 'CMA data & financing support.',
-    cover: '/hero/nonprofit.jpg',
+    cover: '/hero/bankloan.jpg',
     details: 'CMA, ratios, projections, lender liaison.'
   },
 
@@ -261,7 +261,7 @@ export const SERVICES = [
     title: 'Trust, Society & Section 8 Registration',
     category: 'nonprofits',
     summary: 'Foundational setup with by-laws and governance.',
-    cover: '/hero/laptop-hero.png',
+    cover: '/hero/trust.jpg',
     details: 'Drafting trust deed/MOA-AOA, registration and PAN/TAN/GST onboarding.'
   },
   {
@@ -269,7 +269,7 @@ export const SERVICES = [
     title: '12A & 80G Registration',
     category: 'nonprofits',
     summary: 'Enable tax-exempt receipts and donor confidence.',
-    cover: '/hero/desk.jpg',
+    cover: '/hero/donation.jpg',
     details: 'Eligibility, documentation, portal filings and renewals.'
   },
   {
@@ -277,7 +277,7 @@ export const SERVICES = [
     title: 'FCRA Registration & Compliance',
     category: 'nonprofits',
     summary: 'Foreign donations with FCRA bank and reporting.',
-    cover: '/hero/meeting.jpg',
+    cover: '/hero/fcra.jpg',
     details: 'FCRA registration, designated bank, quarterly returns and utilization reporting.'
   },
   {
@@ -285,7 +285,7 @@ export const SERVICES = [
     title: 'Non-profit Registration in USA – 501(c)(3)',
     category: 'nonprofits',
     summary: 'US charitable status with IRS recognition.',
-    cover: '/hero/nonprofit.jpg',
+    cover: '/hero/npusa.jpg',
     details: 'Formation, 1023/1023-EZ, bylaws, and board governance.'
   },
   {
@@ -293,7 +293,7 @@ export const SERVICES = [
     title: 'Non-profit Licensing in UAE',
     category: 'nonprofits',
     summary: 'Local licensing with compliance framework.',
-    cover: '/hero/desk.jpg',
+    cover: '/hero/npuae.jpg',
     details: 'Approvals, licensing, and ongoing reporting to authorities.'
   },
   {
@@ -301,7 +301,7 @@ export const SERVICES = [
     title: 'Audit of NGOs & Donor Compliance Audits',
     category: 'nonprofits',
     summary: 'Grant compliance and audited statements.',
-    cover: '/hero/meeting.jpg',
+    cover: '/hero/ngo.jpg',
     details: 'Donor-specific audits, fund tracking, and utilization certificates.'
   },
   {
@@ -309,7 +309,7 @@ export const SERVICES = [
     title: 'Bookkeeping & Payroll Management',
     category: 'nonprofits',
     summary: 'Restricted funds accounting & payroll.',
-    cover: '/hero/nonprofit.jpg',
+    cover: '/hero/bookkeeping.jpg',
     details: 'Fund accounting, payroll and MIS for boards.'
   },
   {
@@ -317,7 +317,7 @@ export const SERVICES = [
     title: 'Preparation of Financial Statements',
     category: 'nonprofits',
     summary: 'Audit-ready and donor-compliant statements.',
-    cover: '/hero/laptop-hero.png',
+    cover: '/hero/financials.jpg',
     details: 'Statements, notes and audits support.'
   },
   {
@@ -325,7 +325,7 @@ export const SERVICES = [
     title: 'CSR Advisory for Companies funding NGOs',
     category: 'nonprofits',
     summary: 'Policy, partner diligence, monitoring & reporting.',
-    cover: '/hero/desk.jpg',
+    cover: '/hero/csr.jpg',
     details: 'CSR policy design, due diligence, monitoring and impact reporting.'
   }
 ];
