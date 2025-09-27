@@ -1,23 +1,29 @@
 import React, { useEffect, useState } from 'react'
 import TeamGrid from '../components/TeamGrid'
 
+// ✅ Import images from src/assets so Vite includes them in the build
+import ceo1 from '../assets/ceo-1.jpg'
+import founder2 from '../assets/founder-2.jpg'
+import trustee3 from '../assets/trustee-3.jpg'
+import phoneBg from '../assets/phone-bg.jpg'
+
 export default function About(){
   // --- Testimonial slider state ---
   const slides = [
     {
-      photo: '/src/assets/ceo-1.jpg',
+      photo: ceo1,
       name: 'Jina Huang',
       role: 'CEO • Watt Property Management',
       quote: 'INSIGHT transformed our digital and compliance presence with clear timelines and zero surprises.',
     },
     {
-      photo: '/src/assets/founder-2.jpg',
+      photo: founder2,
       name: 'Arjun Mehta',
       role: 'Founder • SaaS, India → UAE',
       quote: 'From tax to cross-border set-up—one accountable partner. Documents are board-ready.',
     },
     {
-      photo: '/src/assets/trustee-3.jpg',
+      photo: trustee3,
       name: 'Nisha Rao',
       role: 'Trustee • Non-Profit, India',
       quote: 'FCRA + audit support were airtight. The team is meticulous and communicative.',
@@ -127,7 +133,7 @@ export default function About(){
             {/* background phone image (non-interactive) */}
             <div
               className="feedback-bg"
-              style={{ backgroundImage: 'url(/src/assets/phone-bg.jpg)' }}
+              style={{ backgroundImage: `url(${phoneBg})` }}
               aria-hidden="true"
             />
 
