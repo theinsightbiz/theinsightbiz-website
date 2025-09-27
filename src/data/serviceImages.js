@@ -13,12 +13,11 @@ function normalizeCoverPath(raw) {
   // If it's an absolute URL, return as-is
   if (/^https?:\/\//i.test(p)) return p
 
-  // Common mistakes: 'public/...' or './...' or 'hero/...'
-  p = p.replace(/^public[\\/]/i, '')       // remove leading 'public/'
-  p = p.replace(/^\.?\//, '')              // remove leading './' or '/'
+  // Common mistakes: 'public/...' or './...' or leading '/'
+  p = p.replace(/^public[\\/]/i, '') // remove leading 'public/'
+  p = p.replace(/^\.?\//, '')        // remove leading './' or '/'
 
-  // At this point p is like 'hero/images/foo.jpg'
-  // Serve from the site's base URL (Vite's base-aware)
+  // Serve from the site's base URL (Vite base-aware)
   const base = (import.meta.env.BASE_URL || '/').replace(/\/+$/, '')
   return `${base}/${p}`
 }
@@ -27,8 +26,7 @@ function normalizeCoverPath(raw) {
  * Resolve a cover image for a given service (object or slug).
  * Priority: svc.cover (string path or absolute URL) → ''.
  * Place images under /public (e.g., /public/hero/images/...) and set
- * svc.cover to '/hero/images/your-file.jpg' (but we also accept
- * 'public/hero/images/your-file.jpg' or 'hero/images/your-file.jpg').
+ * svc.cover to '/hero/images/your-file.jpg' (also accepts 'public/...' or 'hero/...').
  */
 export function getCoverForService(input) {
   const toKey = (v) => String(v ?? '').toLowerCase()
