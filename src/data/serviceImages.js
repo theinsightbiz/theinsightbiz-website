@@ -1,39 +1,54 @@
 // src/data/serviceImages.js
-// Minimal, build-safe version (Option A):
-// - No static image imports
-// - Relies on `svc.cover` from servicesCatalog (e.g., '/hero/meeting.jpg' in /public/hero)
+// Build-safe (no imports) + robust path normalizer for covers placed in /public
 
 import { SERVICES } from './servicesCatalog'
 
-// Keep the export (empty) so other modules importing `coverImages` don't break.
+// Kept for compatibility with earlier imports elsewhere
 export const coverImages = []
+
+function normalizeCoverPath(raw) {
+  if (!raw) return ''
+
+  let p = String(raw).trim()
+  // If it's an absolute URL, return as-is
+  if (/^https?:\/\//i.test(p)) return p
+
+  // Common mistakes: 'public/...' or './...' or 'hero/...'
+  p = p.replace(/^public[\\/]/i, '')       // remove leading 'public/'
+  p = p.replace(/^\.?\//, '')              // remove leading './' or '/'
+
+  // At this point p is like 'hero/images/foo.jpg'
+  // Serve from the site's base URL (Vite's base-aware)
+  const base = (import.meta.env.BASE_URL || '/').replace(/\/+$/, '')
+  return `${base}/${p}`
+}
 
 /**
  * Resolve a cover image for a given service (object or slug).
- * Priority: svc.cover (from catalog/public) → ''.
- * NOTE: Place your images under /public (e.g., /public/hero/...) and
- * set `cover` in servicesCatalog to '/hero/your-image.jpg'.
+ * Priority: svc.cover (string path or absolute URL) → ''.
+ * Place images under /public (e.g., /public/hero/images/...) and set
+ * svc.cover to '/hero/images/your-file.jpg' (but we also accept
+ * 'public/hero/images/your-file.jpg' or 'hero/images/your-file.jpg').
  */
 export function getCoverForService(input) {
-  const slugOrId = (v) => String(v ?? '').toLowerCase()
+  const toKey = (v) => String(v ?? '').toLowerCase()
 
   const svc =
     typeof input === 'string'
       ? SERVICES.find(
-          (s) =>
-            slugOrId(s.slug) === slugOrId(input) ||
-            slugOrId(s.id) === slugOrId(input)
+          (s) => toKey(s.slug) === toKey(input) || toKey(s.id) === toKey(input)
         )
       : input
 
   if (!svc) return ''
 
-  if (svc.cover) return svc.cover
+  if (svc.cover) return normalizeCoverPath(svc.cover)
 
-  // Fallback kept for compatibility if someone later reintroduces images:
-  const idx = SERVICES.findIndex((s) => s.id === svc.id)
+  // Soft fallback if someone later re-introduces imports
+  const idx = SERVICES.findIndex((s) => s.id === svc?.id)
   if (idx >= 0 && coverImages.length > 0) {
-    return coverImages[idx % coverImages.length]
+    const candidate = coverImages[idx % coverImages.length]
+    return candidate ? normalizeCoverPath(candidate) : ''
   }
 
   return ''
