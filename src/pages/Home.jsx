@@ -88,25 +88,25 @@ export default function Home(){
         {/* Horizontal image reel (links to categories) */}
         <div className="h-reel" style={{marginTop:'1rem'}}>
           <a className="h-card" href="/services/individuals">
-            <img src="/hero/laptop-hero.png" alt="Individuals & Sole Prop." />
+            <img src="/src/assets/laptop-hero.png" alt="Individuals & Sole Prop." />
             <div className="label">
               <h3>Individuals & Sole Prop.</h3>
             </div>
           </a>
           <a className="h-card" href="/services/companies">
-            <img src="/hero/desk.jpg" alt="Companies" />
+            <img src="/src/assets/desk.jpg" alt="Companies" />
             <div className="label">
               <h3>Companies</h3>
             </div>
           </a>
           <a className="h-card" href="/services/partnerships">
-            <img src="/hero/meeting.jpg" alt="Partnerships" />
+            <img src="/src/assets/meeting.jpg" alt="Partnerships" />
             <div className="label">
               <h3>Partnerships</h3>
             </div>
           </a>
           <a className="h-card" href="/services/nonprofits">
-            <img src="/hero/nonprofit.jpg" alt="NGOs & Non-Profits" />
+            <img src="/src/assets/nonprofit.jpg" alt="NGOs & Non-Profits" />
             <div className="label">
               <h3>NGOs & Non-Profits</h3>
             </div>

@@ -5,25 +5,22 @@ export default function About(){
   // --- Testimonial slider state ---
   const slides = [
     {
-      photo: '/assets/feedback/ceo-1.jpg',
+      photo: '/src/assets/ceo-1.jpg',
       name: 'Jina Huang',
       role: 'CEO • Watt Property Management',
       quote: 'INSIGHT transformed our digital and compliance presence with clear timelines and zero surprises.',
-      logo: '/assets/feedback/watt-logo.png'
     },
     {
-      photo: '/assets/feedback/founder-2.jpg',
+      photo: '/src/assets/founder-2.jpg',
       name: 'Arjun Mehta',
       role: 'Founder • SaaS, India → UAE',
       quote: 'From tax to cross-border set-up—one accountable partner. Documents are board-ready.',
-      logo: '/assets/feedback/brand-a.png'
     },
     {
-      photo: '/assets/feedback/trustee-3.jpg',
+      photo: '/src/assets/trustee-3.jpg',
       name: 'Nisha Rao',
       role: 'Trustee • Non-Profit, India',
       quote: 'FCRA + audit support were airtight. The team is meticulous and communicative.',
-      logo: '/assets/feedback/brand-b.png'
     }
   ]
 
@@ -130,7 +127,7 @@ export default function About(){
             {/* background phone image (non-interactive) */}
             <div
               className="feedback-bg"
-              style={{ backgroundImage: 'url(/assets/feedback/phone-bg.jpg)' }}
+              style={{ backgroundImage: 'url(/src/assets/phone-bg.jpg)' }}
               aria-hidden="true"
             />
 
