@@ -44,6 +44,7 @@ import npuae             from '../assets/npuae.jpg'
 import ngo               from '../assets/ngo.jpg'
 import bookkeeping4      from '../assets/bookkeeping.jpg'
 import financials3       from '../assets/financials.jpg'
+import csr               from '../assets/csr.jpg'
 
 // ---- One array to rule them all ----
 // You can add/remove items freely; if services > images, it cycles with modulo.
@@ -86,6 +87,7 @@ export const coverImages = [
   ngo,
   bookkeeping4,
   financials3,
+  csr,
 ]
 
 // Resolve a cover image for a given service (object or slug).
