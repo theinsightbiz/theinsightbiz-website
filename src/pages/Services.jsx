@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { SERVICES, SERVICE_CATEGORIES } from '../data/servicesCatalog'
+import { getCoverForService } from '../data/serviceImages'  // ← NEW
 
 export default function Services(){
   const navigate = useNavigate()
@@ -11,7 +12,7 @@ export default function Services(){
     return cat === 'all' ? SERVICES : SERVICES.filter(s => s.category === cat)
   }, [cat])
 
-  // reveal on scroll (slide left/right like MIUX Works)
+  // reveal on scroll
   useEffect(() => {
     const els = Array.from(document.querySelectorAll('.work-row, .work-card'))
     els.forEach(el => el.classList.add('reveal'))
@@ -38,7 +39,7 @@ export default function Services(){
         <p>Explore our service lines across Individuals, Companies, Partnerships, and Non-Profits.</p>
       </div>
 
-      {/* toolbar (center) */}
+      {/* toolbar */}
       <div className="work-toolbar">
         <div className="cats">
           <button
@@ -59,13 +60,13 @@ export default function Services(){
         </div>
       </div>
 
-      {/* LIST (alternating left/right) */}
+      {/* LIST */}
       {view === 'list' && (
         <div className="work-stream">
           {data.map((s, i) => (
             <article key={s.id} className={'work-row side-' + (i % 2 ? 'right' : 'left')}>
               <div className="image">
-                <img src={s.cover} alt={s.title} />
+                <img src={getCoverForService(s)} alt={s.title} />
               </div>
               <div className="meta">
                 <h3>{s.title}</h3>
@@ -87,7 +88,7 @@ export default function Services(){
         <div className="work-grid">
           {data.map((s) => (
             <button key={s.id} className="work-card" onClick={()=>openDetail(s.slug)} aria-label={`Open ${s.title}`}>
-              <img src={s.cover} alt={s.title} />
+              <img src={getCoverForService(s)} alt={s.title} />
               <div className="card-label">
                 <h4>{s.title}</h4>
                 <p>{s.summary}</p>
@@ -97,7 +98,7 @@ export default function Services(){
         </div>
       )}
 
-      {/* scoped styles */}
+      {/* styles unchanged */}
       <style>{`
         .works :where(h1,h2){ letter-spacing:-.2px }
         .work-toolbar{
@@ -114,7 +115,6 @@ export default function Services(){
         .view.active{ color:var(--accent-700, #085c83) }
         .sep{ opacity:.4 }
 
-        /* LIST rows */
         .work-stream{ display:grid; gap:1.2rem }
         .work-row{
           --radius: 16px;
@@ -142,7 +142,6 @@ export default function Services(){
         }
         .btn-primary:hover{ transform:translateY(-1px); box-shadow:0 10px 26px rgba(14,153,213,.25) }
 
-        /* GRID */
         .work-grid{
           display:grid; grid-template-columns: repeat(3, 1fr); gap:1rem; margin-top:.4rem;
         }

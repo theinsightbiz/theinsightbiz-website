@@ -79,7 +79,7 @@ export const SERVICES = [
     title: 'Bank Loan Advisory & Financial Modelling',
     category: 'individuals',
     summary: 'Working capital & term-loan advisory with lender-grade models.',
-    cover: '/hero/bankloan.jpg',
+    cover: 'src/assets/bankloan.jpg',
     details: 'Credit assessment, ratio analysis, CMA data, projections, covenant planning, and liaison with banks until disbursement.'
   },
 
@@ -121,7 +121,7 @@ export const SERVICES = [
     title: 'Company Registration in USA (LLC / C-Corp / S-Corp)',
     category: 'companies',
     summary: 'Formation with EIN, state filings, IRS onboarding & bank introductions.',
-    cover: '/hero/desk.jpg',
+    cover: '/hero/usa.jpg',
     details: 'LLC/C-Corp/S-Corp formation, EIN, Registered Agent, state filings, BOI/FinCEN, and CPA coordination for federal/state taxes.'
   },
   {

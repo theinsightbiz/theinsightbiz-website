@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import heroImg from '../assets/laptop-hero.png'
+import heroImg from '../assets/phone-bg.jpg'
 
 export default function Hero(){
   const navigate = useNavigate()

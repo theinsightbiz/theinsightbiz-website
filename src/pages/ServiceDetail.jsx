@@ -1,6 +1,7 @@
 import React from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { findServiceBySlug, SERVICE_CATEGORIES } from '../data/servicesCatalog'
+import { getCoverForService } from '../data/serviceImages'   // ← NEW
 
 export default function ServiceDetail(){
   const { slug } = useParams()
@@ -20,6 +21,7 @@ export default function ServiceDetail(){
   }
 
   const catLabel = SERVICE_CATEGORIES.find(c => c.key === svc.category)?.label
+  const cover = getCoverForService(svc)   // ← use centralized image
 
   return (
     <section className="page wide">
@@ -31,7 +33,7 @@ export default function ServiceDetail(){
 
       <article className="detail">
         <div className="lead">
-          <img src={svc.cover} alt={svc.title} />
+          <img src={cover} alt={svc.title} />
         </div>
         <div className="panel-premium prose">
           <p>{svc.details}</p>

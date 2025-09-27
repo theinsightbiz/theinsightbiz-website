@@ -1,6 +1,7 @@
 import React, { useMemo, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { SERVICES, SERVICE_CATEGORIES } from '../data/servicesCatalog'
+import { getCoverForService } from '../data/serviceImages'   // ← NEW
 
 export default function ServicesCategory(){
   const { key } = useParams()
@@ -32,7 +33,7 @@ export default function ServicesCategory(){
             onClick={()=>navigate(`/services/${s.slug}`)}
             aria-label={`Open ${s.title}`}
           >
-            <img src={s.cover} alt={s.title} />
+            <img src={getCoverForService(s)} alt={s.title} />  {/* ← changed */}
             <div className="card-label">
               <h4>{s.title}</h4>
               <p>{s.summary}</p>
