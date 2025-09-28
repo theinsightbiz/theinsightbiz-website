@@ -1,13 +1,18 @@
+// src/pages/Home.jsx
 import React, { useEffect } from 'react'
 import Hero from '../components/Hero'
-import QnA from '../components/QnA'
-import ContactForm from '../components/ContactForm'
-import { FaCheckCircle } from 'react-icons/fa'
 import Counters from '../components/Counters'
-import Testimonials from '../components/Testimonials'
+import QnA from '../components/QnA'
 
-export default function Home(){
-  // Dice/pop + horizontal reel reveal
+// 🔗 Bring full pages into Home
+import About from './About'
+import Services from './Services'
+import Blog from './Blog'
+import Contact from './Contact'
+import PrivacyPolicy from './Privacy'
+
+export default function Home() {
+  // Keep your existing reveal-on-view behavior for Home tiles/cards
   useEffect(() => {
     const svc = Array.from(document.querySelectorAll('.services .svc-card'))
     const reel = Array.from(document.querySelectorAll('.h-reel .h-card'))
@@ -32,11 +37,10 @@ export default function Home(){
 
   return (
     <>
-      {/* HERO */}
+      {/* === HOME CORE === */}
       <Hero />
       <Counters />
 
-      {/* Oversized typographic intro (Made-in-UX feel) */}
       <section className="page wide">
         <div className="miux-hero">
           <h1>We build clarity.<br/>We design compliance.<br/>We scale trust.</h1>
@@ -44,58 +48,77 @@ export default function Home(){
         </div>
       </section>
 
-      {/* Welcome / Mission / Vision */}
-      <section className="page wide welcome">
-        <h2>WELCOME TO INSIGHT</h2>
-        <div className="grid3">
-          <div className="card glass">
-            <h3>Our Mission</h3>
-            <p>Provides expert advice to improve operations, strategies, and profitability, helping organizations solve challenges, streamline processes, and achieve their goals.</p>
-          </div>
-          <div className="card glass">
-            <h3>Our Vision</h3>
-            <p>The vision, is to empower organizations by providing strategic insights, optimizing operations, and driving sustainable growth and innovation.</p>
-          </div>
-          <div className="card glass">
-            <h3>What We Do</h3>
-            <p>With our in-depth knowledge of Indian and UAE regulatory landscapes, commitment to personalized client service, and expertise across finance, tax, and compliance, we help businesses navigate complex challenges and drive sustainable growth. Partner with us to unlock value, reduce risk, and stay ahead in a competitive market.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* Services overview */}
-      <section className="page wide services">
+      {/* If you had a compact “services overview” on Home, keep it */}
+      {/* You can remove this block if your Services page already has a full hero/overview */}
+      <section className="page wide services" id="home-services-overview">
         <h2>What services we are offering</h2>
         <div className="grid4">
-          <div className="svc-card">
-            <h4><FaCheckCircle/> Financial Advisory Services</h4>
-            <p>Guidance to individuals and businesses on managing finances, investments, and wealth. These services include financial planning, risk management, tax strategies, retirement planning, and portfolio optimization.</p>
-          </div>
-          <div className="svc-card">
-            <h4><FaCheckCircle/> Tax Compliance & Advisory</h4>
-            <p>Ensures businesses adhere to tax regulations while optimizing tax strategies. We provide expert guidance, accurate filings, and personalized advice to help you navigate complex tax laws and minimize financial risks.</p>
-          </div>
-          <div className="svc-card">
-            <h4><FaCheckCircle/> Accounting & Bookkeeping</h4>
-            <p>From managing daily transactions to preparing financial statements, we ensure accuracy, compliance, and valuable insights to help your business grow efficiently.</p>
-          </div>
-          <div className="svc-card">
-            <h4><FaCheckCircle/> Regulatory & Compliance</h4>
-            <p>Ensure your business adheres to legal standards and industry regulations. We provide expert guidance, audits, and streamline operations effectively.</p>
-          </div>
+          <div className="svc-card"><h4>Financial Advisory Services</h4><p>Guidance to individuals and businesses on managing finances, investment strategies, retirement planning, and portfolio optimization.</p></div>
+          <div className="svc-card"><h4>Tax Compliance & Advisory</h4><p>Ensures businesses adhere to tax regulations while optimizing tax liabilities. We help you navigate complex tax laws and minimize financial risks.</p></div>
+          <div className="svc-card"><h4>Accounting & Bookkeeping</h4><p>From managing daily transactions to preparing financial statements, we maintain accurate records and provide insights to help your business grow efficiently.</p></div>
+          <div className="svc-card"><h4>Regulatory & Compliance</h4><p>Ensure your business adheres to legal standards and industry regulations across jurisdictions with expert guidance, audits, and streamlined operations.</p></div>
         </div>
       </section>
 
-      {/* Q&A */}
+      {/* === FULL PAGES INLINED BELOW === */}
+
+      {/* About */}
+      <div id="about" className="page-anchor" />
+      <section className="page wide">
+        <SectionHeader title="About" subtitle="Full page content inlined below" />
+        <About />
+      </section>
+
+      {/* Services */}
+      <div id="services" className="page-anchor" />
+      <section className="page wide">
+        <SectionHeader title="Services" subtitle="Full page content inlined below" />
+        <Services />
+      </section>
+
+      {/* Blog */}
+      <div id="blog" className="page-anchor" />
+      <section className="page wide">
+        <SectionHeader title="Blog" subtitle="Full page content inlined below" />
+        <Blog />
+      </section>
+
+      {/* Contact */}
+      <div id="contact" className="page-anchor" />
+      <section className="page wide">
+        <SectionHeader title="Contact" subtitle="Full page content inlined below" />
+        <Contact />
+      </section>
+
+      {/* Privacy Policy */}
+      <div id="privacy" className="page-anchor" />
+      <section className="page wide">
+        <SectionHeader title="Privacy Policy" subtitle="Full page content inlined below" />
+        <PrivacyPolicy />
+      </section>
+
+      {/* Keep your existing Q&A if you want it after all sections */}
       <section className="page wide">
         <QnA />
       </section>
 
-      {/* Contact */}
-      <section className="page wide contact-cta">
-        <h3>Questions? Contact us</h3>
-        <ContactForm />
-      </section>
+      {/* Inline styles that won’t conflict with your existing CSS */}
+      <style>{`
+        .page-anchor { position: relative; top: -80px; height: 0; }
+        .section-head { margin: 0 0 1rem 0; }
+        .section-head h2 { margin: 0; font-weight: 900; letter-spacing: -0.2px; }
+        .section-head p { margin: .25rem 0 0 0; opacity: .8; }
+      `}</style>
     </>
+  )
+}
+
+/** Simple local header to visually separate each inlined page */
+function SectionHeader({ title, subtitle }) {
+  return (
+    <div className="section-head">
+      <h2>{title}</h2>
+      {subtitle ? <p>{subtitle}</p> : null}
+    </div>
   )
 }
