@@ -10,6 +10,7 @@ import Services from './Services'
 import Blog from './Blog'
 import Contact from './Contact'
 import PrivacyPolicy from './Privacy'
+import { Link } from 'react-router-dom' // <-- needed for <Link>
 
 export default function Home() {
   // Keep your existing reveal-on-view behavior for Home tiles/cards
@@ -69,20 +70,6 @@ export default function Home() {
         <About />
       </section>
 
-      {/* Services */}
-      <div id="services" className="page-anchor" />
-      <section className="page wide">
-        <SectionHeader title="Services" subtitle="Full page content inlined below" />
-        <Services />
-      </section>
-
-      {/* Blog */}
-      <div id="blog" className="page-anchor" />
-      <section className="page wide">
-        <SectionHeader title="Blog" subtitle="Full page content inlined below" />
-        <Blog />
-      </section>
-
       {/* Contact */}
       <div id="contact" className="page-anchor" />
       <section className="page wide">
@@ -90,11 +77,23 @@ export default function Home() {
         <Contact />
       </section>
 
-      {/* Privacy Policy */}
-      <div id="privacy" className="page-anchor" />
-      <section className="page wide">
-        <SectionHeader title="Privacy Policy" subtitle="Full page content inlined below" />
-        <PrivacyPolicy />
+      {/* ✅ Explore links to other pages (added) */}
+      <section className="page wide" aria-label="Explore other pages" style={{marginTop: '1rem'}}>
+        <h2>Explore</h2>
+        <div className="grid5" style={{display:'grid', gridTemplateColumns:'repeat(5, minmax(120px,1fr))', gap:'.8rem'}}>
+          <Link to="/services" className="card glass" style={{padding:'0.9rem 1rem', textDecoration:'none'}}>
+            <h4 style={{margin:0}}>Services</h4>
+            <p className="m0" style={{opacity:.8}}>What we do</p>
+          </Link>
+          <Link to="/blog" className="card glass" style={{padding:'0.9rem 1rem', textDecoration:'none'}}>
+            <h4 style={{margin:0}}>Blog</h4>
+            <p className="m0" style={{opacity:.8}}>Insights & updates</p>
+          </Link>
+          <Link to="/privacy" className="card glass" style={{padding:'0.9rem 1rem', textDecoration:'none'}}>
+            <h4 style={{margin:0}}>Privacy Policy</h4>
+            <p className="m0" style={{opacity:.8}}>Data & security</p>
+          </Link>
+        </div>
       </section>
 
       {/* Keep your existing Q&A if you want it after all sections */}
@@ -110,8 +109,8 @@ export default function Home() {
         .section-head p { margin: .25rem 0 0 0; opacity: .8; }
       `}</style>
     </>
-  )
-}
+  ); // <-- closes return
+} // <-- closes Home component
 
 /** Simple local header to visually separate each inlined page */
 function SectionHeader({ title, subtitle }) {
