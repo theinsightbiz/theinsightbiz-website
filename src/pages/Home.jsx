@@ -6,11 +6,9 @@ import QnA from '../components/QnA'
 
 // 🔗 Bring full pages into Home
 import About from './About'
-import Services from './Services'
-import Blog from './Blog'
 import Contact from './Contact'
-import PrivacyPolicy from './Privacy'
 import { Link } from 'react-router-dom' // <-- needed for <Link>
+import heroBg from '../assets/turninsight.jpg'
 
 export default function Home() {
   // Keep your existing reveal-on-view behavior for Home tiles/cards
@@ -43,11 +41,111 @@ export default function Home() {
       <Counters />
 
       <section className="page wide">
-        <div className="miux-hero">
-          <h1>We build clarity.<br/>We design compliance.<br/>We scale trust.</h1>
-          <p>Finance, tax and regulatory outcomes crafted with the polish of a product studio.</p>
-        </div>
-      </section>
+  <div 
+    className="miux-hero hero-morph"
+    style={{ backgroundImage: `url(${heroBg})` }}
+    >
+
+    {/* Layer A — OLD (visible first 3s) */}
+    <div className="hm-layer hm-old" aria-live="polite">
+      <h1 className="hm-line">
+        We build clarity.<br/>We design compliance.<br/>We scale trust.
+      </h1>
+      <p className="hm-sub">
+        Finance, tax and regulatory outcomes crafted with the polish of a professional services partnership.
+      </p>
+    </div>
+
+    {/* Layer B — NEW (visible next 5s) */}
+    <div className="hm-layer hm-new" aria-hidden="true">
+      <h1 className="hm-line">
+        Insight Business Consultancy<br/>Trusted Consultancy Partner
+      </h1>
+      <p className="hm-sub">
+        Your one step solution for turning sight into insight.
+      </p>
+    </div>
+  </div>
+
+  <style>{`
+    .hero-morph{
+      position: relative;
+      min-height: clamp(280px, 42vh, 560px);
+      /* background image settings */
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+
+    /* Two layers stacked exactly on top of each other */
+    .hero-morph .hm-layer{
+      position: absolute; inset: 0;
+      display: grid; place-items: center;
+      text-align: center;
+      padding: 0 .75rem;
+    }
+
+    /* Base heading + subtext */
+    .hero-morph .hm-line{
+      margin: 0 0 .5rem 0;
+      line-height: 1.02;
+      letter-spacing: -0.02em;
+      font-weight: 900;
+      font-size: clamp(28px, 6vw, 64px);
+    }
+    .hero-morph .hm-sub{
+      margin: 0;
+      opacity: .9;
+      max-width: 980px;
+      font-size: clamp(14px, 1.4vw, 18px);
+      line-height: 1.45;
+    }
+
+    /* Colors */
+    .hero-morph .hm-old{ color: #000; }
+    .hero-morph .hm-new{ color: var(--accent-600, #000); }
+    .hero-morph .hm-old .hm-sub{ color: #fefefeff; }
+    .hero-morph .hm-new .hm-sub{ color: #fefefeff; }
+    
+
+    /* ===== Looping timeline: 8s total =====
+       - hm-old visible 0s–3s, then fades out (3.0–3.5s)
+       - hm-new fades in at 3.0–3.5s, visible 3.5–8.0s, then fades out to loop
+    */
+    .hero-morph .hm-old{
+      opacity: 1;
+      animation: hmOld 8s ease-in-out infinite;
+    }
+    .hero-morph .hm-new{
+      opacity: 0;
+      animation: hmNew 8s ease-in-out infinite;
+    }
+
+    @keyframes hmOld{
+      0%       { opacity: 1; transform: translateY(0); filter: blur(0); }
+      37.5%    { opacity: 1; transform: translateY(0); filter: blur(0); }      /* 3.0s */
+      43.75%   { opacity: 0; transform: translateY(-10px); filter: blur(4px); } /* 3.5s */
+      100%     { opacity: 0; transform: translateY(-10px); filter: blur(6px); }
+    }
+    @keyframes hmNew{
+      0%       { opacity: 0; transform: translateY(10px); filter: blur(6px); }
+      37.5%    { opacity: 0; transform: translateY(10px); filter: blur(6px); }  /* 3.0s */
+      43.75%   { opacity: 1; transform: translateY(0);    filter: blur(0); }    /* 3.5s */
+      93.75%   { opacity: 1; transform: translateY(0);    filter: blur(0); }    /* 7.5s */
+      100%     { opacity: 0; transform: translateY(-6px); filter: blur(4px); }  /* fade out to loop */
+    }
+
+    /* Optional: reduce motion for accessibility */
+    @media (prefers-reduced-motion: reduce){
+      .hero-morph .hm-old, .hero-morph .hm-new{
+        animation: none;
+      }
+      /* Show the NEW message by default for users who prefer no motion */
+      .hero-morph .hm-old{ display: none; }
+      .hero-morph .hm-new{ opacity: 1; }
+    }
+  `}</style>
+</section>
 
       {/* If you had a compact “services overview” on Home, keep it */}
       {/* You can remove this block if your Services page already has a full hero/overview */}
