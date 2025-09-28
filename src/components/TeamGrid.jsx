@@ -1,7 +1,10 @@
 import React from 'react'
-import Priyam from '../assets/team/priyam-adarsh.jpg'
-import Pratik from '../assets/team/pratik-raj.jpg'
-import Aniket from '../assets/team/aniket-kishore.jpg'
+
+// ✅ Update: import photos from src/assets root (no /team subfolder)
+import Priyam from '../assets/priyam-adarsh.jpg'
+import Pratik from '../assets/pratik-raj.jpg'
+import Aniket from '../assets/aniket-kishore.jpg'
+import Navneet from '../assets/navneet-jha.jpg'
 
 const TEAM = [
   {
@@ -21,6 +24,12 @@ const TEAM = [
     role: 'Consultant',
     bio: 'Expert in Accounting and Bookkeeping across India, UAE, UK and USA.',
     photo: Aniket,
+  },
+  {
+    name: 'Navneet Jha',
+    role: 'Consultant',
+    bio: 'Expert in Regulatory Compliance and Risk Management across India, UAE, UK and USA.',
+    photo: Navneet,
   },
 ]
 

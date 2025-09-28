@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import TeamGrid from '../components/TeamGrid'
 
-// âœ… Import images from src/assets so Vite includes them in the build
+// ✅ Existing imports
 import ceo1 from '../assets/ceo-1.jpg'
 import founder2 from '../assets/founder-2.jpg'
 import trustee3 from '../assets/trustee-3.jpg'
 import phoneBg from '../assets/phone-bg.jpg'
+
+// ✅ NEW: team member photos imported from src/assets (no /team subfolder)
+import Priyam from '../assets/priyam-adarsh.jpg'
+import Pratik from '../assets/pratik-raj.jpg'
+import Aniket from '../assets/aniket-kishore.jpg'
+import Navneet from '../assets/navneet-jha.jpg' // included for the 4th card present in this file
 
 export default function About(){
   // --- Testimonial slider state ---
@@ -13,19 +19,19 @@ export default function About(){
     {
       photo: ceo1,
       name: 'Jina Huang',
-      role: 'CEO â€¢ Watt Property Management',
+      role: 'CEO • Watt Property Management',
       quote: 'INSIGHT transformed our digital and compliance presence with clear timelines and zero surprises.',
     },
     {
       photo: founder2,
       name: 'Arjun Mehta',
-      role: 'Founder â€¢ SaaS, India â†’ UAE',
-      quote: 'From tax to cross-border set-upâ€”one accountable partner. Documents are board-ready.',
+      role: 'Founder • SaaS, India → UAE',
+      quote: 'From tax to cross-border set-up—one accountable partner. Documents are board-ready.',
     },
     {
       photo: trustee3,
       name: 'Nisha Rao',
-      role: 'Trustee â€¢ Non-Profit, India',
+      role: 'Trustee • Non-Profit, India',
       quote: 'FCRA + audit support were airtight. The team is meticulous and communicative.',
     }
   ]
@@ -36,9 +42,7 @@ export default function About(){
     return () => clearInterval(t)
   }, [slides.length])
 
-  // ======================
-  // Snippet B: tilt + glare
-  // ======================
+  // 3D tilt + glare (Snippet B)
   useEffect(() => {
     const cards = Array.from(document.querySelectorAll('#team .tcard[data-tilt]'));
     const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
@@ -90,7 +94,6 @@ export default function About(){
 
     return () => listeners.forEach((off) => off());
   }, []);
-  // ===== end Snippet B =====
 
   const s = slides[idx]
 
@@ -101,7 +104,7 @@ export default function About(){
         <span className="ribbon" aria-hidden="true"></span>
         <h1 style={{fontWeight:900, letterSpacing:'-0.5px'}}>About INSIGHT</h1>
         <p style={{maxWidth:860}}>
-          We are a cross-border advisory studioâ€”blending finance, tax, and regulatory craft into outcomes
+          We are a cross-border advisory studio—blending finance, tax, and regulatory craft into outcomes
           that feel product-grade. Built for India, UAE, UK, and USA.
         </p>
       </div>
@@ -140,7 +143,7 @@ export default function About(){
               </article>
               <article className="tile">
                 <h3>End-to-End</h3>
-                <p className="m0">Advisory â†’ Documentation â†’ Filing â†’ Ongoing Compliance.</p>
+                <p className="m0">Advisory → Documentation → Filing → Ongoing Compliance.</p>
               </article>
             </div>
           </section>
@@ -148,11 +151,11 @@ export default function About(){
           {/* SERVICES */}
           <section id="services" className="panel-premium">
             <h2 style={{marginTop:0}}>Services</h2>
-            <p>We combine advisory, documentation and filing into proven service linesâ€”each with clear scope, timelines and deliverables.</p>
+            <p>We combine advisory, documentation and filing into proven service lines—each with clear scope, timelines and deliverables.</p>
             <div style={{display:'grid', gap:'.8rem', marginTop:'.6rem'}}>
               <div className="card glass" style={{padding:'1rem'}}>
                 <h4 style={{margin:'0 0 .25rem'}}>Financial Advisory</h4>
-                <p className="m0">Planning, risk, tax strategy, retirement planning, portfolio optimisationâ€”with measurable, auditable outputs.</p>
+                <p className="m0">Planning, risk, tax strategy, retirement planning, portfolio optimisation—with measurable, auditable outputs.</p>
               </div>
               <div className="card glass" style={{padding:'1rem'}}>
                 <h4 style={{margin:'0 0 .25rem'}}>Tax Compliance & Advisory</h4>
@@ -169,9 +172,7 @@ export default function About(){
             </div>
           </section>
 
-          {/* =========================
-              TEAM — Snippet A applied
-              ========================= */}
+          {/* TEAM — uses imported images now */}
           <section id="team" className="panel-premium">
             <h2 style={{ marginTop: 0 }}>Our Professionals</h2>
             <p>Certified professionals CA / CS backed by internal review, checklists, and audit-grade documentation.</p>
@@ -183,8 +184,7 @@ export default function About(){
                   <span aria-hidden="true" className="tcard__ring"></span>
                   <div className="tcard__glare" />
                   <div className="tcard__media">
-                    {/* TODO: replace with your asset path */}
-                    <img src="/src/assets/team/priyam-adarsh.jpg" alt="Portrait of Priyam Adarsh" />
+                    <img src={Priyam} alt="Portrait of Priyam Adarsh" />
                   </div>
                   <div className="tcard__body">
                     <header className="tcard__header">
@@ -210,7 +210,7 @@ export default function About(){
                   <span aria-hidden="true" className="tcard__ring"></span>
                   <div className="tcard__glare" />
                   <div className="tcard__media">
-                    <img src="/src/assets/team/pratik-raj.jpg" alt="Portrait of Pratik Raj" />
+                    <img src={Pratik} alt="Portrait of Pratik Raj" />
                   </div>
                   <div className="tcard__body">
                     <header className="tcard__header">
@@ -236,7 +236,7 @@ export default function About(){
                   <span aria-hidden="true" className="tcard__ring"></span>
                   <div className="tcard__glare" />
                   <div className="tcard__media">
-                    <img src="/src/assets/team/aniket-kishore.jpg" alt="Portrait of Aniket Kishore" />
+                    <img src={Aniket} alt="Portrait of Aniket Kishore" />
                   </div>
                   <div className="tcard__body">
                     <header className="tcard__header">
@@ -262,11 +262,11 @@ export default function About(){
                   <span aria-hidden="true" className="tcard__ring"></span>
                   <div className="tcard__glare" />
                   <div className="tcard__media">
-                    <img src="/src/assets/team/aniket-kishore.jpg" alt="Portrait of Aniket Kishore" />
+                    <img src={Navneet} alt="Portrait of Navneet Jha" />
                   </div>
                   <div className="tcard__body">
                     <header className="tcard__header">
-                      <h3 className="tcard__name">Aniket Kishore</h3>
+                      <h3 className="tcard__name">Navneet Jha</h3>
                       <p className="tcard__role">Accounting & Bookkeeping • Expert</p>
                     </header>
                     <p className="tcard__bio">
