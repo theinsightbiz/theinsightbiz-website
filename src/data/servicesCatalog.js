@@ -236,6 +236,30 @@ export const SERVICES = [
     details: 'ITR-5, partner drawings/interest, 40(b) compliance, and tax planning.'
   },
   {
+    id: 'project-report-partnership', slug: 'project-report-partnership',
+    title: 'Project Report',
+    category: 'partnerships',
+    summary: 'Bank-ready reports: viability, DSCR, projections, and sensitivity analysis.',
+    cover: projectreport,
+    details: 'Comprehensive project reports covering market sizing, revenue models, DSCR, CMA data, and risk sensitivity—accepted by major banks and NBFCs.'
+  },
+  {
+    id: 'dsc-partnership', slug: 'digital-signature-certificates-partnership',
+    title: 'Digital Signature Certificates',
+    category: 'partnerships',
+    summary: 'Class 3 DSC issuance with KYC assistance and renewal reminders.',
+    cover: dsc,
+    details: 'Issue & renew Class 3 DSCs including token, eKYC, Aadhaar/Video verification, and integration support for MCA/GST/Income-tax filings.'
+  },
+  {
+    id: 'msme-partnership', slug: 'msme-udyam-registration-partnership',
+    title: 'MSME / Udyam Registration',
+    category: 'partnerships',
+    summary: 'Get Udyam certificate for incentives and priority lending.',
+    cover: msme,
+    details: 'Udyam registration with correct NIC codes, turnover thresholds, and guidance on benefits like subsidies, tender preferences, and collateral-free loans.'
+  },
+  {
     id: 'gst-reg-partnership', slug: 'gst-registration-partnership',
     title: 'GST Registration',
     category: 'partnerships',
