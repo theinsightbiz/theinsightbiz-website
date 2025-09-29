@@ -11,7 +11,7 @@ import phoneBg from '../assets/phone-bg.jpg'
 import Priyam from '../assets/priyam-adarsh.jpg'
 import Pratik from '../assets/pratik-raj.jpg'
 import Aniket from '../assets/aniket-kishore.jpg'
-import Navneet from '../assets/navneet-jha.jpg' // included for the 4th card present in this file
+import Hrithik from '../assets/hrithik-raj.jpg' // included for the 4th card present in this file
 
 export default function About(){
   // --- Testimonial slider state ---
@@ -184,12 +184,12 @@ export default function About(){
                   <span aria-hidden="true" className="tcard__ring"></span>
                   <div className="tcard__glare" />
                   <div className="tcard__media">
-                    <img src={Priyam} alt="Portrait of Priyam Adarsh" />
+                    <img src={Hrithik} alt="Portrait of Hrithik Raj" />
                   </div>
                   <div className="tcard__body">
                     <header className="tcard__header">
-                      <h3 className="tcard__name">Priyam Adarsh</h3>
-                      <p className="tcard__role">Chartered Accountant • Partner</p>
+                      <h3 className="tcard__name">Hrithik Raj</h3>
+                      <p className="tcard__role">Chartered Accountant • Consultant</p>
                     </header>
                     <p className="tcard__bio">
                       Expert in Tax and Finance across India, UAE, UK, and USA. Board-ready documentation and compliance by design.
@@ -215,7 +215,7 @@ export default function About(){
                   <div className="tcard__body">
                     <header className="tcard__header">
                       <h3 className="tcard__name">Pratik Raj</h3>
-                      <p className="tcard__role">Company Secretary • Partner</p>
+                      <p className="tcard__role">Compliance Officer • Partner</p>
                     </header>
                     <p className="tcard__bio">
                       Audit & regulatory compliance across India, UAE, UK and USA. Precision filings and governance frameworks.
@@ -241,7 +241,7 @@ export default function About(){
                   <div className="tcard__body">
                     <header className="tcard__header">
                       <h3 className="tcard__name">Aniket Kishore</h3>
-                      <p className="tcard__role">Accounting & Bookkeeping • Expert</p>
+                      <p className="tcard__role">Finance Advisor • Expert</p>
                     </header>
                     <p className="tcard__bio">
                       Monthly books, reconciliations, payroll, and investor-ready financials. Detail-driven, audit-grade outputs.
@@ -262,12 +262,12 @@ export default function About(){
                   <span aria-hidden="true" className="tcard__ring"></span>
                   <div className="tcard__glare" />
                   <div className="tcard__media">
-                    <img src={Navneet} alt="Portrait of Navneet Jha" />
+                    <img src={Priyam} alt="Portrait of Priyam Adarsh" />
                   </div>
                   <div className="tcard__body">
                     <header className="tcard__header">
-                      <h3 className="tcard__name">Navneet Jha</h3>
-                      <p className="tcard__role">Accounting & Bookkeeping • Expert</p>
+                      <h3 className="tcard__name">Priyam Adarsh</h3>
+                      <p className="tcard__role">Tax Advisor • Partner</p>
                     </header>
                     <p className="tcard__bio">
                       Monthly books, reconciliations, payroll, and investor-ready financials. Detail-driven, audit-grade outputs.

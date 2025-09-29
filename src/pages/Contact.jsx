@@ -24,11 +24,10 @@ export default function Contact(){
   }
 
   const typeOptions = useMemo(()=>[
-    'Branding / Identity','Website / UI UX','Regulatory & Compliance',
-    'Tax Advisory / Filing','Accounting & Bookkeeping','Other'
+    'Financial Advisory','Tax Advisory / Filing','Accounting & Bookkeeping','Regulatory & Compliance','Others'
   ],[])
 
-  const timeOptions   = ['ASAP','In 1–2 months','In 3–6 months','Exploring']
+  const timeOptions   = ['ASAP','In 1 week','In 1–2 months','Exploring']
 
   return (
     <section className="page wide contact-miux">
@@ -36,7 +35,7 @@ export default function Contact(){
       <div className="pr-hero">
         <span className="ribbon" aria-hidden="true"></span>
         <h1>Let’s build something exceptional</h1>
-        <p style={{maxWidth:860}}>Tell us about your needs—advisory, compliance, design, or scale. We’ll respond within 1 business day.</p>
+        <p style={{maxWidth:860}}>Tell us about your needs— advisory, compliance, design, or other business matters. We’ll respond within 1 business day.</p>
       </div>
 
       {/* split layout */}
@@ -84,6 +83,8 @@ export default function Contact(){
             <div className="office">
               <div className="k">Branch Office</div>
               <div className="v">Hamriyah Street, Al Fahidi, Bur Dubai, Dubai</div>
+              <div className="k">Branch Office</div>
+              <div className="v">134-140 Church Road, Hove, East Sussex, UK</div>
             </div>
             <div className="hours">
               <div className="k">Opening Hours</div>

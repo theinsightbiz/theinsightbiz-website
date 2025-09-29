@@ -4,32 +4,32 @@ import React from 'react'
 import Priyam from '../assets/priyam-adarsh.jpg'
 import Pratik from '../assets/pratik-raj.jpg'
 import Aniket from '../assets/aniket-kishore.jpg'
-import Navneet from '../assets/navneet-jha.jpg'
+import Hrithik from '../assets/hrithik-raj.jpg'
 
 const TEAM = [
   {
-    name: 'Priyam Adarsh',
-    role: 'Partner',
+    name: 'Hrithik Raj',
+    role: 'Consultant',
     bio: 'Chartered Accountant, expert in Tax and Finance across India, UAE, UK and USA.',
-    photo: Priyam,
+    photo: Hrithik,
   },
   {
     name: 'Pratik Raj',
     role: 'Partner',
-    bio: 'Company Secretary, expert in Audit and Regulatory Compliances across India, UAE, UK and USA.',
+    bio: 'Compliance Officer, expert in Audit and Regulatory Compliances across India, UAE, UK and USA.',
     photo: Pratik,
   },
   {
     name: 'Aniket Kishore',
-    role: 'Consultant',
+    role: 'Expert',
     bio: 'Expert in Accounting and Bookkeeping across India, UAE, UK and USA.',
     photo: Aniket,
   },
   {
-    name: 'Navneet Jha',
-    role: 'Consultant',
+    name: 'Priyam Adarsh',
+    role: 'Partner',
     bio: 'Expert in Regulatory Compliance and Risk Management across India, UAE, UK and USA.',
-    photo: Navneet,
+    photo: Priyam,
   },
 ]
 
