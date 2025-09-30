@@ -1,5 +1,5 @@
 // src/pages/Home.jsx
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState, useCallback, useRef } from 'react'
 import Hero from '../components/Hero'
 import Counters from '../components/Counters'
 import QnA from '../components/QnA'
@@ -11,24 +11,39 @@ import Downloads from './downloads'
 import { Link } from 'react-router-dom'
 import heroBg from '../assets/turninsight.jpg'
 
-// Background illustration (keep the same path you used earlier)
+// Background illustration (keep your file here; WebP recommended)
+// This will be used in an image-set() for better performance on hi-DPI.
 import introBg from '../assets/ae-garden-illustration.jpg'
 
+const INTRO_SEEN_KEY = 'introSeen.v1'
+
 export default function Home() {
-  const [introOpen, setIntroOpen] = useState(true)
+  // If user has already entered once, skip intro right away.
+  const hasSeen = typeof window !== 'undefined' && localStorage.getItem(INTRO_SEEN_KEY) === '1'
+  const [introOpen, setIntroOpen] = useState(!hasSeen)
   const [doorOpen, setDoorOpen] = useState(false)
+  const homeRef = useRef(null) // to move focus to main content after intro
+  const hintId = 'intro-hint'
 
   const finishIntro = useCallback(() => {
     setIntroOpen(false)
+    try { localStorage.setItem(INTRO_SEEN_KEY, '1') } catch { /* noop */ }
+    // move focus into the main content for accessibility
+    setTimeout(() => {
+      if (homeRef.current) {
+        homeRef.current.setAttribute('tabindex', '-1')
+        homeRef.current.focus({ preventScroll: false })
+      }
+    }, 0)
   }, [])
 
   const handleDoorClick = useCallback(() => {
     if (doorOpen) return
     setDoorOpen(true)
-    // Shorten delay so main content appears almost immediately
+    // Short delay; reveal content almost immediately so the inside isn't seen
     window.setTimeout(() => {
       finishIntro()
-    }, 300) // was 1100ms
+    }, 300)
   }, [doorOpen, finishIntro])
 
   const onIntroKeyDown = useCallback((e) => {
@@ -38,6 +53,7 @@ export default function Home() {
     }
   }, [handleDoorClick])
 
+  // Lock scrolling only while the intro overlay is visible
   useEffect(() => {
     if (introOpen) {
       const prev = document.body.style.overflow
@@ -46,6 +62,7 @@ export default function Home() {
     }
   }, [introOpen])
 
+  // Reveal-on-scroll helper you already had
   useEffect(() => {
     const svc = Array.from(document.querySelectorAll('.services .svc-card'))
     const reel = Array.from(document.querySelectorAll('.h-reel .h-card'))
@@ -70,7 +87,7 @@ export default function Home() {
 
   return (
     <>
-      {/* === INTRO ILLUSTRATION OVERLAY === */}
+      {/* === INTRO ILLUSTRATION OVERLAY (skipped for return visitors) === */}
       <div
         className={`intro-blackout ${introOpen ? 'show' : 'hide'}`}
         role="dialog"
@@ -88,11 +105,12 @@ export default function Home() {
             <div className="paint-mid" aria-hidden="true" />
             <div className="paint-top" aria-hidden="true" />
 
-            {/* Door: now BLUE */}
+            {/* BLUE door with opening animation */}
             <button
               type="button"
               className={`door3d ${doorOpen ? 'open' : ''}`}
               aria-label="Open the door to enter"
+              aria-describedby={hintId}
               onClick={handleDoorClick}
             >
               <svg
@@ -154,13 +172,13 @@ export default function Home() {
             </button>
 
             <h1 className="intro-title">Get Into Insight</h1>
-            <p className="intro-hint">Open the door to enter</p>
+            <p id={hintId} className="intro-hint">Open the door to enter</p>
           </div>
         </div>
       </div>
 
       {/* === HOME CONTENT === */}
-      <div className={`home-content ${introOpen ? 'concealed' : 'revealed'}`}>
+      <div ref={homeRef} className={`home-content ${introOpen ? 'concealed' : 'revealed'}`}>
         <Hero />
         <Counters />
 
@@ -304,13 +322,13 @@ export default function Home() {
         </section>
       </div>
 
-      {/* === Styles === */}
+      {/* === Styles (accessibility, performance, safe areas, reduced motion) === */}
       <style>{`
-        /* Reveal page faster after click */
+        /* Faster, snappier reveal; reduced motion users get nearly instant display */
         .home-content {
           opacity: 0;
           transform: translateY(6px);
-          transition: opacity 400ms ease, transform 400ms ease;
+          transition: opacity 250ms ease, transform 250ms ease;
           will-change: opacity, transform;
           pointer-events: none;
         }
@@ -321,34 +339,47 @@ export default function Home() {
         }
         .home-content.concealed { opacity: 0; }
 
-        /* Full-screen intro */
+        /* Full-viewport intro */
         .intro-blackout{
           position: fixed; inset: 0;
           background: #06090c;
-          display: block;
           z-index: 9999;
           opacity: 0;
           visibility: hidden;
-          transition: opacity 300ms ease, visibility 0s linear 300ms;
+          transition: opacity 220ms ease, visibility 0s linear 220ms;
         }
         .intro-blackout.show{ opacity: 1; visibility: visible; transition-delay: 0s; }
-        .intro-blackout.hide{ opacity: 0; visibility: hidden; transition-delay: 0s, 300ms; }
+        .intro-blackout.hide{ opacity: 0; visibility: hidden; transition-delay: 0s, 220ms; }
 
+        /* Fill the screen and respect safe areas on notched devices */
         .intro-illustration{
-          width: 100vw;
-          height: 100vh;
+          position: fixed; inset: 0;
           outline: none;
+          display: block;
+          padding: 0;
+        }
+        @supports (padding: max(env(safe-area-inset-top))) {
+          .intro-illustration{
+            padding-top:  max(env(safe-area-inset-top), 0px);
+            padding-right:max(env(safe-area-inset-right), 0px);
+            padding-bottom:max(env(safe-area-inset-bottom), 0px);
+            padding-left: max(env(safe-area-inset-left), 0px);
+          }
         }
 
         .scene{
-          position: fixed; inset: 0; /* cover full screen */
-          background-image: url(${introBg});
-          background-size: cover;       /* ensure full cover */
-          background-position: center;  /* center crop */
+          position: absolute; inset: 0;
           isolation: isolate;
+          /* Use image-set for hi-DPI (both entries point to the same file if you don't have a 2x) */
+          background-image: image-set(
+            url(${introBg}) 1x,
+            url(${introBg}) 2x
+          );
+          background-size: cover;
+          background-position: center;
         }
 
-        /* subtle compositing */
+        /* subtle compositing to mimic AE/AI grading */
         .paint-back, .paint-mid, .paint-top{
           position: absolute; inset: 0; pointer-events: none;
           mix-blend-mode: multiply;
@@ -357,7 +388,7 @@ export default function Home() {
         .paint-mid{  background: radial-gradient(70% 50% at 70% 40%, rgba(70,130,180,.25), rgba(70,130,180,0) 60%); }
         .paint-top{  background: radial-gradient(60% 40% at 30% 60%, rgba(10,20,40,.3), rgba(10,20,40,0) 70%); }
 
-        /* BLUE door with faster swing */
+        /* BLUE door with quicker swing */
         .door3d{
           position: absolute;
           left: 50%; bottom: 8%;
@@ -373,7 +404,7 @@ export default function Home() {
         .door3d .leaf{
           transform-origin: 22px 360px;
           transform: rotateY(0deg);
-          transition: transform 320ms cubic-bezier(.2,.8,.2,1), filter 320ms ease;
+          transition: transform 220ms cubic-bezier(.2,.8,.2,1), filter 220ms ease;
         }
         .door3d.open .leaf{
           transform: rotateY(-85deg);
@@ -381,18 +412,18 @@ export default function Home() {
         }
         .door3d .light-cone{
           opacity: 0;
-          transition: opacity 320ms ease;
+          transition: opacity 220ms ease;
           mix-blend-mode: screen;
         }
         .door3d.open .light-cone{ opacity: .8; }
 
-        /* WHITE titles */
+        /* White titles for contrast */
         .intro-title{
           position: absolute; left: 50%; bottom: 18%; transform: translateX(-50%);
           margin: 0;
           font-weight: 900; letter-spacing: -0.02em;
           font-size: clamp(28px, 6vw, 64px);
-          color: #ffffff; /* changed to white */
+          color: #ffffff;
           text-shadow: 0 2px 14px rgba(0,0,0,.6);
           pointer-events: none; text-align: center;
         }
@@ -400,17 +431,19 @@ export default function Home() {
           position: absolute; left: 50%; bottom: 12%; transform: translateX(-50%);
           margin: 0; opacity: .95;
           font-size: clamp(12px, 1.6vw, 18px);
-          color: #ffffff; /* changed to white */
+          color: #ffffff;
           text-shadow: 0 1px 10px rgba(0,0,0,.6);
           pointer-events: none; text-align: center;
         }
 
+        /* Reduced motion preference: skip fancy timing entirely */
         @media (prefers-reduced-motion: reduce){
-          .home-content{ transition: none; }
+          .home-content{ transition: opacity 120ms linear, transform 120ms linear; }
           .intro-blackout{ transition: none; }
-          .door3d .leaf{ transition: none; }
+          .door3d .leaf, .door3d .light-cone{ transition: none; }
         }
 
+        /* Misc section helpers */
         .page-anchor { position: relative; top: -80px; height: 0; }
         .section-head { margin: 0 0 1rem 0; }
         .section-head h2 { margin: 0; font-weight: 900; letter-spacing: -0.2px; }
