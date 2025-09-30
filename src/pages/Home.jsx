@@ -1,5 +1,5 @@
 // src/pages/Home.jsx
-import React, { useEffect, useState, useCallback, useRef } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import Hero from '../components/Hero'
 import Counters from '../components/Counters'
 import QnA from '../components/QnA'
@@ -11,49 +11,20 @@ import Downloads from './downloads'
 import { Link } from 'react-router-dom'
 import heroBg from '../assets/turninsight.jpg'
 
-// Background illustration (keep your file here; WebP recommended)
-// This will be used in an image-set() for better performance on hi-DPI.
-import introBg from '../assets/ae-garden-illustration.jpg'
-
-const INTRO_SEEN_KEY = 'introSeen.v1'
-
 export default function Home() {
-  // If user has already entered once, skip intro right away.
-  const hasSeen = typeof window !== 'undefined' && localStorage.getItem(INTRO_SEEN_KEY) === '1'
-  const [introOpen, setIntroOpen] = useState(!hasSeen)
-  const [doorOpen, setDoorOpen] = useState(false)
-  const homeRef = useRef(null) // to move focus to main content after intro
-  const hintId = 'intro-hint'
+  const [introOpen, setIntroOpen] = useState(true)
 
-  const finishIntro = useCallback(() => {
+  const enterSite = useCallback(() => {
     setIntroOpen(false)
-    try { localStorage.setItem(INTRO_SEEN_KEY, '1') } catch { /* noop */ }
-    // move focus into the main content for accessibility
-    setTimeout(() => {
-      if (homeRef.current) {
-        homeRef.current.setAttribute('tabindex', '-1')
-        homeRef.current.focus({ preventScroll: false })
-      }
-    }, 0)
   }, [])
-
-  const handleDoorClick = useCallback(() => {
-    if (doorOpen) return
-    setDoorOpen(true)
-    // Short delay; reveal content almost immediately so the inside isn't seen
-    window.setTimeout(() => {
-      finishIntro()
-    }, 300)
-  }, [doorOpen, finishIntro])
 
   const onIntroKeyDown = useCallback((e) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault()
-      handleDoorClick()
+      enterSite()
     }
-  }, [handleDoorClick])
+  }, [enterSite])
 
-  // Lock scrolling only while the intro overlay is visible
   useEffect(() => {
     if (introOpen) {
       const prev = document.body.style.overflow
@@ -62,7 +33,6 @@ export default function Home() {
     }
   }, [introOpen])
 
-  // Reveal-on-scroll helper you already had
   useEffect(() => {
     const svc = Array.from(document.querySelectorAll('.services .svc-card'))
     const reel = Array.from(document.querySelectorAll('.h-reel .h-card'))
@@ -87,7 +57,7 @@ export default function Home() {
 
   return (
     <>
-      {/* === INTRO ILLUSTRATION OVERLAY (skipped for return visitors) === */}
+      {/* === INTRO BLACKOUT WITH 3D TORCH === */}
       <div
         className={`intro-blackout ${introOpen ? 'show' : 'hide'}`}
         role="dialog"
@@ -95,90 +65,52 @@ export default function Home() {
         aria-label="Enter site"
       >
         <div
-          className="intro-illustration"
+          className="torch-stage"
           aria-live="polite"
           tabIndex={0}
           onKeyDown={onIntroKeyDown}
+          onClick={(e) => {
+            // PURE JS: safely check if the click happened on the switch
+            const t = e.target
+            const isOnSwitch = t && typeof t.closest === 'function' ? t.closest('.torch-switch') : null
+            if (!isOnSwitch) enterSite()
+          }}
         >
-          <div className="scene">
-            <div className="paint-back" aria-hidden="true" />
-            <div className="paint-mid" aria-hidden="true" />
-            <div className="paint-top" aria-hidden="true" />
-
-            {/* BLUE door with opening animation */}
-            <button
-              type="button"
-              className={`door3d ${doorOpen ? 'open' : ''}`}
-              aria-label="Open the door to enter"
-              aria-describedby={hintId}
-              onClick={handleDoorClick}
-            >
-              <svg
-                className="door-svg"
-                viewBox="0 0 420 720"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
+          {/* Torch base */}
+          <div className={`torch3d ${introOpen ? '' : 'torch-off'}`} aria-hidden={!introOpen}>
+            <div className="torch-head">
+              <div className="torch-rim" />
+              <div className="torch-cap" />
+              <div className="torch-glow" aria-hidden="true" />
+              <div className="torch-beam" aria-hidden="true" />
+            </div>
+            <div className="torch-neck" />
+            <div className="torch-handle">
+              <div className="knurl" />
+              <button
+                className={`torch-switch ${introOpen ? '' : 'pressed'}`}
+                type="button"
+                aria-pressed={!introOpen}
+                aria-label="Switch on the torch and enter"
+                onClick={(e) => {
+                  e.stopPropagation() // don't bubble to stage
+                  enterSite()
+                }}
               >
-                <defs>
-                  <filter id="noise" x="-20%" y="-20%" width="140%" height="140%">
-                    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" result="n"/>
-                    <feColorMatrix type="saturate" values="0.2" in="n" result="n2"/>
-                    <feBlend in="SourceGraphic" in2="n2" mode="overlay"/>
-                  </filter>
-                  {/* Deep blue frame and panel gradients */}
-                  <linearGradient id="frameGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0" stopColor="#0d274a"/>
-                    <stop offset="0.5" stopColor="#091a31"/>
-                    <stop offset="1" stopColor="#051320"/>
-                  </linearGradient>
-                  <linearGradient id="panelGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0" stopColor="#1e90ff"/>
-                    <stop offset="0.45" stopColor="#126ad6"/>
-                    <stop offset="1" stopColor="#0a3e8a"/>
-                  </linearGradient>
-                  <radialGradient id="knobGrad" cx="34%" cy="30%" r="66%">
-                    <stop offset="0" stopColor="#ffe498"/>
-                    <stop offset="0.55" stopColor="#d7a62f"/>
-                    <stop offset="1" stopColor="#8a6a12"/>
-                  </radialGradient>
-                  <radialGradient id="light" cx="0%" cy="50%" r="120%">
-                    <stop offset="0" stopColor="rgba(230,245,255,0.95)"/>
-                    <stop offset="0.5" stopColor="rgba(210,235,255,0.55)"/>
-                    <stop offset="1" stopColor="rgba(210,235,255,0)"/>
-                  </radialGradient>
-                </defs>
-
-                {/* frame */}
-                <g className="frame" filter="url(#noise)">
-                  <rect x="8" y="8" width="404" height="704" rx="22" fill="url(#frameGrad)"/>
-                  <rect x="20" y="20" width="380" height="680" rx="16" fill="#03101f" opacity="0.25"/>
-                </g>
-
-                {/* soft light behind door edge */}
-                <g className="light-cone">
-                  <rect x="18" y="18" width="180" height="684" fill="url(#light)"/>
-                </g>
-
-                {/* leaf */}
-                <g className="leaf" filter="url(#noise)">
-                  <rect x="22" y="24" width="372" height="672" rx="14" fill="url(#panelGrad)"/>
-                  <rect x="58" y="70"  width="300" height="180" rx="10" fill="#0b3a7a" opacity="0.35"/>
-                  <rect x="58" y="290" width="300" height="180" rx="10" fill="#0b3a7a" opacity="0.35"/>
-                  <rect x="58" y="510" width="300" height="150" rx="10" fill="#0b3a7a" opacity="0.35"/>
-                  <circle cx="352" cy="360" r="14" fill="url(#knobGrad)"/>
-                  <rect x="340" y="354" width="22" height="12" rx="6" fill="#2b1b06" opacity="0.45"/>
-                </g>
-              </svg>
-            </button>
-
-            <h1 className="intro-title">Get Into Insight</h1>
-            <p id={hintId} className="intro-hint">Open the door to enter</p>
+                <span className="switch-dot" />
+              </button>
+            </div>
           </div>
+
+          {/* ↓↓↓ requested color styles applied ↓↓↓ */}
+          <h1 className="intro-title" style={{ color: '#1e40af' }}>Get Into Insight</h1>
+          <p className="intro-hint" style={{ color: '#ffffff' }}>Press the switch to enter</p>
         </div>
       </div>
 
-      {/* === HOME CONTENT === */}
-      <div ref={homeRef} className={`home-content ${introOpen ? 'concealed' : 'revealed'}`}>
+      {/* Wrap the real Home content so we can fade it in smoothly */}
+      <div className={`home-content ${introOpen ? 'concealed' : 'revealed'}`}>
+        {/* === HOME CORE === */}
         <Hero />
         <Counters />
 
@@ -187,6 +119,7 @@ export default function Home() {
             className="miux-hero hero-morph"
             style={{ backgroundImage: `url(${heroBg})` }}
           >
+            {/* Layer A — OLD */}
             <div className="hm-layer hm-old" aria-live="polite">
               <h1 className="hm-line">
                 We build clarity.<br />We design compliance.<br />We scale trust.
@@ -196,6 +129,7 @@ export default function Home() {
               </p>
             </div>
 
+            {/* Layer B — NEW */}
             <div className="hm-layer hm-new" aria-hidden="true">
               <h1 className="hm-line">
                 Insight Business Consultancy<br />Trusted Consultancy Partner
@@ -309,7 +243,7 @@ export default function Home() {
               <h4 style={{margin:0}}>Privacy Policy</h4>
               <p className="m0" style={{opacity:.8}}>Data & security</p>
             </Link>
-              <Link to="/downloads" className="card glass" style={{padding:'0.9rem 1rem', textDecoration:'none'}}>
+            <Link to="/downloads" className="card glass" style={{padding:'0.9rem 1rem', textDecoration:'none'}}>
               <h4 style={{margin:0}}>Downloads</h4>
               <p className="m0" style={{opacity:.8}}>Client resources</p>
             </Link>
@@ -322,13 +256,13 @@ export default function Home() {
         </section>
       </div>
 
-      {/* === Styles (accessibility, performance, safe areas, reduced motion) === */}
+      {/* === Styles for the blackout, torch, and smooth reveal === */}
       <style>{`
-        /* Faster, snappier reveal; reduced motion users get nearly instant display */
+        /* Fade-in container once intro is dismissed */
         .home-content {
           opacity: 0;
           transform: translateY(6px);
-          transition: opacity 250ms ease, transform 250ms ease;
+          transition: opacity 600ms ease, transform 600ms ease;
           will-change: opacity, transform;
           pointer-events: none;
         }
@@ -339,111 +273,195 @@ export default function Home() {
         }
         .home-content.concealed { opacity: 0; }
 
-        /* Full-viewport intro */
+        /* Fullscreen black intro */
         .intro-blackout{
           position: fixed; inset: 0;
-          background: #06090c;
+          background: #000;
+          display: grid; place-items: center;
           z-index: 9999;
           opacity: 0;
           visibility: hidden;
-          transition: opacity 220ms ease, visibility 0s linear 220ms;
+          transition: opacity 450ms ease, visibility 0s linear 450ms;
         }
-        .intro-blackout.show{ opacity: 1; visibility: visible; transition-delay: 0s; }
-        .intro-blackout.hide{ opacity: 0; visibility: hidden; transition-delay: 0s, 220ms; }
+        .intro-blackout.show{
+          opacity: 1; visibility: visible; transition-delay: 0s;
+        }
+        .intro-blackout.hide{
+          opacity: 0; visibility: hidden; transition-delay: 0.0s, 450ms;
+        }
 
-        /* Fill the screen and respect safe areas on notched devices */
-        .intro-illustration{
-          position: fixed; inset: 0;
+        .torch-stage{
+          position: relative;
+          width: min(92vw, 1000px);
+          height: min(70vh, 640px);
+          display: grid;
+          place-items: center;
+          perspective: 1200px;
+          text-align: center;
+          color: #f5f7ff;
           outline: none;
-          display: block;
-          padding: 0;
-        }
-        @supports (padding: max(env(safe-area-inset-top))) {
-          .intro-illustration{
-            padding-top:  max(env(safe-area-inset-top), 0px);
-            padding-right:max(env(safe-area-inset-right), 0px);
-            padding-bottom:max(env(safe-area-inset-bottom), 0px);
-            padding-left: max(env(safe-area-inset-left), 0px);
-          }
+          cursor: pointer; /* click anywhere */
         }
 
-        .scene{
-          position: absolute; inset: 0;
-          isolation: isolate;
-          /* Use image-set for hi-DPI (both entries point to the same file if you don't have a 2x) */
-          background-image: image-set(
-            url(${introBg}) 1x,
-            url(${introBg}) 2x
-          );
-          background-size: cover;
-          background-position: center;
-        }
-
-        /* subtle compositing to mimic AE/AI grading */
-        .paint-back, .paint-mid, .paint-top{
-          position: absolute; inset: 0; pointer-events: none;
-          mix-blend-mode: multiply;
-        }
-        .paint-back{ background: radial-gradient(140% 90% at 50% 10%, rgba(0,0,0,.0) 0%, rgba(0,0,0,.25) 70%, rgba(0,0,0,.45) 100%); }
-        .paint-mid{  background: radial-gradient(70% 50% at 70% 40%, rgba(70,130,180,.25), rgba(70,130,180,0) 60%); }
-        .paint-top{  background: radial-gradient(60% 40% at 30% 60%, rgba(10,20,40,.3), rgba(10,20,40,0) 70%); }
-
-        /* BLUE door with quicker swing */
-        .door3d{
-          position: absolute;
-          left: 50%; bottom: 8%;
-          transform: translateX(-50%);
-          width: min(260px, 36vw);
-          height: min(460px, 60vh);
-          border: 0; padding: 0; background: transparent;
-          cursor: pointer;
-          perspective: 1600px;
-          filter: drop-shadow(0 24px 28px rgba(0,0,0,.35));
-        }
-        .door-svg{ width: 100%; height: 100%; display: block; }
-        .door3d .leaf{
-          transform-origin: 22px 360px;
-          transform: rotateY(0deg);
-          transition: transform 220ms cubic-bezier(.2,.8,.2,1), filter 220ms ease;
-        }
-        .door3d.open .leaf{
-          transform: rotateY(-85deg);
-          filter: brightness(1.06);
-        }
-        .door3d .light-cone{
-          opacity: 0;
-          transition: opacity 220ms ease;
-          mix-blend-mode: screen;
-        }
-        .door3d.open .light-cone{ opacity: .8; }
-
-        /* White titles for contrast */
         .intro-title{
-          position: absolute; left: 50%; bottom: 18%; transform: translateX(-50%);
+          position: absolute;
+          bottom: 3.5%; /* moved slightly lower so full text is visible */
+          left: 50%;
+          transform: translateX(-50%);
           margin: 0;
-          font-weight: 900; letter-spacing: -0.02em;
+          font-weight: 900;
+          letter-spacing: -0.02em;
           font-size: clamp(28px, 6vw, 64px);
-          color: #ffffff;
-          text-shadow: 0 2px 14px rgba(0,0,0,.6);
-          pointer-events: none; text-align: center;
+          text-shadow: 0 2px 20px rgba(255,255,255,.15);
+          pointer-events: none;
         }
+
         .intro-hint{
-          position: absolute; left: 50%; bottom: 12%; transform: translateX(-50%);
-          margin: 0; opacity: .95;
-          font-size: clamp(12px, 1.6vw, 18px);
-          color: #ffffff;
-          text-shadow: 0 1px 10px rgba(0,0,0,.6);
-          pointer-events: none; text-align: center;
+          position: absolute;
+          bottom: 0%; /* keep hint just below the title */
+          left: 50%;
+          transform: translateX(-50%);
+          margin: 0;
+          opacity: .75;
+          font-size: clamp(12px, 1.5vw, 16px);
+          pointer-events: none;
         }
 
-        /* Reduced motion preference: skip fancy timing entirely */
+        /* === "3D" Torch (CSS-3D illusion) === */
+        .torch3d{
+          position: relative;
+          width: min(56vw, 520px);
+          height: min(56vw, 520px);
+          max-width: 520px; max-height: 520px;
+          transform-style: preserve-3d;
+          transform: rotateX(15deg) rotateY(-18deg);
+          filter: drop-shadow(0 50px 80px rgba(255, 214, 120, 0.2));
+          transition: transform 600ms ease;
+          z-index: 2;
+          pointer-events: none; /* let the stage capture clicks by default */
+        }
+        .torch3d:hover{ transform: rotateX(8deg) rotateY(-10deg) translateY(-4px); }
+
+        .torch-head{
+          position: absolute; top: 16%; left: 50%;
+          transform: translateX(-50%);
+          width: 62%;
+          height: 26%;
+          background: radial-gradient(120% 100% at 50% 0%, #333 0%, #1b1b1b 40%, #0e0e0e 100%);
+          border-radius: 18px 18px 38px 38px;
+          box-shadow: inset 0 6px 25px rgba(255,255,255,.06), inset 0 -10px 40px rgba(0,0,0,.7);
+        }
+        .torch-rim{
+          position: absolute; inset: -10px -8px auto -8px; height: 14px;
+          background: linear-gradient(180deg, #4b4b4b, #1c1c1c);
+          border-radius: 20px 20px 10px 10px;
+          box-shadow: 0 8px 14px rgba(0,0,0,.5);
+        }
+        .torch-cap{
+          position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
+          width: 88%; height: 24px; border-radius: 12px;
+          background: linear-gradient(180deg, #2b2b2b, #0e0e0e);
+          box-shadow: inset 0 1px 6px rgba(255,255,255,.05), 0 6px 16px rgba(0,0,0,.6);
+        }
+        .torch-glow{
+          position: absolute; top: 0; left: 50%; transform: translate(-50%, -60%);
+          width: 140%; height: 140%;
+          background: radial-gradient(ellipse at center, rgba(255,216,128,.22), rgba(255,216,128,0) 60%);
+          filter: blur(14px);
+          opacity: 1;
+          transition: opacity 350ms ease;
+          pointer-events: none;
+        }
+        .torch-beam{
+          position: absolute; top: -25%; left: 50%; transform: translateX(-50%) rotateX(40deg);
+          width: 120%; height: 120%;
+          background: radial-gradient(ellipse at 50% 20%, rgba(255,240,180,.18) 0%, rgba(255,240,180,.06) 30%, rgba(255,240,180,0) 70%);
+          filter: blur(10px);
+          opacity: .9;
+          mix-blend-mode: screen;
+          pointer-events: none;
+          transition: opacity 350ms ease;
+        }
+
+        .torch-neck{
+          position: absolute; top: 39%; left: 50%; transform: translateX(-50%);
+          width: 28%; height: 6%;
+          background: linear-gradient(180deg, #1d1d1d, #090909);
+          border-radius: 20px;
+          box-shadow: inset 0 2px 6px rgba(255,255,255,.05), 0 6px 18px rgba(0,0,0,.7);
+          pointer-events: none;
+        }
+        .torch-handle{
+          position: absolute; top: 45%; left: 50%; transform: translateX(-50%);
+          width: 36%; height: 34%;
+          background: linear-gradient(180deg, #1a1a1a, #000);
+          border-radius: 20px;
+          box-shadow: inset 0 1px 6px rgba(255,255,255,.05), inset 0 -20px 60px rgba(0,0,0,.7);
+          display: grid; place-items: center;
+          pointer-events: none;
+        }
+        .knurl{
+          position: absolute; inset: 16% 12% 36% 12%;
+          border-radius: 12px;
+          background:
+            linear-gradient(45deg, rgba(255,255,255,.05) 25%, transparent 25%) 0 0/10px 10px,
+            linear-gradient(-45deg, rgba(255,255,255,.08) 25%, transparent 25%) 0 0/10px 10px,
+            linear-gradient(45deg, transparent 75%, rgba(0,0,0,.6) 75%) 0 0/10px 10px,
+            linear-gradient(-45deg, transparent 75%, rgba(0,0,0,.7) 75%) 0 0/10px 10px;
+          box-shadow: inset 0 4px 14px rgba(0,0,0,.8);
+          pointer-events: none;
+        }
+
+        /* Switch — must be on top and clickable */
+        .torch-switch{
+          appearance: none;
+          position: absolute;
+          bottom: 10%;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 72px;
+          height: 38px;
+          border-radius: 999px;
+          background: linear-gradient(180deg, #2a2a2a, #0a0a0a);
+          border: 1px solid #161616;
+          box-shadow: inset 0 3px 8px rgba(255,255,255,.05), inset 0 -4px 8px rgba(0,0,0,.8), 0 6px 20px rgba(0,0,0,.6);
+          cursor: pointer;
+          display: inline-flex;
+          align-items: center;
+          padding: 4px;
+          transition: transform 120ms ease, background 220ms ease;
+          z-index: 10;
+          pointer-events: auto;
+        }
+        .torch-switch:active{ transform: translateX(-50%) scale(.98); }
+        .torch-switch .switch-dot{
+          display: inline-block;
+          width: 28px; height: 28px; border-radius: 50%;
+          background: radial-gradient(100% 100% at 30% 30%, #ffd880, #7a5d13 70%);
+          box-shadow: 0 0 18px rgba(255,216,128,.45), inset 0 0 8px rgba(0,0,0,.6);
+          transform: translateX(0);
+          transition: transform 250ms ease, background 250ms ease, box-shadow 250ms ease;
+        }
+        .torch-switch.pressed .switch-dot{
+          transform: translateX(34px);
+          background: radial-gradient(100% 100% at 30% 30%, #d0d0d0, #5a5a5a 70%);
+          box-shadow: inset 0 0 10px rgba(0,0,0,.7);
+        }
+
+        /* When torch is off (after clicking), dim the beam/glow */
+        .torch-off .torch-glow, .torch-off .torch-beam{
+          opacity: 0;
+        }
+
         @media (prefers-reduced-motion: reduce){
-          .home-content{ transition: opacity 120ms linear, transform 120ms linear; }
+          .home-content{ transition: none; }
           .intro-blackout{ transition: none; }
-          .door3d .leaf, .door3d .light-cone{ transition: none; }
+          .torch3d{ transition: none; }
+          .torch-switch .switch-dot{ transition: none; }
         }
+      `}</style>
 
-        /* Misc section helpers */
+      <style>{`
         .page-anchor { position: relative; top: -80px; height: 0; }
         .section-head { margin: 0 0 1rem 0; }
         .section-head h2 { margin: 0; font-weight: 900; letter-spacing: -0.2px; }
