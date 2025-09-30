@@ -11,6 +11,7 @@ import ServiceDetail from './pages/ServiceDetail'
 import Blog from './pages/Blog'
 import Contact from './pages/Contact'
 import Privacy from './pages/Privacy'
+import Downloads from './pages/downloads'
 
 export default function App(){
   return (
@@ -33,6 +34,7 @@ export default function App(){
           <Route path="/blog" element={<Blog />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/privacy" element={<Privacy />} />
+          <Route path="/downloads" element={<Downloads/>} />
         </Routes>
       </main>
       <FloatingActions />

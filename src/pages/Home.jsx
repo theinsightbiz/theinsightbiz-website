@@ -7,6 +7,7 @@ import QnA from '../components/QnA'
 // 🔗 Bring full pages into Home
 import About from './About'
 import Contact from './Contact'
+import Downloads from './downloads'
 import { Link } from 'react-router-dom'
 import heroBg from '../assets/turninsight.jpg'
 
@@ -241,6 +242,10 @@ export default function Home() {
             <Link to="/privacy" className="card glass" style={{padding:'0.9rem 1rem', textDecoration:'none'}}>
               <h4 style={{margin:0}}>Privacy Policy</h4>
               <p className="m0" style={{opacity:.8}}>Data & security</p>
+            </Link>
+              <Link to="/downloads" className="card glass" style={{padding:'0.9rem 1rem', textDecoration:'none'}}>
+              <h4 style={{margin:0}}>Downloads</h4>
+              <p className="m0" style={{opacity:.8}}>Client resources</p>
             </Link>
           </div>
         </section>

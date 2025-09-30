@@ -29,6 +29,7 @@ export default function Navbar(){
           <NavItem to="/blog" label="Blog" onClick={() => dispatch(toggleMenu())} />
           <NavItem to="/contact" label="Contact Us" onClick={() => dispatch(toggleMenu())} />
           <NavItem to="/privacy" label="Privacy Policy" onClick={() => dispatch(toggleMenu())} />
+          <NavItem to="/downloads" label="Downloads"      onClick={() => dispatch(toggleMenu())} />        
         </nav>
         <button className="menu-btn" onClick={() => dispatch(toggleMenu())} aria-label="Menu">
           {open ? <FaTimes /> : <FaBars />}
