@@ -14,19 +14,48 @@ export default function Services(){
 
   // reveal on scroll
   useEffect(() => {
-    const els = Array.from(document.querySelectorAll('.work-row, .work-card'))
-    els.forEach(el => el.classList.add('reveal'))
-    if (!('IntersectionObserver' in window)) {
-      els.forEach(el => el.classList.add('show')); return
-    }
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) { e.target.classList.add('show'); io.unobserve(e.target) }
-      })
-    }, { threshold: .18, rootMargin: '0px 0px -8% 0px' })
-    els.forEach(el => io.observe(el))
-    return () => io.disconnect()
-  }, [view, cat])
+  if (typeof window === 'undefined') return;
+
+  const elements = Array.from(
+    document.querySelectorAll('.work-row, .work-card')
+  );
+
+  // Ensure base state exists but avoid redundant work
+  elements.forEach((el) => el.classList.add('reveal'));
+
+  let io;
+
+  const onIntersect = (entries, observer) => {
+    // Batch DOM writes to avoid layout thrash while scrolling
+    requestAnimationFrame(() => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add('show');
+          observer.unobserve(e.target);
+        }
+      });
+    });
+  };
+
+  if ('IntersectionObserver' in window) {
+    io = new IntersectionObserver(onIntersect, {
+      root: null,
+      threshold: 0.15,             // a bit lower to trigger earlier
+      rootMargin: '0px 0px -5% 0px' // gentler bottom margin
+    });
+
+    // Only observe items not already shown
+    elements.forEach((el) => {
+      if (!el.classList.contains('show')) io.observe(el);
+    });
+  } else {
+    // Fallback: just show all
+    elements.forEach((el) => el.classList.add('show'));
+  }
+
+  return () => io?.disconnect();
+}, [view, cat]);
+
 
   const openDetail = (slug) => navigate(`/services/${slug}`)
 
