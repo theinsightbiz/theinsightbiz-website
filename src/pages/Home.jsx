@@ -1,5 +1,5 @@
 // src/pages/Home.jsx
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState, useCallback, useRef } from 'react'
 import Hero from '../components/Hero'
 import Counters from '../components/Counters'
 import QnA from '../components/QnA'
@@ -11,19 +11,17 @@ import Downloads from './downloads'
 import { Link } from 'react-router-dom'
 import heroBg from '../assets/turninsight.jpg'
 
+// ⬇️ Intro video (place your uploaded file at src/assets/intro.mp4)
+import introVideo from '../assets/intro.mp4'
+
 export default function Home() {
   const [introOpen, setIntroOpen] = useState(true)
+  const [isFading, setIsFading] = useState(false)
+  const videoRef = useRef(null)
 
   const enterSite = useCallback(() => {
     setIntroOpen(false)
   }, [])
-
-  const onIntroKeyDown = useCallback((e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault()
-      enterSite()
-    }
-  }, [enterSite])
 
   useEffect(() => {
     if (introOpen) {
@@ -57,55 +55,30 @@ export default function Home() {
 
   return (
     <>
-      {/* === INTRO BLACKOUT WITH 3D TORCH === */}
+      {/* === INTRO OVERLAY WITH VIDEO === */}
       <div
-        className={`intro-blackout ${introOpen ? 'show' : 'hide'}`}
+        className={`intro-video-overlay ${introOpen ? 'show' : 'hide'} ${isFading ? 'fade' : ''}`}
         role="dialog"
         aria-modal="true"
-        aria-label="Enter site"
+        aria-label="Intro"
       >
-        <div
-          className="torch-stage"
-          aria-live="polite"
-          tabIndex={0}
-          onKeyDown={onIntroKeyDown}
-          onClick={(e) => {
-            // PURE JS: safely check if the click happened on the switch
-            const t = e.target
-            const isOnSwitch = t && typeof t.closest === 'function' ? t.closest('.torch-switch') : null
-            if (!isOnSwitch) enterSite()
+        <video
+          ref={videoRef}
+          className="intro-video"
+          src={introVideo}
+          autoPlay
+          muted
+          playsInline
+          onEnded={enterSite}
+          onTimeUpdate={() => {
+            const v = videoRef.current
+            if (!v) return
+            // Start fading ~1.2s before the end
+            if (!isFading && v.duration && v.duration - v.currentTime <= 1.2) {
+              setIsFading(true)
+            }
           }}
-        >
-          {/* Torch base */}
-          <div className={`torch3d ${introOpen ? '' : 'torch-off'}`} aria-hidden={!introOpen}>
-            <div className="torch-head">
-              <div className="torch-rim" />
-              <div className="torch-cap" />
-              <div className="torch-glow" aria-hidden="true" />
-              <div className="torch-beam" aria-hidden="true" />
-            </div>
-            <div className="torch-neck" />
-            <div className="torch-handle">
-              <div className="knurl" />
-              <button
-                className={`torch-switch ${introOpen ? '' : 'pressed'}`}
-                type="button"
-                aria-pressed={!introOpen}
-                aria-label="Switch on the torch and enter"
-                onClick={(e) => {
-                  e.stopPropagation() // don't bubble to stage
-                  enterSite()
-                }}
-              >
-                <span className="switch-dot" />
-              </button>
-            </div>
-          </div>
-
-          {/* ↓↓↓ requested color styles applied ↓↓↓ */}
-          <h1 className="intro-title" style={{ color: '#1e40af' }}>Get Into Insight</h1>
-          <p className="intro-hint" style={{ color: '#ffffff' }}>Press the switch to enter</p>
-        </div>
+        />
       </div>
 
       {/* Wrap the real Home content so we can fade it in smoothly */}
@@ -256,7 +229,7 @@ export default function Home() {
         </section>
       </div>
 
-      {/* === Styles for the blackout, torch, and smooth reveal === */}
+      {/* === Styles for the video intro and smooth reveal === */}
       <style>{`
         /* Fade-in container once intro is dismissed */
         .home-content {
@@ -273,191 +246,37 @@ export default function Home() {
         }
         .home-content.concealed { opacity: 0; }
 
-        /* Fullscreen black intro */
-        .intro-blackout{
+        /* Fullscreen video intro overlay */
+        .intro-video-overlay{
           position: fixed; inset: 0;
           background: #000;
           display: grid; place-items: center;
           z-index: 9999;
           opacity: 0;
           visibility: hidden;
-          transition: opacity 450ms ease, visibility 0s linear 450ms;
+          transition: opacity 600ms ease, visibility 0s linear 600ms;
         }
-        .intro-blackout.show{
-          opacity: 1; visibility: visible; transition-delay: 0s;
+        .intro-video-overlay.show{
+          opacity: 1; visibility: visible; transition-delay: 0s, 0s;
         }
-        .intro-blackout.hide{
-          opacity: 0; visibility: hidden; transition-delay: 0.0s, 450ms;
+        .intro-video-overlay.hide{
+          opacity: 0; visibility: hidden; transition-delay: 0s, 600ms;
         }
-
-        .torch-stage{
-          position: relative;
-          width: min(92vw, 1000px);
-          height: min(70vh, 640px);
-          display: grid;
-          place-items: center;
-          perspective: 1200px;
-          text-align: center;
-          color: #f5f7ff;
-          outline: none;
-          cursor: pointer; /* click anywhere */
-        }
-
-        .intro-title{
-          position: absolute;
-          bottom: 3.5%; /* moved slightly lower so full text is visible */
-          left: 50%;
-          transform: translateX(-50%);
-          margin: 0;
-          font-weight: 900;
-          letter-spacing: -0.02em;
-          font-size: clamp(28px, 6vw, 64px);
-          text-shadow: 0 2px 20px rgba(255,255,255,.15);
-          pointer-events: none;
-        }
-
-        .intro-hint{
-          position: absolute;
-          bottom: 0%; /* keep hint just below the title */
-          left: 50%;
-          transform: translateX(-50%);
-          margin: 0;
-          opacity: .75;
-          font-size: clamp(12px, 1.5vw, 16px);
-          pointer-events: none;
-        }
-
-        /* === "3D" Torch (CSS-3D illusion) === */
-        .torch3d{
-          position: relative;
-          width: min(56vw, 520px);
-          height: min(56vw, 520px);
-          max-width: 520px; max-height: 520px;
-          transform-style: preserve-3d;
-          transform: rotateX(15deg) rotateY(-18deg);
-          filter: drop-shadow(0 50px 80px rgba(255, 214, 120, 0.2));
-          transition: transform 600ms ease;
-          z-index: 2;
-          pointer-events: none; /* let the stage capture clicks by default */
-        }
-        .torch3d:hover{ transform: rotateX(8deg) rotateY(-10deg) translateY(-4px); }
-
-        .torch-head{
-          position: absolute; top: 16%; left: 50%;
-          transform: translateX(-50%);
-          width: 62%;
-          height: 26%;
-          background: radial-gradient(120% 100% at 50% 0%, #333 0%, #1b1b1b 40%, #0e0e0e 100%);
-          border-radius: 18px 18px 38px 38px;
-          box-shadow: inset 0 6px 25px rgba(255,255,255,.06), inset 0 -10px 40px rgba(0,0,0,.7);
-        }
-        .torch-rim{
-          position: absolute; inset: -10px -8px auto -8px; height: 14px;
-          background: linear-gradient(180deg, #4b4b4b, #1c1c1c);
-          border-radius: 20px 20px 10px 10px;
-          box-shadow: 0 8px 14px rgba(0,0,0,.5);
-        }
-        .torch-cap{
-          position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
-          width: 88%; height: 24px; border-radius: 12px;
-          background: linear-gradient(180deg, #2b2b2b, #0e0e0e);
-          box-shadow: inset 0 1px 6px rgba(255,255,255,.05), 0 6px 16px rgba(0,0,0,.6);
-        }
-        .torch-glow{
-          position: absolute; top: 0; left: 50%; transform: translate(-50%, -60%);
-          width: 140%; height: 140%;
-          background: radial-gradient(ellipse at center, rgba(255,216,128,.22), rgba(255,216,128,0) 60%);
-          filter: blur(14px);
-          opacity: 1;
-          transition: opacity 350ms ease;
-          pointer-events: none;
-        }
-        .torch-beam{
-          position: absolute; top: -25%; left: 50%; transform: translateX(-50%) rotateX(40deg);
-          width: 120%; height: 120%;
-          background: radial-gradient(ellipse at 50% 20%, rgba(255,240,180,.18) 0%, rgba(255,240,180,.06) 30%, rgba(255,240,180,0) 70%);
-          filter: blur(10px);
-          opacity: .9;
-          mix-blend-mode: screen;
-          pointer-events: none;
-          transition: opacity 350ms ease;
-        }
-
-        .torch-neck{
-          position: absolute; top: 39%; left: 50%; transform: translateX(-50%);
-          width: 28%; height: 6%;
-          background: linear-gradient(180deg, #1d1d1d, #090909);
-          border-radius: 20px;
-          box-shadow: inset 0 2px 6px rgba(255,255,255,.05), 0 6px 18px rgba(0,0,0,.7);
-          pointer-events: none;
-        }
-        .torch-handle{
-          position: absolute; top: 45%; left: 50%; transform: translateX(-50%);
-          width: 36%; height: 34%;
-          background: linear-gradient(180deg, #1a1a1a, #000);
-          border-radius: 20px;
-          box-shadow: inset 0 1px 6px rgba(255,255,255,.05), inset 0 -20px 60px rgba(0,0,0,.7);
-          display: grid; place-items: center;
-          pointer-events: none;
-        }
-        .knurl{
-          position: absolute; inset: 16% 12% 36% 12%;
-          border-radius: 12px;
-          background:
-            linear-gradient(45deg, rgba(255,255,255,.05) 25%, transparent 25%) 0 0/10px 10px,
-            linear-gradient(-45deg, rgba(255,255,255,.08) 25%, transparent 25%) 0 0/10px 10px,
-            linear-gradient(45deg, transparent 75%, rgba(0,0,0,.6) 75%) 0 0/10px 10px,
-            linear-gradient(-45deg, transparent 75%, rgba(0,0,0,.7) 75%) 0 0/10px 10px;
-          box-shadow: inset 0 4px 14px rgba(0,0,0,.8);
-          pointer-events: none;
-        }
-
-        /* Switch — must be on top and clickable */
-        .torch-switch{
-          appearance: none;
-          position: absolute;
-          bottom: 10%;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 72px;
-          height: 38px;
-          border-radius: 999px;
-          background: linear-gradient(180deg, #2a2a2a, #0a0a0a);
-          border: 1px solid #161616;
-          box-shadow: inset 0 3px 8px rgba(255,255,255,.05), inset 0 -4px 8px rgba(0,0,0,.8), 0 6px 20px rgba(0,0,0,.6);
-          cursor: pointer;
-          display: inline-flex;
-          align-items: center;
-          padding: 4px;
-          transition: transform 120ms ease, background 220ms ease;
-          z-index: 10;
-          pointer-events: auto;
-        }
-        .torch-switch:active{ transform: translateX(-50%) scale(.98); }
-        .torch-switch .switch-dot{
-          display: inline-block;
-          width: 28px; height: 28px; border-radius: 50%;
-          background: radial-gradient(100% 100% at 30% 30%, #ffd880, #7a5d13 70%);
-          box-shadow: 0 0 18px rgba(255,216,128,.45), inset 0 0 8px rgba(0,0,0,.6);
-          transform: translateX(0);
-          transition: transform 250ms ease, background 250ms ease, box-shadow 250ms ease;
-        }
-        .torch-switch.pressed .switch-dot{
-          transform: translateX(34px);
-          background: radial-gradient(100% 100% at 30% 30%, #d0d0d0, #5a5a5a 70%);
-          box-shadow: inset 0 0 10px rgba(0,0,0,.7);
-        }
-
-        /* When torch is off (after clicking), dim the beam/glow */
-        .torch-off .torch-glow, .torch-off .torch-beam{
+        /* Start fading slightly before the video ends for a smooth handoff */
+        .intro-video-overlay.fade{
           opacity: 0;
+          transition-duration: 1000ms;
+        }
+        .intro-video{
+          width: 100vw;
+          height: 100vh;
+          object-fit: contain; /* ensure no zoom/crop; letterbox as needed */
+          background: #000;    /* fill any empty space around the video */
         }
 
         @media (prefers-reduced-motion: reduce){
           .home-content{ transition: none; }
-          .intro-blackout{ transition: none; }
-          .torch3d{ transition: none; }
-          .torch-switch .switch-dot{ transition: none; }
+          .intro-video-overlay{ transition: none; }
         }
       `}</style>
 
