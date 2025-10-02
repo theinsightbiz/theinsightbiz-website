@@ -17,31 +17,31 @@ const SECTIONS = {
   'income-tax-return-filing-individuals': {
     included: [
       'Form selection & computation: Pick the correct ITR (ITR-1/2/3/4), apply the right tax regime (old/new), compute income under all heads, deductions, set-offs, and depreciation.',
-      'Business/profession (sole prop.): Presumptive (s.44AD/44ADA) or regular books; turnover and expense review; tax-audit coordination where s.44AB applies.',
-      'Data reconciliation: Match AIS/TIS/26AS, TDS/TCS credits, capital gains working.',
+      'Business/profession (sole prop.): Presumptive (u/s 44AD/44ADA) or regular books; turnover and expense review; tax-audit coordination where 44AB applies.',
+      'Data reconciliation: Match AIS/TIS/26AS, TDS/TCS credits, Capital Gains computation.',
       'Special claims: Relief u/s 89 (Form 10E), Foreign Tax Credit (Form 67).',
-      'E-filing & verification: File return, complete e-verification, share acknowledgement; basic post-filing support (refund tracking/rectification). (Scrutiny/appeals billed separately.)',
+      'E-filing & verification: Filing return, complete e-verification; basic post-filing support (refund tracking/rectification). (Scrutiny/appeals billed separately.)',
     ],
     timelines: [
       'Non-audit cases: CBDT due date for AY 2025-26 extended to 16 Sep 2025.',
-      'Audit cases (s.44AB): Tax Audit Report and ITR due 31 Oct 2025 (AY 2025-26).',
+      'Audit cases (u/s 44AB): Tax Audit Report and ITR due 31 Oct 2025 (AY 2025-26).',
       'Verification: Complete e-verification/ITR-V within 30 days of filing.',
       'Typical workflow: 7–10 days from complete documents (add 10–20 days if audit).',
     ],
     documents: [
-      { heading: 'Identity & access', items: ['PAN, Aadhaar, portal login, linked mobile/email, bank details (refund).'] },
-      { heading: 'Income proofs — Salary', items: ['Form 16, pay slips, arrears details (u/s 89).'] },
-      { heading: 'Income proofs — House property', items: ['Rent agreement, interest certificate, municipal taxes.'] },
-      { heading: 'Income proofs — Capital gains', items: ['Broker statements/contract notes, purchase–sale proofs, property papers.'] },
-      { heading: 'Income proofs — Business/profession', items: ['Trial balance/ledgers, bank statements, fixed-asset register, GST (GSTR-1/3B), TDS returns; audit workings (Forms 3CA/3CB-3CD) if applicable.'] },
-      { heading: 'Deductions', items: ['80C/80D/80E proofs, 80G receipts (note: no cash donation deduction > ₹2,000), home-loan interest u/s 24(b), HRA rent receipts.'] },
-      { heading: 'Taxes/TDS', items: ['Form 26AS/AIS/TIS, advance-tax & self-assessment challans.'] },
+      { heading: 'Identity & access', items: ['PAN, Aadhaar, Income Tax portal login, Linked mobile/email, Bank details ( for refund).'] },
+      { heading: 'Income proofs — Salary', items: ['Form 16, Salary slips, Arrears details (u/s 89).'] },
+      { heading: 'Income proofs — House property', items: ['Rent agreement, Interest certificate, Municipal Tax Receipts.'] },
+      { heading: 'Income proofs — Capital gains', items: ['Broker statements/Contract Notes, Purchase–Sale proofs.'] },
+      { heading: 'Income proofs — Business/profession', items: ['Trial balance/ledgers, Bank Statements, Fixed Asset register, GST (GSTR-1/3B), TDS returns; Audit workings (Forms 3CA/3CB-3CD) if applicable.'] },
+      { heading: 'Deductions', items: ['80C/80D/80E proofs, 80G receipts (Note: No cash donation deduction > ₹2,000), Home Loan Interest Certificate, Rent receipts for HRA.'] },
+      { heading: 'Taxes/TDS', items: ['Form 26AS/AIS/TIS, Advance Tax & Self Assessment Tax challans.'] },
       { heading: 'Special forms (if relevant)', items: ['Form 10E, Form 67, Form 10-IEA (for regime option where required).'] },
       {
-        heading: 'Threshold guide (sole proprietors)',
+        heading: 'Threshold Guide (Sole Proprietors)',
         items: [
-          'Tax-audit (s.44AB): turnover > ₹1 crore (or ₹10 crore if cash receipts and payments each ≤5%).',
-          'Presumptive: s.44AD up to ₹3 crore (business) and s.44ADA up to ₹75 lakh (profession) when cash ≤5%.',
+          'Tax-audit (u/s 44AB): turnover > ₹1 crore (or ₹10 crore if cash receipts and payments each ≤5%).',
+          'Presumptive: u/s 44AD up to ₹3 crore (business) and u/s 44ADA up to ₹75 lakh (profession) when cash ≤5%.',
         ],
       },
     ],
@@ -51,12 +51,12 @@ const SECTIONS = {
   'project-report': {
   included: [
     'Requirement scoping & lender fit: purpose, facility (TL/WC/OD/CC), tenure, collateral, eligibility.',
-    'CMA data & 3–5 year projections: P&L, Balance Sheet, Cash Flow, fund-flow, working-capital assessment.',
-    'Ratios & viability: DSCR, Interest-Coverage, Current Ratio, Break-even, working-capital cycle.',
-    'Assumptions & sensitivity: clear assumption book; best/base/worst cases; EMI/repayment schedule.',
-    'Business profile: promoter profile, business model, industry snapshot, SWOT, risk mitigants, compliance status.',
-    'Documentation pack: quotations/invoices, bank-statement analysis, debtor/creditor ageing, stock summary, collateral details.',
-    'Deliverables: lender-ready PDF + Excel, cover letter, submission guidance; basic responses to banker queries.'
+    'CMA data & 3–5 year projections: P&L, Balance Sheet, Cash Flow, Fund Flow, Working Capital assessment.',
+    'Ratios & viability: DSCR, Interest-Coverage, Current Ratio, Break-even, Working Capital cycle.',
+    'Assumptions & sensitivity: Best/Base/Worst cases; EMI/Repayment schedule.',
+    'Business profile: Promoter Profile, Business Model, Industry Snapshot, SWOT, Risk Mitigants, Compliance Status.',
+    'Documentation pack: Quotations/invoices, Bank Statement analysis, Debtor/Creditor ageing, Stock Summary, Collateral details.',
+    'Deliverables: Lender ready PDF file, Cover Letter, Submission guidance; basic responses to banker queries.'
   ],
   timelines: [
     'Draft report: 3–5 business days from complete documents.',
@@ -67,8 +67,8 @@ const SECTIONS = {
     {
       heading: 'Documents required',
       items: [
-        'KYC & registrations: PAN, Aadhaar, Udyam, GST certificate, business address proof, licences (if any).',
-        'Financials: ITRs (last 2–3 AYs) with computations, audited/unaudited financials, trial balance & ledgers, 12 months bank statements, existing loan sanctions/statements.',
+        'KYC & registrations: PAN, Aadhaar, Udyam, GST certificate, Business Address proof, licences (if any).',
+        'Financials: ITRs (last 2- 3 AYs) with computations, Audited/Unaudited financials, trial balance & ledgers, 12 months bank statements, existing loan sanctions/statements.',
         'Operations data: sales/purchase reports, debtors/creditors ageing, stock summary, major contracts/POs/LOIs, pricing & margin details.',
         'Funding specifics: amount, purpose, facility type & tenure, proposed collateral papers (property/FD/guarantee), vendor quotations/pro-forma invoices for capex.',
         'Credit & compliance: latest CIBIL (or consent to pull), repayment track, status of GST/TDS/EPF/ESI dues.',
@@ -82,13 +82,12 @@ const SECTIONS = {
   included: [
     'DSC issuance for Individuals & Sole Proprietors: Class 3 (Signing / Encryption / Combo) with 1–3 year validity.',
     'eKYC & verification: Aadhaar OTP / PAN-based + live video verification, photo capture, and consent logging.',
-    'Token & installation: FIPS-compliant USB crypto token (ePass/Watchdata), driver setup, and portal configuration.',
     'Use-cases enabled: MCA (ROC filings), Income Tax/GST, TRACES, EPFO/ESIC, IEC/DGFT, e-tenders & e-auctions, bank/PSU portals.',
     'Post-issuance support: download/activation, revocation/reissue on loss/compromise, renewal reminders, basic troubleshooting.'
   ],
   timelines: [
     'Standard issuance: 2–24 hours from successful eKYC & video verification.',
-    'Urgent issuance: same-day possible if eKYC completes before cut-off.',
+    'Urgent issuance: same-day possible if eKYC completes before end of business hours.',
     'USB token dispatch (if required): 2–4 working days by courier; instant if client collects.',
     'Renewal window: start ~30 days before expiry to avoid downtime.'
   ],
@@ -117,7 +116,7 @@ const SECTIONS = {
   timelines: [
     'Standard filing: same day upon receiving complete details & OTP access.',
     'Certificate issue: typically within 1–2 business days (subject to portal availability).',
-    'Updates/amendments: usually same day after client confirmation.'
+    'Updates/amendments: usually same day after client\'s confirmation.'
   ],
   documents: [
     {
@@ -147,8 +146,8 @@ const SECTIONS = {
   timelines: [
     'Filing & ARN: same day from complete documents & OTP access.',
     'Processing: typically 3–7 business days, subject to officer verification/clarifications.',
-    'Clarification window: respond to REG-03 within 7 days to avoid rejection.',
-    'Certificate (REG-06): issued upon approval; immediate start on post-registration setup.'
+    'Clarification window: respond to show cause notice within 7 days to avoid rejection.',
+    'GST Certificate: issued upon approval; immediate start on post-registration setup.'
   ],
   documents: [
     {
@@ -156,7 +155,7 @@ const SECTIONS = {
       items: [
         'KYC: PAN & Aadhaar of proprietor (with OTP on linked mobile), recent passport-size photo, active email & mobile.',
         'Business details: trade name, nature of business (goods/services), main & additional HSN/SAC, turnover estimate.',
-        'Principal Place of Business (PoB): ownership proof (electricity/municipal bill/property tax) AND rent/lease deed or consent/NOC if rented/shared; photographs of premises if asked.',
+        'Principal Place of Business (PoB): ownership proof (electricity/municipal bill/property tax) AND rent/lease deed or consent/NOC if rented/shared; geo-tagged photographs of premises if asked.',
         'Bank proof: cancelled cheque or first page of passbook/bank statement with IFSC and address.',
         'Authorised signatory: if different from proprietor, KYC + letter of authorisation.',
         'Additional places (if any): address proofs and usage documents similar to PoB.',
@@ -175,7 +174,6 @@ const SECTIONS = {
     'Payroll processing: CTC structuring, attendance/leave import, earnings/deductions, reimbursements, full & final settlements, payslips.',
     'Statutory payroll compliance: PF/ESI/PT (state-specific), LWF (where applicable), TDS on salaries (Form 24Q), challans & return filings, Form 16 generation, investment declaration (Form 12BB) review.',
     'Year-end support: trial balance finalisation, schedules, audit support (if applicable), and handover to ITR/Tax-audit teams.',
-    'Data security & access: maker–checker workflow, shared drive/DMS, and periodic backup of ledgers & payroll registers.'
   ],
   timelines: [
     'Onboarding & opening balances: 2–5 business days from receipt of prior data & software access.',
@@ -202,12 +200,11 @@ const SECTIONS = {
   'financial-statements-prep-individuals': {
   included: [
     'Scope: year-end/periodic Financial Statements for Individuals & Sole Proprietors—Profit & Loss, Balance Sheet, Cash Flow (indirect), Notes & Schedules.',
-    'Books-to-FS conversion: ledger scrutiny, accruals/deferrals, provisions (expenses, gratuity/leave if applicable), prepaid/advance adjustments, and balance confirmations.',
-    'Inventory & revenue: stock valuation (cost or NRV, item/ageing), job/work-in-progress roll-forward, revenue cut-off, and credit notes post-period checks.',
-    'Fixed assets & loans: FAR update, additions/disposals, depreciation as per book policy; reconciliation of loan balances, interest accrual, and sanction covenant checks.',
+    'Books-to-FS conversion: ledger scrutiny, provisions (expenses, gratuity/leave if applicable), prepaid/advance adjustments, and balance confirmations.',
+    'Inventory & revenue: stock valuation (cost or NRV, item/ageing), revenue cut-off, and credit notes post-period checks.',
+    'Fixed assets & loans: FAR update, additions/disposals, depreciation as per book policy; reconciliation of loan balances and interest accrual.',
     'Tax & statutory tie-outs: GST (GSTR-1/3B/2B) vs books, TDS ledgers (26AS/TRACES), payroll registers, and other statutory dues mapping.',
-    'Policies & compliance: accounting policies for non-corporates (AS/ICAI Guidance where applicable), related-party identification, and proprietor drawings/capital reconciliation.',
-    'Deliverables: signed PDF set + editable Excel schedules; management representation letter; comparatives and key ratios/MIS summary.'
+    'Deliverables: signed PDF set + editable Excel schedules; comparatives and key ratios/MIS summary.'
   ],
   timelines: [
     'Onboarding & data review: 2–3 business days from receipt of trial balance and prior-year FS.',
@@ -225,8 +222,7 @@ const SECTIONS = {
         'Fixed Asset Register with invoices, disposal papers, and depreciation policy.',
         'Loans & advances: sanction letters, amortisation schedules, balance confirmations, interest workings.',
         'Revenue & purchases: sales/purchase registers, major contracts/POs, returns/credit notes log.',
-        'Statutory tie-outs: GST (GSTR-1/3B/2B), TDS/TCS challans & returns, payroll registers (PF/ESI/PT), Form 26AS.',
-        'Other: expense agreements (rent, services), insurance, contingencies/claims list, related-party details, and management representation.'
+        'Statutory tie-outs: GST (GSTR-1/3B/2B), TDS/TCS challans & returns, payroll registers (PF/ESI/PT), Form 26AS.',        
       ],
     },
   ],
@@ -237,18 +233,18 @@ const SECTIONS = {
     // Income Tax
     'Income Tax: return preparation & filing (ITR-1/2/3/4 as applicable), old/new regime evaluation, Chapter VI-A deductions, loss set-off/carry-forward.',
     'Advance Tax & Self-Assessment Tax: computation, challan preparation, and quarterly instalment tracking.',
-    'TDS/TCS (if applicable): deduction/collection, challans (ITNS 281), quarterly returns—Form 24Q (salary), 26Q (non-salary), issuing Form 16/16A, and TRACES reconciliations.',
-    'Notices & rectifications: basic responses for 143(1)/139(9) and online rectification u/s 154 (complex assessments billed separately).',
+    'TDS/TCS (if applicable): deduction/collection, quarterly returns - Form 24Q (salary), 26Q (non-salary), issuing Form 16/16A, and TRACES reconciliations.',
+    'Notices & rectifications: Responses for 143(1)/139(9) and online rectification u/s 154.',
 
     // GST
     'GST returns: scheme selection (Regular/QRMP/Composition), periodic filings—GSTR-1, GSTR-3B, PMT-06 (QRMP), and GSTR-4 (Composition).',
     'Reconciliations: 2B-to-books ITC match, RCM workings, HSN/SAC summary, and vendor follow-ups for compliance gaps.',
     'Annual filings & certifications: GSTR-9 (and GSTR-9C where applicable), e-Invoice/e-Way Bill enablement & monitoring.',
-    'Refunds & LUT: export/LUT processing, excess cash/ITC refund advisory (representation billed separately).'
+    'Refunds & LUT: Export/LUT processing, excess cash/ITC refund advisory (representation billed separately).'
   ],
   timelines: [
-    'Income Tax: advance-tax monitoring as per quarterly statutory due dates; ITR filing within the AY timeline; TDS/TCS—monthly challans and quarterly returns as prescribed.',
-    'GST Regular: GSTR-1/GSTR-3B monthly as per statutory due dates; QRMP—Invoice upload, PMT-06 monthly and GSTR-1/3B quarterly.',
+    'Income Tax: advance-tax monitoring as per quarterly statutory due dates; ITR filing within the AY timeline; TDS/TCS - Monthly challans and quarterly returns as prescribed.',
+    'GST Regular: GSTR-1/GSTR-3B monthly as per statutory due dates; QRMP - Invoice upload, PMT-06 monthly and GSTR-1/3B quarterly.',
     'Composition: CMP-08 quarterly and GSTR-4 annually as per due dates.',
     'Annual compliances: GSTR-9/9C and year-end reconciliations post FY close; IT notices/rectifications handled on receipt.'
   ],
@@ -259,11 +255,11 @@ const SECTIONS = {
         // Common
         'KYC & access: PAN, Aadhaar, active email/mobile; e-filing & GST portal credentials, DSC/EVC; bank details for challans/refunds.',
         // Income Tax
-        'Income Tax: prior ITRs & computation, Form 26AS/AIS/TIS, advance-tax/SAT challans, salary Form 16, interest/dividend/capital-gain statements, books/trial balance (sole prop).',
+        'Income Tax: Prior ITRs & computation, Form 26AS/AIS/TIS, advance-tax/SAT challans, salary Form 16, interest/dividend/capital-gain statements, books/trial balance (sole prop).',
         'TDS/TCS (if applicable): employee/contractor/vendor details, challan proofs, deduction workings, salary registers/payroll files.',
         // GST
-        'GST: registration certificate, list of places of business, HSN/SAC mapping, sales & purchase registers, debit/credit notes, RCM invoices, e-Invoice/e-Way Bill reports.',
-        'Reconciliation inputs: GSTR-1/3B/2B downloads, vendor-wise ITC summary, blocked ITC flags, stock/expense ledgers and fixed-asset invoices (for ITC eligibility).',
+        'GST: registration certificate, list of places of business, sales & purchase registers, debit/credit notes, RCM invoices, e-Invoice/e-Way Bill reports.',
+        'Reconciliation inputs: GSTR-1/3B/2B downloads, vendor-wise ITC summary, stock/expense ledgers and fixed-asset invoices (for ITC eligibility).',
         // Optional
         'Exports/SEZ: LUT/Bond, shipping bills, FIRC/BRC; refund working papers (if any).'
       ],
@@ -273,19 +269,19 @@ const SECTIONS = {
 
   'bank-loan-advisory-modelling': {
     included: [
-    'Eligibility & product fit: assess need and map to Term Loan / Working Capital (CC/OD) / Machinery Loan / LAP / Government-backed schemes (e.g., CGTMSE, MUDRA/PMEGP where applicable).',
-    'CMA & financial model: banker-ready CMA data with 3–5 year projections (P&L, Balance Sheet, Cash Flow, Fund-Flow, WC assessment) and covenant mapping.',
+    'Eligibility & product fit: Assess need and map to Term Loan / Working Capital (CC/OD) / Machinery Loan / LAP / Government-backed schemes (e.g., CGTMSE, MUDRA/PMEGP where applicable).',
+    'CMA & financial model: Banker ready CMA data with 3–5 year projections (P&L, Balance Sheet, Cash Flow, Fund-Flow, WC assessment).',
     'Ratio analytics & viability: DSCR, CFADS, Interest-Coverage, Current Ratio, Asset-Turnover, BEP; seasonality and operating cycle analysis.',
-    'Scenarios & stress tests: best/base/worst cases, sensitivity to sales, margins, collection period, interest rate; moratorium/repayment shaping.',
+    'Scenarios & stress tests: Best/Base/Worst cases, margins, collection period, interest rate; moratorium/repayment shaping.',
     'Repayment & structure: EMI/structured amortisation, drawing power, collateral coverage, margin money, and sanction term sheet review.',
-    'Application & follow-up: documentation checklist, portal/branch filing, responses to lender queries, and negotiation support till sanction (post-sanction compliances billed separately).',
-    'Deliverables: lender-ready Model (Excel) + CMA pack + executive note; optional pitch deck/cover letter.'
+    'Application & follow-up: Documentation checklist, responses to lender queries, and negotiation support till sanction (post-sanction compliances billed separately).',
+    'Deliverables: Lender ready Model (PDF) + CMA pack + executive note; optional pitch deck/cover letter.'
   ],
   timelines: [
     'Diagnostic & requirement freeze: 1–2 business days from preliminary data.',
     'Model & CMA pack (draft): 3–5 business days from complete documents.',
     'Finalisation & application filing: 1–2 business days post feedback.',
-    'Lender processing: typically 7–21 business days subject to credit appraisal/valuation/legal; clarifications handled on priority.'
+    'Lender processing: Typically 7–21 business days subject to credit appraisal/valuation/legal; clarifications handled on priority.'
   ],
   documents: [
     {
