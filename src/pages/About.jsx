@@ -104,46 +104,35 @@ export default function About(){
         <span className="ribbon" aria-hidden="true"></span>
         <h1 style={{fontWeight:900, letterSpacing:'-0.5px'}}>About INSIGHT</h1>
         <p style={{maxWidth:860}}>
-          We are a cross-border advisory studio—blending finance, tax, and regulatory craft into outcomes
-          that feel product-grade. Built for India, UAE, UK, and USA.
+          We are a seasoned business consultant specializing in financial advisory, tax compliance and business setup solutions across India, UAE, UK and USA. With deep expertise in regulatory frameworks and financial strategies, we help businesses optimise operations, save costs and achieve sustainable growth.
         </p>
       </div>
-
-      {/* Split: sticky rail + stream */}
-      <div className="about-split" style={{display:'grid', gridTemplateColumns:'260px 1fr', gap:'1.2rem', marginTop:'1.2rem', position:'relative', zIndex:1}}>
-        {/* Sticky left */}
-        <aside className="panel-premium" style={{position:'sticky', top:'84px', alignSelf:'start', height:'fit-content', padding:'1rem'}}>
-          <nav style={{display:'grid', gap:'.35rem'}}>
-            <a href="#bio" className="nav-link">Bio</a>
-            <a href="#services" className="nav-link">Services</a>
-            <a href="#team" className="nav-link">Team</a>
-            <a href="#feedback" className="nav-link">Client Feedback</a>
-          </nav>
-        </aside>
 
         {/* Stream */}
         <div className="about-stream" style={{display:'grid', gap:'1.2rem', position:'relative', zIndex:1}}>
           {/* BIO */}
           <section id="bio" className="panel-premium">
-            <h2 style={{marginTop:0}}>Bio</h2>
+            <h2 style={{marginTop:0}}>Why Work With Us ?</h2>
             <p>
-              INSIGHT is a consulting studio working at the intersection of finance, tax and regulation.
-              Our approach blends deep domain knowledge with clear communication and investor-ready outputs.
-              From first filings to cross-border scale, we operate as a single accountable partner.
+              We bring a personalized, results-driven approach to every client engagement. Whether you're expanding internationally, optimizing taxes, or seeking financial clarity, we ensure tailored solutions to meet your business goals.
+            </p>
+            <p>
+              Let's Connect!<br />
+              Reach out to us today and discuss how we can help streamline your business operations and ensure compliance in dynamic markets.
             </p>
 
             <div className="tile-grid" style={{marginTop:'.8rem'}}>
               <article className="tile">
                 <h3>4+ Jurisdictions</h3>
-                <p className="m0">India, UAE, UK, USA support with unified playbooks.</p>
+                <p className="m0">India, UAE, UK, USA - Global Coverage. Consistent Delivery.</p>
               </article>
               <article className="tile">
-                <h3>Studio-grade</h3>
-                <p className="m0">Documents & dashboards that speak to boards and investors.</p>
+                <h3>Precision You Can Present</h3>
+                <p className="m0">Investor-ready documents and clean papers your board can act on.</p>
               </article>
               <article className="tile">
-                <h3>End-to-End</h3>
-                <p className="m0">Advisory → Documentation → Filing → Ongoing Compliance.</p>
+                <h3>From First Call to Final Filing</h3>
+                <p className="m0">We plan, paper, file, and maintain so you always stay current.</p>
               </article>
             </div>
           </section>
@@ -155,19 +144,19 @@ export default function About(){
             <div style={{display:'grid', gap:'.8rem', marginTop:'.6rem'}}>
               <div className="card glass" style={{padding:'1rem'}}>
                 <h4 style={{margin:'0 0 .25rem'}}>Financial Advisory</h4>
-                <p className="m0">Planning, risk, tax strategy, retirement planning, portfolio optimisation—with measurable, auditable outputs.</p>
+                <p className="m0">Guidance to individuals and businesses on managing finances, investment strategies, retirement planning, and portfolio optimization.</p>
               </div>
               <div className="card glass" style={{padding:'1rem'}}>
                 <h4 style={{margin:'0 0 .25rem'}}>Tax Compliance & Advisory</h4>
-                <p className="m0">Accurate filings and proactive optimisation across direct, indirect and cross-border tax.</p>
+                <p className="m0">Ensures businesses adhere to tax regulations while optimizing tax liabilities. We help you navigate complex tax laws and minimize financial risks.</p>
               </div>
               <div className="card glass" style={{padding:'1rem'}}>
                 <h4 style={{margin:'0 0 .25rem'}}>Accounting & Bookkeeping</h4>
-                <p className="m0">Monthly books, reconciliations, payroll, and investor-ready financial statements.</p>
+                <p className="m0">From managing daily transactions to preparing financial statements, we maintain accurate records and provide insights to help your business grow efficiently.</p>
               </div>
               <div className="card glass" style={{padding:'1rem'}}>
                 <h4 style={{margin:'0 0 .25rem'}}>Regulatory & Compliance</h4>
-                <p className="m0">Incorporations, audits, ROC/Secretarial, FEMA/ODI/ECB, VAT/CT, IRS and governance frameworks.</p>
+                <p className="m0">Ensure your business adheres to legal standards and industry regulations across jurisdictions with expert guidance, audits, and streamlined operations.</p>
               </div>
             </div>
           </section>
@@ -175,7 +164,7 @@ export default function About(){
           {/* TEAM — uses imported images now */}
           <section id="team" className="panel-premium">
             <h2 style={{ marginTop: 0 }}>Our Professionals</h2>
-            <p>Certified professionals CA / CS backed by internal review, checklists, and audit-grade documentation.</p>
+            <p>Certified professionals backed by internal review, checklists, and audit-grade documentation.</p>
 
             <div className="teamx">
               <div className="teamx__grid">
@@ -189,10 +178,10 @@ export default function About(){
                   <div className="tcard__body">
                     <header className="tcard__header">
                       <h3 className="tcard__name">Hrithik Raj</h3>
-                      <p className="tcard__role">Chartered Accountant • Consultant</p>
+                      <p className="tcard__role">Consultant • Chartered Accountant</p>
                     </header>
                     <p className="tcard__bio">
-                      Expert in Tax and Finance across India, UAE, UK, and USA. Board-ready documentation and compliance by design.
+                      Cross border consultant assisting founders operate seamlessly and Specializes in India, UAE, UK, USA tax and compliances. He designs tax-efficient structures, manages filings, and turns complex tax rules into simple checklists.
                     </p>
                     <ul className="tcard__socials">
                       <li><a href="#" aria-label="LinkedIn" className="tico" title="LinkedIn">
@@ -215,10 +204,10 @@ export default function About(){
                   <div className="tcard__body">
                     <header className="tcard__header">
                       <h3 className="tcard__name">Pratik Raj</h3>
-                      <p className="tcard__role">Compliance Officer • Partner</p>
+                      <p className="tcard__role">Partner • Compliance Officer</p>
                     </header>
                     <p className="tcard__bio">
-                      Audit & regulatory compliance across India, UAE, UK and USA. Precision filings and governance frameworks.
+                      Expertise with guiding the founders upon incorporations across India, UAE, UK & USA, backed by India SEBI regulations, FEMA regulations for foreign investments/remittances, and Companies Act, 2013 secretarial compliances.
                     </p>
                     <ul className="tcard__socials">
                       <li><a href="#" aria-label="LinkedIn" className="tico" title="LinkedIn">
@@ -241,10 +230,10 @@ export default function About(){
                   <div className="tcard__body">
                     <header className="tcard__header">
                       <h3 className="tcard__name">Aniket Kishore</h3>
-                      <p className="tcard__role">Finance Advisor • Expert</p>
+                      <p className="tcard__role">Manager • Business Advisor</p>
                     </header>
                     <p className="tcard__bio">
-                      Monthly books, reconciliations, payroll, and investor-ready financials. Detail-driven, audit-grade outputs.
+                      Specialist in Income-tax compliance and assessments. Builds bank-ready project finance models and term-sheet documentation. Handles Startup Registrations/ NGO setup and its periodic accounting and filings.
                     </p>
                     <ul className="tcard__socials">
                       <li><a href="#" aria-label="Instagram" className="tico" title="Instagram">
@@ -267,10 +256,10 @@ export default function About(){
                   <div className="tcard__body">
                     <header className="tcard__header">
                       <h3 className="tcard__name">Priyam Adarsh</h3>
-                      <p className="tcard__role">Tax Advisor • Partner</p>
+                      <p className="tcard__role">Partner • Tax Advisor</p>
                     </header>
                     <p className="tcard__bio">
-                      Monthly books, reconciliations, payroll, and investor-ready financials. Detail-driven, audit-grade outputs.
+                      Partners with founders to run a clean monthly MIS, owning books close, variance analysis, and decision-ready reports. Managing India GST compliance, audit support, and UAE VAT filings, with robust ledger-to-return reconciliations.
                     </p>
                     <ul className="tcard__socials">
                       <li><a href="#" aria-label="Instagram" className="tico" title="Instagram">
@@ -492,7 +481,7 @@ export default function About(){
             `}</style>
           </section>
         </div>
-      </div>
+      
     </section>
   )
 }
