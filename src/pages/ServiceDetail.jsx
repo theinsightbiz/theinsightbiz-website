@@ -304,32 +304,31 @@ const SECTIONS = {
   // COMPANIES (placeholders)
   'company-incorporation-india': {
     included: [
-    'Entity advisory: choose between Private Company or One Person Company (OPC); share capital, ownership, and name strategy (RUN/Part A).',
-    'End-to-end SPICe+ filing: Part A (name reservation) & Part B (incorporation) with e-MoA (INC-33), e-AoA (INC-34), AGILE-PRO-S (INC-35), and auto-generated INC-9.',
-    'DIN & DSC: obtain DINs for proposed directors through SPICe+ (as applicable) and facilitate Digital Signatures for subscribers/directors.',
-    'Attachments & drafting: main objects, subscriber/first-director details, declarations/consents (DIR-2), board/partner authorisations (if corporate subscriber), NOC for registered office.',
-    'OPC specifics: nominee consent & details (INC-3), name format, and guidance on thresholds for mandatory conversion (informational).',
-    'Post-approval deliverables: Certificate of Incorporation with CIN, PAN & TAN allotment, DIN allotments, MoA/AoA, and master data verification.',
-    'Linked registrations via AGILE-PRO-S (on request): GSTIN, EPFO, ESIC, Profession Tax (state-wise), and bank account initiation; e-invoicing/e-way bill enablement advisory.',
-    'After-incorporation starter kit: first board minutes & statutory registers templates, share certificate formats, opening bank, and compliance calendar orientation.'
+    'Entity advisory: Choose between Private Company or One Person Company (OPC); Share Capital, Ownership, and Name Strategy (SPICE+ Part A).',
+    'End-to-end SPICe+ Filing: Part A (Name Reservation) & Part B (Incorporation) with e-MoA (INC-33), e-AoA (INC-34), AGILE-PRO-S (INC-35), and INC-9.',
+    'DIN & DSC: Obtain DINs for proposed directors (as applicable) and facilitate Digital Signatures for subscribers and/or directors.',
+    'Attachments & drafting: Main objects, Declarations/consents (DIR-2), Board/Partner authorisations (if corporate subscriber), NOC for registered office.',
+    'OPC specifics: Nominee consent & details (INC-3), Name format, and guidance on thresholds for mandatory conversion (informational).',
+    'Post-approval Deliverables: Certificate of Incorporation with CIN, PAN & TAN allotment, DIN allotments, MoA/AoA, and Master Data verification.',
+    'Linked registrations via AGILE-PRO (on request): GSTIN, EPFO, ESIC, Profession Tax (state-wise), and bank account initiation.',
+    'After-incorporation Starter Kit: First board minutes & statutory registers templates, Share certificate formats, opening bank, and compliance calendar.'
   ],
   timelines: [
-    'Name reservation (Part A): typically 1–2 business days from submission.',
-    'Incorporation approval (Part B): 3–7 business days post complete documentation & CRC processing.',
-    'PAN/TAN/DIN: issued with Certificate of Incorporation upon approval.',
-    'Linked registrations (GST/EPFO/ESIC/PT/bank): usually 3–10 business days post COI, subject to department/bank TAT.'
+    'Name reservation (SPICE+ Part A): Typically 1–2 business days from submission.',
+    'Incorporation approval (SPICE+ Part B): 3–7 business days post complete documentation & CRC processing.',
+    'PAN/TAN/DIN: Issued with Certificate of Incorporation upon approval.',
+    'Linked registrations (GST/EPFO/ESIC/PT/bank): Usually 3–10 business days post COI, subject to department/bank TAT.'
   ],
   documents: [
     {
       heading: 'Documents required',
       items: [
-        'Promoters/Directors: PAN, Aadhaar, address proof (Passport/Driving Licence/Voter ID), recent utility/bank statement (≤2–3 months), email & mobile; passport for foreign nationals.',
-        'Registered Office: latest utility bill (electricity/water/property tax) + ownership proof; if rented/leased—rent/lease deed and owner’s NOC.',
-        'Company details: two proposed names with significance, main objects (business description), authorised & subscribed capital, shareholding pattern.',
-        'Consents & declarations: DIR-2 (consent to act as director), interest disclosures (if any); INC-3 (OPC nominee consent with KYC).',
-        'For corporate/LLP subscribers (if any): certificate of incorporation, board/partner resolution authorising subscription/nominee, PAN & address proof.',
-        'Bank & tax options (AGILE-PRO-S): preferred bank selection, GST details (principal place, HSN/SAC, authorised signatory), EPFO/ESIC/PT applicability.',
-        'Digital Signature: passport-size photo and eKYC readiness for DSC issuance (if DSC not already available).'
+        'Promoters/Directors: PAN, Aadhaar, Address proof (Passport/Driving Licence/Voter ID), Recent utility/bank statement (≤2–3 months), Email & Mobile; Passport for foreign nationals.',
+        'Registered Office: Latest utility bill ≤2–3 months (electricity/water/property tax) + Ownership proof; if rented/leased—rent/lease deed and Owner’s NOC.',
+        'Company details: Two proposed names with significance, Main objects (business description), Authorised & Subscribed capital, Shareholding pattern.',
+        'For corporate/LLP subscribers (if any): Certificate of Incorporation, Board/partner resolution authorising subscription/nominee, PAN & address proof.',
+        'Bank & tax options (AGILE-PRO): Preferred bank selection, GST details (Principal Place, HSN/SAC, Authorised Signatory), EPFO/ESIC/PT applicability.',
+        'Digital Signature: Passport-size photo and eKYC readiness for DSC issuance (if DSC not already available).'
       ],
     },
   ],
@@ -337,31 +336,31 @@ const SECTIONS = {
 
   'llp-incorporation-india': {
     included: [
-    'Entity advisory: suitability of LLP vs. Company, partner roles (Designated/Partner), contribution structure, and name strategy (RUN-LLP).',
-    'End-to-end filing: name reservation via RUN-LLP and incorporation via FiLLiP (with DPIN allotment for Designated Partners as applicable).',
+    'Entity advisory: Suitability of LLP vs. Private Limited Company, Contribution Structure, and Name Strategy (RUN-LLP).',
+    'End-to-end filing: Name Reservation via RUN-LLP and Incorporation via FiLLiP (with DPIN allotment for Designated Partners).',
     'DSC facilitation: Digital Signatures for proposed partners/designated partners and eKYC/video verification support.',
-    'Drafting & attachments: subscribers’/partners’ details, consent to act, registered office proofs/NOC, object description, and partner contribution terms.',
-    'LLP Agreement: drafting commercial clauses (capital, profit share, duties, indemnities, admission/retirement, dispute resolution), stamping as per State law, and filing Form 3 within statutory timeline.',
-    'Post-approval deliverables: Certificate of Incorporation with LLPIN, Master Data check, and starter compliance kit (initial resolutions/registers templates).',
-    'Post-incorporation facilitation (on request): PAN/TAN application, bank account opening support, GST registration, and professional tax/shops & establishments (state-specific).'
+    'Drafting & attachments: Subscribers’/partners’ details, Consent to Act, Registered Office proofs/NOC, Object description.',
+    'LLP Agreement: Drafting Commercial clauses (capital, profit share, duties, indemnities, admission/retirement, dispute resolution), stamping as per State law, and filing Form 3 within statutory timeline.',
+    'Post-approval Deliverables: Certificate of Incorporation with LLPIN, Master Data check, and starter compliance kit (initial resolutions/registers templates).',
+    'Post-incorporation facilitation (on request): PAN/TAN application, Bank Account opening support, GST registration, and Professional tax/shops & establishments (state-specific).'
   ],
   timelines: [
-    'Name reservation (RUN-LLP): typically 1–2 business days from submission.',
+    'Name reservation (RUN-LLP): Typically 1–2 business days from submission.',
     'Incorporation approval (FiLLiP): 3–7 business days post complete documentation & MCA processing.',
-    'LLP Agreement filing (Form 3): prepared immediately after COI; filed within the statutory window post execution.',
-    'PAN/TAN/bank/GST (optional): usually 3–10 business days post COI, subject to department/bank TAT.'
+    'LLP Agreement filing (Form 3): Prepared immediately after COI; filed within the statutory window post execution.',
+    'PAN/TAN/bank/GST (optional): Usually 3–10 business days post COI, subject to department/bank TAT.'
   ],
   documents: [
     {
       heading: 'Documents required',
       items: [
-        'Partners/Designated Partners: PAN, Aadhaar/Passport, address proof (Passport/Driving Licence/Voter ID), recent utility/bank statement (≤2–3 months), email & mobile; passport & visa/OCI for foreign nationals.',
-        'Registered Office: latest utility bill (electricity/water/property tax) + ownership proof; if rented/leased—rent/lease deed and owner’s NOC; premise photos if asked.',
-        'LLP particulars: two proposed names with significance, main business objects (NIC description), partner count, proposed Designated Partners.',
-        'Capital & economics: total contribution, partner-wise contribution and profit-sharing ratio, valuation/backing for non-cash contribution (if any).',
-        'Declarations & consents: consent to act as Designated Partner/Partner, non-disqualification statements; board/partner resolutions if any body corporate is a partner.',
-        'For body corporate partners (if any): certificate of incorporation, PAN, registered address proof, and authorisation nominating a representative/designated partner.',
-        'Post-incorporation (optional services): bank KYC set, PAN/TAN application details, GST inputs (PoB, HSN/SAC, authorised signatory).'
+        'Partners/Designated Partners: PAN, Aadhaar/Passport, Address proof (Passport/Driving Licence/Voter ID), recent utility/bank statement (≤2–3 months), Email & Mobile; Passport & VISA/OCI for foreign nationals.',
+        'Registered Office: Latest utility bill (electricity/water/property tax) + Ownership proof; if rented/leased—rent/lease deed and Owner’s NOC; Premise photos if asked.',
+        'LLP particulars: Two proposed names with significance, Main business objects (NIC description), Partner count, proposed Designated Partners.',
+        'Capital & economics: Total contribution, Partner-wise contribution and Profit-sharing ratio.',
+        'Declarations & consents: Consent to act as Designated Partner/Partner, Non-disqualification statements; Board/partner resolutions if any body corporate is a partner.',
+        'For body corporate partners (if any): Certificate of Incorporation, PAN, Registered Address proof, and Authorisation nominating a representative/designated partner.',
+        'Post-incorporation (optional services): Bank KYC set, PAN/TAN application details, GST Registration (PoB, HSN/SAC, authorised signatory).'
       ],
     },
   ],
@@ -369,29 +368,29 @@ const SECTIONS = {
 
   'company-formation-uae': {
     included: [
-    'Advisory: choose jurisdiction & structure—Mainland (DED/Emirate authority) or Offshore (e.g., RAK ICC/JAFZA Offshore); activity mapping and name strategy.',
-    'Licensing & approvals: trade name reservation, initial approval, drafting MOA/AOA (or equivalent), UBO/ESR/AML declarations, and license issuance.',
-    'Shareholding & management: shareholder/manager appointments, authorised signatories, POAs/resolutions for foreign/corporate owners.',
-    'Premises & establishment: guidance on office lease/flexi-desk (Mainland) or registered agent address (Offshore); establishment card (where applicable).',
-    'Banking & tax/VAT (on request): corporate bank A/C application support, KYC pack, VAT/TRN registration (if required), corporate tax onboarding guidance.',
-    'Post-incorporation kit: digital license/COI, MoA/AoA, UBO file, specimen resolutions, compliance calendar, and optional PRO services for visas/immigration.'
+    'Advisory: Choose jurisdiction & structure — Mainland, FreeZones (e.g. IFZA, HFZA, DMCC, etc.) or Offshore (e.g. RAK ICC, JAFZA Offshore, etc.); Activity mapping.',
+    'Licensing & approvals: Trade name reservation, Initial Approval, Drafting MOA/AOA (or equivalent), UBO/AML declarations, and license issuance.',
+    'Shareholding & management: Shareholder/Manager appointments, Authorised Signatories, POAs/Resolutions for foreign/corporate owners.',
+    'Premises & establishment: Guidance on Office Lease/flexi-desk (Mainland) or Registered Agent address (Offshore); Establishment card (where applicable).',
+    'Banking & Tax/VAT (on request): Corporate Bank A/C application support, KYC pack, VAT/TRN registration (if required), Corporate Tax onboarding guidance.',
+    'Post-incorporation Kit: Digital License/COI, MoA/AoA, UBO filing, Specimen Resolutions, Compliance calendar, and optional PRO services for Visas/Immigration.'
   ],
   timelines: [
     'Diagnostic & plan: 1–2 business days from preliminary details.',
-    'Name reservation & initial approval: typically 2–5 business days, subject to authority.',
-    'Company incorporation & license: generally 5–15 business days post complete documents and lease/registered address readiness.',
-    'Bank account & optional registrations (VAT/CT): timelines vary by bank/authority; applications filed immediately after license issuance.'
+    'Name Reservation & Initial Approval: Typically 2–5 business days, subject to authority.',
+    'Company Incorporation & License: Generally 5–15 business days post complete documents and lease/registered address readiness.',
+    'Bank Account & Optional Registrations (VAT/CT): Timelines vary by bank/authority; Applications filed immediately after license issuance.'
   ],
   documents: [
     {
       heading: 'Documents required',
       items: [
-        'Shareholders/Managers (individuals): passport (valid 6+ months), recent photo, current address proof, UAE entry stamp/visa page (if any), UAE mobile/email.',
-        'Residents (if applicable): Emirates ID & visa copy; NOC from current sponsor for onshore roles where required.',
-        'Corporate shareholders: certificate of incorporation, MoA/AoA, board resolution approving UAE company formation, certificate of incumbency/good standing, authorised signatory ID proofs (legalised/apostilled as per authority).',
+        'Shareholders/Managers (Individuals): Passport (valid 6+ months), Recent Photo, Current address proof, UAE entry stamp/visa page (if any), UAE mobile/email.',
+        'Residents (if applicable): Emirates ID & Visa copy; NOC from current sponsor for onshore roles where required.',
+        'Corporate shareholders: Certificate of Incorporation, MoA/AoA, Board Resolution approving UAE company formation, Certificate of Incumbency/Good Standing, Authorised Signatory ID proofs (legalised/apostilled as per authority).',
         'Activity & name details: 2–3 proposed names with meaning, business activity list, expected turnover, and special approvals (if regulated activity).',
-        'Premises: draft lease/EJARI or flexi-desk agreement for Mainland; registered agent address for Offshore.',
-        'Compliance pack: UBO/KYC forms, source-of-funds/source-of-wealth summary for banking, sanctions/PEP declarations (if applicable).'
+        'Premises: Draft Lease/EJARI or flexi-desk agreement for Mainland; Registered agent address for Offshore.',
+        'Compliance Pack: UBO/KYC forms, Source of funds / Source of wealth summary for banking, Sanctions/PEP declarations (if applicable).'
       ],
     },
   ],
