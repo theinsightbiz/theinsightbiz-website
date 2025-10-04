@@ -12,11 +12,13 @@ import Blog from './pages/Blog'
 import Contact from './pages/Contact'
 import Privacy from './pages/Privacy'
 import Downloads from './pages/downloads'
+import ScrollToTop from './components/ScrollToTop'
 
 export default function App(){
   return (
     <div className="app-container">
       <Navbar />
+      <ScrollToTop />   {/* <- ensures top-of-page on every route change */}
       <main className="main-content">
         <Routes>
           <Route path="/" element={<Home />} />

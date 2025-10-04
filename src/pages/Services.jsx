@@ -1,103 +1,137 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { SERVICES, SERVICE_CATEGORIES } from '../data/servicesCatalog'
-import { getCoverForService } from '../data/serviceImages'  // ← NEW
+import { getCoverForService } from '../data/serviceImages'
 
-export default function Services(){
+export default function Services() {
   const navigate = useNavigate()
   const [view, setView] = useState('list') // 'list' | 'grid'
-  const [cat, setCat] = useState('all')
 
+  // Keep only these category tabs (remove "All")
+  const desiredLabels = [
+    'Individuals & Sole Prop.',
+    'Companies',
+    'Partnerships',
+    'NGOs & Non-Profits'
+  ]
+
+  // Build the tabs from your catalog, filtered + ordered as desired
+  const tabs = useMemo(() => {
+    const byLabel = new Map(SERVICE_CATEGORIES.map(c => [c.label, c]))
+    return desiredLabels
+      .map(lbl => byLabel.get(lbl))
+      .filter(Boolean) // drops any missing labels gracefully
+  }, [])
+
+  // Default to first available tab
+  const [cat, setCat] = useState(() => (tabs[0]?.key ?? null))
+
+  // Re-sync cat if tabs load later
+  useEffect(() => {
+    if (!cat && tabs.length) setCat(tabs[0].key)
+  }, [tabs, cat])
+
+  // Filter services by active category
   const data = useMemo(() => {
-    return cat === 'all' ? SERVICES : SERVICES.filter(s => s.category === cat)
+    if (!cat) return []
+    return SERVICES.filter(s => s.category === cat)
   }, [cat])
 
-  // reveal on scroll
+  // Reveal-on-scroll (plain JS)
   useEffect(() => {
-  if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined') return
 
-  const selector = '.work-row, .work-card';
-  const nodes = Array.from(document.querySelectorAll(selector));
+    const selector = '.work-row, .work-card'
+    const elements = Array.from(document.querySelectorAll(selector))
 
-  // Ensure base state only once
-  nodes.forEach(n => {
-    if (!n.classList.contains('reveal')) n.classList.add('reveal');
-  });
+    // base state once
+    elements.forEach(el => {
+      if (!el.classList.contains('reveal')) el.classList.add('reveal')
+    })
 
-  let cancelled = false;
+    let cancelled = false
 
-  const onIntersect = (entries, observer) => {
-    if (cancelled) return;
-
-    const toShow = [];
-    for (const entry of entries) {
-      if (entry.isIntersecting) {
-        toShow.push(entry.target);
-        observer.unobserve(entry.target); // stop observing ASAP
+    const onIntersect = (entries, observer) => {
+      if (cancelled) return
+      const toShow = []
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          toShow.push(e.target)
+          observer.unobserve(e.target)
+        }
+      }
+      if (toShow.length) {
+        requestAnimationFrame(() => {
+          if (cancelled) return
+          for (const el of toShow) el.classList.add('show')
+        })
       }
     }
 
-    if (toShow.length) {
-      requestAnimationFrame(() => {
-        if (cancelled) return;
-        for (const el of toShow) el.classList.add('show');
-      });
+    const io =
+      'IntersectionObserver' in window
+        ? new IntersectionObserver(onIntersect, {
+            root: null,
+            threshold: 0.15,
+            rootMargin: '0px 0px -5% 0px'
+          })
+        : null
+
+    if (io) {
+      for (const el of elements) {
+        if (!el.classList.contains('show')) io.observe(el)
+      }
+    } else {
+      for (const el of elements) el.classList.add('show')
     }
-  };
 
-  const io = 'IntersectionObserver' in window
-    ? new IntersectionObserver(onIntersect, {
-        root: null,
-        threshold: 0.12,
-        rootMargin: '0px 0px -8% 0px'
-      })
-    : null;
+    return () => {
+      cancelled = true
+      io?.disconnect()
+    }
+  }, [view, cat])
 
-  if (io) {
-    nodes.forEach(el => {
-      if (!el.classList.contains('show')) io.observe(el);
-    });
-  } else {
-    nodes.forEach(el => el.classList.add('show'));
-  }
-
-  return () => {
-    cancelled = true;
-    if (io && typeof io.disconnect === 'function') io.disconnect();
-  };
-}, [view, cat]);
-
-
-
-  const openDetail = (slug) => navigate(`/services/${slug}`)
+  const openDetail = slug => navigate(`/services/${slug}`)
 
   return (
     <section className="page wide works">
-      {/* premium intro */}
+      {/* Header */}
       <div className="pr-hero">
         <span className="ribbon" aria-hidden="true"></span>
-        <h1>All Work</h1>
-        <p>Explore our service lines across Individuals, Companies, Partnerships, and Non-Profits.</p>
+        <h1>Services</h1>
+        <p>Browse our offerings by client type.</p>
       </div>
 
-      {/* toolbar */}
+      {/* Toolbar: Tabs (no "All") + View Toggle */}
       <div className="work-toolbar">
-        <div className="cats">
-          <button
-            className={'tab ' + (cat==='all'?'active':'')}
-            onClick={()=>setCat('all')}
-          >All</button>
-          {SERVICE_CATEGORIES.map(c =>
-            <button key={c.key}
-              className={'tab ' + (cat===c.key?'active':'')}
-              onClick={()=>setCat(c.key)}
-            >{c.label}</button>
-          )}
+        <div className="tabs" role="tablist" aria-label="Service categories">
+          {tabs.map(t => (
+            <button
+              key={t.key}
+              role="tab"
+              aria-selected={cat === t.key}
+              className={'tab' + (cat === t.key ? ' active' : '')}
+              onClick={() => setCat(t.key)}
+            >
+              {t.label}
+            </button>
+          ))}
         </div>
+
         <div className="views">
-          <button className={'view ' + (view==='list'?'active':'')} onClick={()=>setView('list')}>List</button>
+          <button
+            className={'view ' + (view === 'list' ? 'active' : '')}
+            onClick={() => setView('list')}
+          >
+            List
+          </button>
           <span className="sep">/</span>
-          <button className={'view ' + (view==='grid'?'active':'')} onClick={()=>setView('grid')}>Grid</button>
+          <button
+            className={'view ' + (view === 'grid' ? 'active' : '')}
+            onClick={() => setView('grid')}
+          >
+            Grid
+          </button>
         </div>
       </div>
 
@@ -113,10 +147,17 @@ export default function Services(){
                 <h3>{s.title}</h3>
                 <p className="sum">{s.summary}</p>
                 <div className="row-actions">
-                  <button className="btn-primary" onClick={()=>openDetail(s.slug)}>View Project</button>
+                  <button className="btn-primary" onClick={() => openDetail(s.slug)}>
+                    View Project
+                  </button>
                 </div>
                 <div className="chips">
-                  <span className="chip">{SERVICE_CATEGORIES.find(c => c.key === s.category)?.label}</span>
+                  <span className="chip">
+                    {
+                      SERVICE_CATEGORIES.find(c => c.key === s.category)
+                        ?.label
+                    }
+                  </span>
                 </div>
               </div>
             </article>
@@ -127,8 +168,13 @@ export default function Services(){
       {/* GRID */}
       {view === 'grid' && (
         <div className="work-grid">
-          {data.map((s) => (
-            <button key={s.id} className="work-card" onClick={()=>openDetail(s.slug)} aria-label={`Open ${s.title}`}>
+          {data.map(s => (
+            <button
+              key={s.id}
+              className="work-card"
+              onClick={() => openDetail(s.slug)}
+              aria-label={`Open ${s.title}`}
+            >
               <img src={getCoverForService(s)} alt={s.title} />
               <div className="card-label">
                 <h4>{s.title}</h4>
@@ -139,19 +185,31 @@ export default function Services(){
         </div>
       )}
 
-      {/* styles unchanged */}
       <style>{`
-        .works :where(h1,h2){ letter-spacing:-.2px }
         .work-toolbar{
-          display:grid; place-items:center; gap:.6rem; margin:1rem 0 1.2rem;
+          display:grid; gap:0.75rem; margin:1rem 0 1.2rem;
         }
-        .cats{ display:flex; flex-wrap:wrap; justify-content:center; gap:.4rem }
+        @media (min-width: 840px){
+          .work-toolbar{
+            grid-template-columns: 1fr auto;
+            align-items:center;
+          }
+        }
+
+        .tabs{
+          display:flex; flex-wrap:wrap; gap:.5rem;
+        }
         .tab{
-          border:1px solid var(--border); border-radius:999px; padding:.5rem .8rem; background:#fff;
-          transition:all .2s ease; font-size:.92rem;
+          background:transparent; border:1px solid var(--border);
+          border-radius:999px; padding:.45rem .9rem; cursor:pointer;
+          font-weight:600;
         }
-        .tab.active{ background:rgba(14,153,213,.12); border-color:rgba(14,153,213,.35); color:#085c83 }
-        .views{ display:flex; align-items:center; gap:.4rem; opacity:.9 }
+        .tab.active{
+          background:var(--accent-600, #0e99d5);
+          color:#fff; border-color:transparent;
+        }
+
+        .views{ display:flex; align-items:center; gap:.4rem; justify-self:end; opacity:.9 }
         .view{ background:transparent; border:none; padding:.2rem .4rem; font-weight:700; cursor:pointer }
         .view.active{ color:var(--accent-700, #085c83) }
         .sep{ opacity:.4 }

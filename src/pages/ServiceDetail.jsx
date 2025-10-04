@@ -1,6 +1,6 @@
 import React from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
-import { findServiceBySlug, SERVICE_CATEGORIES } from '../data/servicesCatalog'
+import { SERVICES, findServiceBySlug, SERVICE_CATEGORIES } from '../data/servicesCatalog' // ← added SERVICES
 import { getCoverForService } from '../data/serviceImages'
 
 // ============================
@@ -1485,6 +1485,28 @@ export default function ServiceDetail(){
   const spec = SECTIONS[svc.slug] || makeTemplate(svc)
   const { included = [], timelines = [], documents = [] } = spec
 
+  // ===== NEXT navigation (Individuals → Companies → Partnerships → NGOs) =====
+  // Use explicit label order to avoid reliance on array order elsewhere
+  const ORDERED_LABELS = [
+    'Individuals & Sole Prop.',
+    'Companies',
+    'Partnerships',
+    'NGOs & Non-Profits'
+  ]
+  const labelToKey = new Map(SERVICE_CATEGORIES.map(c => [c.label, c.key]))
+  const orderedKeys = ORDERED_LABELS.map(l => labelToKey.get(l)).filter(Boolean)
+
+  // Build a linear list in the required order; preserve original SERVICES order within each category
+  const orderedServices = []
+  for (const key of orderedKeys) {
+    for (const s of SERVICES) {
+      if (s.category === key) orderedServices.push(s)
+    }
+  }
+  const idx = orderedServices.findIndex(s => s.slug === slug)
+  const nextSlug = idx >= 0 && idx < orderedServices.length - 1 ? orderedServices[idx + 1].slug : null
+  // ==========================================================================
+
   return (
     <section className="page wide">
       <div className="pr-hero">
@@ -1539,6 +1561,19 @@ export default function ServiceDetail(){
         </div>
       </article>
 
+      {/* Floating Next arrow – mid-right; hidden on last service */}
+      {nextSlug && (
+        <button
+          type="button"
+          className="next-floater"
+          aria-label="Next service"
+          onClick={() => navigate(`/services/${nextSlug}`)}
+          title="Next"
+        >
+          Next →
+        </button>
+      )}
+
       <style>{`
         /* One-column flow */
         .detail{
@@ -1583,6 +1618,27 @@ export default function ServiceDetail(){
         .btn-ghost{
           border:1px solid var(--border); border-radius:12px;
           padding:.68rem .95rem; text-decoration:none; color:inherit;
+        }
+
+        /* Floating next arrow */
+        .next-floater{
+          position: fixed;
+          right: 18px;
+          top: 50%;
+          transform: translateY(-50%);
+          z-index: 50;
+          background: var(--accent-600, #0e99d5);
+          color:#fff;
+          border: none;
+          border-radius: 999px;
+          padding: .6rem .9rem;
+          font-weight: 800;
+          cursor: pointer;
+          box-shadow: 0 12px 26px rgba(14,153,213,.28);
+        }
+        .next-floater:hover{ filter: brightness(1.05); }
+        @media (max-width: 820px){
+          .next-floater{ right: 10px; padding: .55rem .8rem; }
         }
 
         /* Mobile keeps the same stacking naturally */
