@@ -12,12 +12,14 @@ import Blog from './pages/Blog'
 import Contact from './pages/Contact'
 import Privacy from './pages/Privacy'
 import Downloads from './pages/downloads'
+import ScrollToTop from './components/ScrollToTop' // <-- added
 
 export default function App(){
   return (
     <div className="app-container">
       <Navbar />
       <main className="main-content">
+        <ScrollToTop /> {/* <-- added: ensures each route loads at top */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
@@ -42,3 +44,4 @@ export default function App(){
     </div>
   )
 }
+

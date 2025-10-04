@@ -204,14 +204,14 @@ export default function Home() {
         {/* About */}
         <div id="about" className="page-anchor" />
         <section className="page wide">
-          <SectionHeader title="About" subtitle="Full page content inlined below" />
+          <SectionHeader title="About" />
           <About />
         </section>
 
         {/* Contact */}
         <div id="contact" className="page-anchor" />
         <section className="page wide">
-          <SectionHeader title="Contact" subtitle="Full page content inlined below" />
+          <SectionHeader title="Contact" />
           <Contact />
         </section>
 
