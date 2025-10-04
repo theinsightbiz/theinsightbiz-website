@@ -6,10 +6,16 @@ export default function ScrollToTop() {
   const { pathname, hash } = useLocation()
 
   useEffect(() => {
-    // If you’re navigating to an in-page anchor (e.g., /about#team), let the browser handle it.
+    // Let in-page anchors (e.g., /about#team) scroll naturally
     if (hash) return
-    // Jump to the very top on every route change
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+
+    try {
+      // Valid values are 'auto' or 'smooth'
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+    } catch {
+      // Fallback for older/strict environments
+      window.scrollTo(0, 0)
+    }
   }, [pathname, hash])
 
   return null
