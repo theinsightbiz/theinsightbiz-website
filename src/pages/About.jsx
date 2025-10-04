@@ -95,6 +95,57 @@ export default function About(){
     return () => listeners.forEach((off) => off());
   }, []);
 
+  // ▼▼▼ NEW: interaction for the “member-card” (team replacement) ▼▼▼
+  useEffect(() => {
+    const cards = Array.from(document.querySelectorAll('#team .member-card'));
+    const offs = [];
+
+    cards.forEach(card => {
+      const info = card.querySelector('.member-card__info');
+
+      const activate = () => {
+        card.classList.add('active');
+        card.classList.remove('revert');
+        if (info) info.setAttribute('aria-hidden', 'false');
+      };
+      const deactivate = () => {
+        card.classList.remove('active');
+        card.classList.add('revert');
+        if (info) info.setAttribute('aria-hidden', 'true');
+      };
+
+      const onEnter = () => activate();
+      const onLeaveCard = () => deactivate();
+      const onLeaveInfo = () => deactivate();
+
+      card.addEventListener('mouseenter', onEnter);
+      card.addEventListener('mouseleave', onLeaveCard);
+      if (info) info.addEventListener('mouseleave', onLeaveInfo);
+
+      // touch toggle
+      const isTouch = window.matchMedia('(pointer: coarse)').matches;
+      const onClick = (e) => {
+        if (isTouch) {
+          const withinInfo = info && info.contains(e.target);
+          if (card.classList.contains('active') && !withinInfo) deactivate();
+          else if (!card.classList.contains('active')) activate();
+        }
+      };
+      card.addEventListener('click', onClick);
+
+      // cleanup
+      offs.push(() => {
+        card.removeEventListener('mouseenter', onEnter);
+        card.removeEventListener('mouseleave', onLeaveCard);
+        if (info) info.removeEventListener('mouseleave', onLeaveInfo);
+        card.removeEventListener('click', onClick);
+      });
+    });
+
+    return () => offs.forEach(fn => fn());
+  }, []);
+  // ▲▲▲ END: member-card interaction ▲▲▲
+
   const s = slides[idx]
 
   return (
@@ -118,7 +169,7 @@ export default function About(){
             </p>
             <p>
               Let's Connect!<br />
-              Reach out to us today and discuss how we can help streamline your business operations and ensure compliance in dynamic markets.
+              Reach out to us today and discuss how we can help streamline your business operations and ensure compliance in dynamic markets.
             </p>
 
             <div className="tile-grid" style={{marginTop:'.8rem'}}>
@@ -161,191 +212,193 @@ export default function About(){
             </div>
           </section>
 
-          {/* TEAM — uses imported images now */}
+          {/* TEAM — REPLACED with “member-card” */}
           <section id="team" className="panel-premium">
             <h2 style={{ marginTop: 0 }}>Our Professionals</h2>
             <p>Certified professionals backed by internal review, checklists, and audit-grade documentation.</p>
 
-            <div className="teamx">
-              <div className="teamx__grid">
-                {/* Card 1 */}
-                <article className="tcard" data-tilt>
-                  <span aria-hidden="true" className="tcard__ring"></span>
-                  <div className="tcard__glare" />
-                  <div className="tcard__media">
-                    <img src={Hrithik} alt="Portrait of Hrithik Raj" />
+            <div className="tm-grid">
+              {/* Card 1 */}
+              <article className="member-card">
+                <img className="member-card__photo" src={Hrithik} alt="Portrait of Hrithik Raj" />
+                <div className="member-card__glass"></div>
+                <div className="member-card__info" aria-hidden="true">
+                  <h3 className="member-card__name">Hrithik Raj</h3>
+                  <p className="member-card__role">Consultant • Chartered Accountant</p>
+                  <p className="member-card__bio">
+                    Cross border consultant assisting founders operate seamlessly and Specializes in India, UAE, UK, USA tax and compliances. He designs tax-efficient structures, manages filings, and turns complex tax rules into simple checklists.
+                  </p>
+                  <div className="member-card__socials">
+                    <a className="icon-btn" href="#" aria-label="Facebook profile">
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M22 12.06C22 6.48 17.52 2 11.94 2S2 6.48 2 12.06c0 5.01 3.66 9.16 8.44 9.94v-7.03H8.4v-2.9h2.04V9.41c0-2.01 1.2-3.12 3.03-3.12.88 0 1.8.16 1.8.16v1.98h-1.02c-1 0-1.31.62-1.31 1.25v1.5h2.23l-.36 2.9h-1.87V22c4.78-.78 8.44-4.93 8.44-9.94z"/>
+                      </svg>
+                    </a>
+                    <a className="icon-btn" href="#" aria-label="Instagram profile">
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.75A5.25 5.25 0 1 1 6.75 13 5.26 5.26 0 0 1 12 7.75zm0 2a3.25 3.25 0 1 0 3.25 3.25A3.25 3.25 0 0 0 12 9.75zM18.5 6.88a1.13 1.13 0 1 1-1.13 1.13 1.13 1.13 0 0 1 1.13-1.13z"/>
+                      </svg>
+                    </a>
                   </div>
-                  <div className="tcard__body">
-                    <header className="tcard__header">
-                      <h3 className="tcard__name">Hrithik Raj</h3>
-                      <p className="tcard__role">Consultant • Chartered Accountant</p>
-                    </header>
-                    <p className="tcard__bio">
-                      Cross border consultant assisting founders operate seamlessly and Specializes in India, UAE, UK, USA tax and compliances. He designs tax-efficient structures, manages filings, and turns complex tax rules into simple checklists.
-                    </p>
-                    <ul className="tcard__socials">
-                      <li><a href="#" aria-label="LinkedIn" className="tico" title="LinkedIn">
-                        <svg viewBox="0 0 24 24" className="tico__svg" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33 0-3.03-1.85-3.03s-2.14 1.45-2.14 2.94v5.66H9.34V9h3.42v1.56h.05a3.75 3.75 0 0 1 3.38-1.86c3.62 0 4.29 2.38 4.29 5.47v6.28zM6.34 7.43A2.06 2.06 0 1 1 6.33 3.3a2.06 2.06 0 0 1 .01 4.12zM4.56 20.45h3.56V9H4.56v11.45z"/></svg>
-                      </a></li>
-                      <li><a href="#" aria-label="X" className="tico" title="X">
-                        <svg viewBox="0 0 24 24" className="tico__svg" aria-hidden="true"><path d="M18.9 2H22l-7.2 8.3L22.7 22h-6.4l-5-6.6-5.7 6.6H2.5l7.7-8.9L1.3 2h6.6l4.6 6.1L18.9 2zM17 20h1.8L7.1 4H5.2L17 20z"/></svg>
-                      </a></li>
-                    </ul>
-                  </div>
-                </article>
+                </div>
+                <button className="member-card__sr-toggle" aria-label="Toggle details for touch devices"></button>
+              </article>
 
-                {/* Card 2 */}
-                <article className="tcard" data-tilt>
-                  <span aria-hidden="true" className="tcard__ring"></span>
-                  <div className="tcard__glare" />
-                  <div className="tcard__media">
-                    <img src={Pratik} alt="Portrait of Pratik Raj" />
+              {/* Card 2 */}
+              <article className="member-card">
+                <img className="member-card__photo" src={Pratik} alt="Portrait of Pratik Raj" />
+                <div className="member-card__glass"></div>
+                <div className="member-card__info" aria-hidden="true">
+                  <h3 className="member-card__name">Pratik Raj</h3>
+                  <p className="member-card__role">Partner • Compliance Officer</p>
+                  <p className="member-card__bio">
+                    Expertise with guiding the founders upon incorporations across India, UAE, UK & USA, backed by India SEBI regulations, FEMA regulations for foreign investments/remittances, and Companies Act, 2013 secretarial compliances.
+                  </p>
+                  <div className="member-card__socials">
+                    <a className="icon-btn" href="#" aria-label="Facebook profile">
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M22 12.06C22 6.48 17.52 2 11.94 2S2 6.48 2 12.06c0 5.01 3.66 9.16 8.44 9.94v-7.03H8.4v-2.9h2.04V9.41c0-2.01 1.2-3.12 3.03-3.12.88 0 1.8.16 1.8.16v1.98h-1.02c-1 0-1.31.62-1.31 1.25v1.5h2.23l-.36 2.9h-1.87V22c4.78-.78 8.44-4.93 8.44-9.94z"/>
+                      </svg>
+                    </a>
+                    <a className="icon-btn" href="#" aria-label="Instagram profile">
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.75A5.25 5.25 0 1 1 6.75 13 5.26 5.26 0 0 1 12 7.75zm0 2a3.25 3.25 0 1 0 3.25 3.25A3.25 3.25 0 0 0 12 9.75zM18.5 6.88a1.13 1.13 0 1 1-1.13 1.13 1.13 1.13 0 0 1 1.13-1.13z"/>
+                      </svg>
+                    </a>
                   </div>
-                  <div className="tcard__body">
-                    <header className="tcard__header">
-                      <h3 className="tcard__name">Pratik Raj</h3>
-                      <p className="tcard__role">Partner • Compliance Officer</p>
-                    </header>
-                    <p className="tcard__bio">
-                      Expertise with guiding the founders upon incorporations across India, UAE, UK & USA, backed by India SEBI regulations, FEMA regulations for foreign investments/remittances, and Companies Act, 2013 secretarial compliances.
-                    </p>
-                    <ul className="tcard__socials">
-                      <li><a href="#" aria-label="LinkedIn" className="tico" title="LinkedIn">
-                        <svg viewBox="0 0 24 24" className="tico__svg" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33 0-3.03-1.85-3.03s-2.14 1.45-2.14 2.94v5.66H9.34V9h3.42v1.56h.05a3.75 3.75 0 0 1 3.38-1.86c3.62 0 4.29 2.38 4.29 5.47v6.28zM6.34 7.43A2.06 2.06 0 1 1 6.33 3.3a2.06 2.06 0 0 1 .01 4.12zM4.56 20.45h3.56V9H4.56v11.45z"/></svg>
-                      </a></li>
-                      <li><a href="#" aria-label="GitHub" className="tico" title="GitHub">
-                        <svg viewBox="0 0 24 24" className="tico__svg" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3 19.5c.5.1.7-.2.7-.5v-2c-2.8.6-3.4-1.3-3.4-1.3-.4-1-1-1.3-1-1.3-.8-.6.1-.6.1-.6 1 .1 1.6 1.1 1.6 1.1.9 1.6 2.5 1.1 3 .9.1-.7.4-1.1.7-1.4-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1.1-2.8-.1-.3-.5-1.4.1-2.9 0 0 .9-.3 2.9 1.1.9-.2 1.9-.3 2.9-.3s2 .1 2.9.3c2-1.4 2.9-1.1 2.9-1.1.6 1.5.2 2.6.1 2.9.7.8 1.1 1.7 1.1 2.8 0 3.9-2.4 4.7-4.7 5 .4.3.8 1 .8 2v3c0 .3.2.7.8.5A10 10 0 0 0 12 2z"/></svg>
-                      </a></li>
-                    </ul>
-                  </div>
-                </article>
+                </div>
+                <button className="member-card__sr-toggle" aria-label="Toggle details for touch devices"></button>
+              </article>
 
-                {/* Card 3 */}
-                <article className="tcard" data-tilt>
-                  <span aria-hidden="true" className="tcard__ring"></span>
-                  <div className="tcard__glare" />
-                  <div className="tcard__media">
-                    <img src={Aniket} alt="Portrait of Aniket Kishore" />
+              {/* Card 3 */}
+              <article className="member-card">
+                <img className="member-card__photo" src={Aniket} alt="Portrait of Aniket Kishore" />
+                <div className="member-card__glass"></div>
+                <div className="member-card__info" aria-hidden="true">
+                  <h3 className="member-card__name">Aniket Kishore</h3>
+                  <p className="member-card__role">Manager • Business Advisor</p>
+                  <p className="member-card__bio">
+                    Specialist in Income-tax compliance and assessments. Builds bank-ready project finance models and term-sheet documentation. Handles Startup Registrations/ NGO setup and its periodic accounting and filings.
+                  </p>
+                  <div className="member-card__socials">
+                    <a className="icon-btn" href="#" aria-label="Facebook profile">
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M22 12.06C22 6.48 17.52 2 11.94 2S2 6.48 2 12.06c0 5.01 3.66 9.16 8.44 9.94v-7.03H8.4v-2.9h2.04V9.41c0-2.01 1.2-3.12 3.03-3.12.88 0 1.8.16 1.8.16v1.98h-1.02c-1 0-1.31.62-1.31 1.25v1.5h2.23l-.36 2.9h-1.87V22c4.78-.78 8.44-4.93 8.44-9.94z"/>
+                      </svg>
+                    </a>
+                    <a className="icon-btn" href="#" aria-label="Instagram profile">
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.75A5.25 5.25 0 1 1 6.75 13 5.26 5.26 0 0 1 12 7.75zm0 2a3.25 3.25 0 1 0 3.25 3.25A3.25 3.25 0 0 0 12 9.75zM18.5 6.88a1.13 1.13 0 1 1-1.13 1.13 1.13 1.13 0 0 1 1.13-1.13z"/>
+                      </svg>
+                    </a>
                   </div>
-                  <div className="tcard__body">
-                    <header className="tcard__header">
-                      <h3 className="tcard__name">Aniket Kishore</h3>
-                      <p className="tcard__role">Manager • Business Advisor</p>
-                    </header>
-                    <p className="tcard__bio">
-                      Specialist in Income-tax compliance and assessments. Builds bank-ready project finance models and term-sheet documentation. Handles Startup Registrations/ NGO setup and its periodic accounting and filings.
-                    </p>
-                    <ul className="tcard__socials">
-                      <li><a href="#" aria-label="Instagram" className="tico" title="Instagram">
-                        <svg viewBox="0 0 24 24" className="tico__svg" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.5A5.5 5.5 0 1 1 6.5 13 5.5 5.5 0 0 1 12 7.5zm6.3-.9a1.1 1.1 0 1 1-2.2 0 1.1 1.1 0 0 1 2.2 0z"/></svg>
-                      </a></li>
-                      <li><a href="#" aria-label="YouTube" className="tico" title="YouTube">
-                        <svg viewBox="0 0 24 24" className="tico__svg" aria-hidden="true"><path d="M23.5 7.1a3.1 3.1 0 0 0-2.1-2.2C19.3 4.3 12 4.3 12 4.3s-7.3 0-9.4.6a3.1 3.1 0 0 0-2.1 2.2C0 9.2 0 12 0 12s0 2.8.5 4.9a3.1 3.1 0 0 0 2.1 2.1c2.1.6 9.4.6 9.4.6s7.3 0 9.4-.6a3.1 3.1 0 0 0 2.1-2.1c.5-2.1.5-4.9.5-4.9s0-2.8-.5-4.9zM9.6 15.5V8.5L15.8 12l-6.2 3.5z"/></svg>
-                      </a></li>
-                    </ul>
-                  </div>
-                </article>
+                </div>
+                <button className="member-card__sr-toggle" aria-label="Toggle details for touch devices"></button>
+              </article>
 
-                {/* Card 4 */}
-                <article className="tcard" data-tilt>
-                  <span aria-hidden="true" className="tcard__ring"></span>
-                  <div className="tcard__glare" />
-                  <div className="tcard__media">
-                    <img src={Priyam} alt="Portrait of Priyam Adarsh" />
+              {/* Card 4 */}
+              <article className="member-card">
+                <img className="member-card__photo" src={Priyam} alt="Portrait of Priyam Adarsh" />
+                <div className="member-card__glass"></div>
+                <div className="member-card__info" aria-hidden="true">
+                  <h3 className="member-card__name">Priyam Adarsh</h3>
+                  <p className="member-card__role">Partner • Tax Advisor</p>
+                  <p className="member-card__bio">
+                    Partners with founders to run a clean monthly MIS, owning books close, variance analysis, and decision-ready reports. Managing India GST compliance, audit support, and UAE VAT filings, with robust ledger-to-return reconciliations.
+                  </p>
+                  <div className="member-card__socials">
+                    <a className="icon-btn" href="#" aria-label="Facebook profile">
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M22 12.06C22 6.48 17.52 2 11.94 2S2 6.48 2 12.06c0 5.01 3.66 9.16 8.44 9.94v-7.03H8.4v-2.9h2.04V9.41c0-2.01 1.2-3.12 3.03-3.12.88 0 1.8.16 1.8.16v1.98h-1.02c-1 0-1.31.62-1.31 1.25v1.5h2.23l-.36 2.9h-1.87V22c4.78-.78 8.44-4.93 8.44-9.94z"/>
+                      </svg>
+                    </a>
+                    <a className="icon-btn" href="#" aria-label="Instagram profile">
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.75A5.25 5.25 0 1 1 6.75 13 5.26 5.26 0 0 1 12 7.75zm0 2a3.25 3.25 0 1 0 3.25 3.25A3.25 3.25 0 0 0 12 9.75zM18.5 6.88a1.13 1.13 0 1 1-1.13 1.13 1.13 1.13 0 0 1 1.13-1.13z"/>
+                      </svg>
+                    </a>
                   </div>
-                  <div className="tcard__body">
-                    <header className="tcard__header">
-                      <h3 className="tcard__name">Priyam Adarsh</h3>
-                      <p className="tcard__role">Partner • Tax Advisor</p>
-                    </header>
-                    <p className="tcard__bio">
-                      Partners with founders to run a clean monthly MIS, owning books close, variance analysis, and decision-ready reports. Managing India GST compliance, audit support, and UAE VAT filings, with robust ledger-to-return reconciliations.
-                    </p>
-                    <ul className="tcard__socials">
-                      <li><a href="#" aria-label="Instagram" className="tico" title="Instagram">
-                        <svg viewBox="0 0 24 24" className="tico__svg" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.5A5.5 5.5 0 1 1 6.5 13 5.5 5.5 0 0 1 12 7.5zm6.3-.9a1.1 1.1 0 1 1-2.2 0 1.1 1.1 0 0 1 2.2 0z"/></svg>
-                      </a></li>
-                      <li><a href="#" aria-label="YouTube" className="tico" title="YouTube">
-                        <svg viewBox="0 0 24 24" className="tico__svg" aria-hidden="true"><path d="M23.5 7.1a3.1 3.1 0 0 0-2.1-2.2C19.3 4.3 12 4.3 12 4.3s-7.3 0-9.4.6a3.1 3.1 0 0 0-2.1 2.2C0 9.2 0 12 0 12s0 2.8.5 4.9a3.1 3.1 0 0 0 2.1 2.1c2.1.6 9.4.6 9.4.6s7.3 0 9.4-.6a3.1 3.1 0 0 0 2.1-2.1c.5-2.1.5-4.9.5-4.9s0-2.8-.5-4.9zM9.6 15.5V8.5L15.8 12l-6.2 3.5z"/></svg>
-                      </a></li>
-                    </ul>
-                  </div>
-                </article>
-              </div>
+                </div>
+                <button className="member-card__sr-toggle" aria-label="Toggle details for touch devices"></button>
+              </article>
             </div>
 
-            {/* Scoped CSS for team cards */}
+            {/* Scoped CSS for the member card */}
             <style>{`
-              .teamx{ width:100%; margin-top:.9rem; }
-              .teamx__grid{
+              .tm-grid{
                 display:grid;
-                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-                gap: clamp(1rem, 2vw, 1.4rem);
-                align-items:stretch;
+                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+                gap: clamp(16px, 2.5vw, 28px);
+                margin-top:.9rem;
               }
-              .tcard{
-                position:relative; overflow:hidden; border-radius:20px;
-                background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
-                box-shadow: 0 15px 35px rgba(0,0,0,.45), 0 5px 15px rgba(0,0,0,.25);
-                transform-style: preserve-3d; isolation:isolate; will-change: transform;
-                transition: transform .18s ease, box-shadow .2s ease, background .3s ease;
+              .member-card{
+                position: relative;
+                aspect-ratio: 3 / 4;
+                border-radius: 20px;
+                overflow: hidden;
+                box-shadow: 0 20px 40px rgba(2, 6, 23, 0.2);
+                background: #000;
+                isolation: isolate;
               }
-              .tcard__ring{
-                position:absolute; inset:0; border-radius:inherit; padding:2px;
-                background: linear-gradient(130deg, rgba(255,99,132,.9) 0%, rgba(56,189,248,.9) 35%, rgba(167,139,250,.9) 100%);
-                -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-                -webkit-mask-composite: xor; mask-composite: exclude;
-                animation: tcard-ring 6s linear infinite; opacity:.9;
+              .member-card__photo{
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transform-origin: 50% 30%;
+                /* ensure filter animates in lockstep with transform */
+                transition: transform 420ms cubic-bezier(.2,.7,.2,1),
+                            filter 420ms cubic-bezier(.2,.7,.2,1);
+                will-change: transform, filter;
               }
-              @keyframes tcard-ring{
-                0%{ filter:hue-rotate(0deg) blur(.6px) }
-                50%{ filter:hue-rotate(90deg) blur(.6px) }
-                100%{ filter:hue-rotate(180deg) blur(.6px) }
+
+              .member-card__glass{
+                position: absolute; inset: auto 0 0 0; height: 56%;
+                background: linear-gradient(to top, rgba(2,6,23,.75), rgba(2,6,23,0.2) 60%, transparent);
+                opacity: 0; transform: translateY(10%);
+                transition: opacity 320ms ease, transform 320ms ease;
+                pointer-events: none; z-index: 1;
               }
-              .tcard__glare{
-                position:absolute; inset:-40%;
-                background: radial-gradient(300px 300px at var(--mx,50%) var(--my,50%), rgba(255,255,255,.16), transparent 55%);
-                transform: translateZ(60px); pointer-events:none; transition:opacity .25s ease; opacity:0;
+              .member-card__info{
+                position: absolute; left: 0; right: 0; bottom: 0;
+                padding: 18px 18px 20px; color: #fff; z-index: 2;
+                opacity: 0; transform: translateY(20px);
+                transition: opacity 280ms ease, transform 280ms ease;
               }
-              .tcard__media{
-                position:relative; overflow:hidden; border-radius:18px; margin:2px; height:280px; transform: translateZ(40px);
+              .member-card__name{ font-size: 1.1rem; margin: 0 0 2px; line-height:1.1; font-weight: 700; }
+              .member-card__role{ margin: 0 0 8px; font-size: .88rem; color: #cbd5e1; }
+              .member-card__bio{ margin: 0 0 12px; font-size: .86rem; line-height: 1.45; color: #e2e8f0; }
+              .member-card__socials{ display: flex; gap: 10px; }
+              .icon-btn{
+                --size: 36px; width: var(--size); height: var(--size); display: inline-grid; place-items: center;
+                border-radius: 50%; background: rgba(255,255,255,0.12);
+                backdrop-filter: blur(4px); text-decoration: none;
+                transition: transform 180ms ease, background 180ms ease;
+                outline: none; border: 1px solid rgba(255,255,255,.15);
               }
-              .tcard__media img{ width:100%; height:100%; object-fit:cover; transform:scale(1.02); transition: transform .8s cubic-bezier(.2,.7,.2,1); }
-              .tcard__body{ position:relative; padding:1.1rem 1.15rem 1.2rem; transform: translateZ(30px); }
-              .tcard__header{ display:grid; gap:.15rem; margin-bottom:.55rem; }
-              .tcard__name{ font-size:1.2rem; letter-spacing:-.01em; margin:0; }
-              .tcard__role{ opacity:.75; font-size:.95rem; margin:0; }
-              .tcard__bio{ margin:.6rem 0 1rem; line-height:1.5; opacity:.9; }
-              .tcard__socials{ --delay-step:45ms; display:flex; gap:.6rem; padding:0; margin:0; list-style:none; }
-              .tico{
-                display:inline-grid; place-items:center; width:40px; height:40px; border-radius:12px;
-                background: rgba(0,0,0,.06); backdrop-filter: blur(6px); border:1px solid rgba(0,0,0,.08);
-                transform: translateY(14px); opacity:0;
-                transition: transform .45s cubic-bezier(.2,.7,.2,1), opacity .45s ease, background .2s ease;
-                outline:none;
+              .icon-btn:hover, .icon-btn:focus-visible{ transform: translateY(-2px); background: rgba(255,255,255,0.2); }
+              .icon-btn svg{ width: 18px; height: 18px; fill: #fff; }
+              .member-card__sr-toggle{
+                position: absolute; inset: 0; width: 100%; height: 100%;
+                background: none; border: 0; padding: 0; margin: 0; cursor: default; z-index: 3; opacity: 0;
               }
-              .tico:hover, .tico:focus-visible{ background: rgba(0,0,0,.14); }
-              .tico__svg{ width:22px; height:22px; fill:#0f172a; }
-              .tcard:hover .tcard__media img, .tcard:focus-within .tcard__media img{ transform: scale(1.1); }
-              .tcard:hover .tcard__glare, .tcard:focus-within .tcard__glare{ opacity:1; }
-              .tcard:hover .tico, .tcard:focus-within .tico{ opacity:1; transform: translateY(0); }
-              .tcard:hover .tico:nth-child(1), .tcard:focus-within .tico:nth-child(1){ transition-delay: calc(var(--delay-step)*1); }
-              .tcard:hover .tico:nth-child(2), .tcard:focus-within .tico:nth-child(2){ transition-delay: calc(var(--delay-step)*2); }
-              .tcard:hover{
-                background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
-                box-shadow: 0 25px 60px rgba(0,0,0,.45), 0 10px 24px rgba(0,0,0,.30);
+              .member-card.active .member-card__photo{ transform: translateY(-6%) scale(0.54); filter: blur(2px) saturate(1.05) contrast(1.05) brightness(0.9); }
+              .member-card.active .member-card__glass{ opacity: 1; transform: translateY(0); }
+              .member-card.active .member-card__info{ opacity: 1; transform: translateY(0); }
+              .member-card.revert .member-card__photo{ transform: translateY(0) scale(1); }
+              @media (prefers-reduced-motion: reduce){
+                .member-card__photo, .member-card__glass, .member-card__info{ transition: none; }
               }
-              @media (min-width: 1024px){
-                .tcard{ animation: tcard-float 10s ease-in-out infinite; }
-                @keyframes tcard-float{ 0%,100%{ transform: translateY(0) } 50%{ transform: translateY(-6px) } }
+              @media (max-width: 420px){
+                .icon-btn{ --size: 40px; }
+                .member-card__bio{ font-size: .93rem; }
               }
-              @media (max-width: 900px){ .teamx__grid{ grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); } }
-              @media (max-width: 640px){ .teamx__grid{ grid-template-columns: 1fr; } }
             `}</style>
           </section>
           {/* ===== end Team ===== */}
 
-          {/* CLIENT FEEDBACK â€” scene (scroll-safe) */}
+          {/* CLIENT FEEDBACK — scene (scroll-safe) */}
           <section id="feedback" className="feedback-scene" style={{position:'relative', zIndex:0}}>
             {/* background phone image (non-interactive) */}
             <div
@@ -369,7 +422,7 @@ export default function About(){
                 <div className="role">{s.role}</div>
                 {s.logo && <img className="brand" src={s.logo} alt="brand" />}
               </div>
-              <div className="quote">â€œ{s.quote}â€</div>
+              <div className="quote">“{s.quote}”</div>
             </div>
 
             <style>{`
@@ -380,7 +433,6 @@ export default function About(){
                 overflow: hidden;
                 border: 1px solid var(--border);
                 background: var(--card);
-                /* ensure this section never traps page scroll */
                 pointer-events: auto;
               }
               .feedback-bg{
@@ -389,7 +441,6 @@ export default function About(){
                 filter: saturate(1.05) contrast(1.05);
                 transform: scale(1.02);
                 z-index: 0;
-                /* critical: background must not intercept wheel/touch events */
                 pointer-events: none;
               }
               .feedback-caption{
@@ -400,58 +451,43 @@ export default function About(){
                 font-size: clamp(18px, 1.6vw, 22px);
                 line-height:1.3;
                 z-index:2;
-                pointer-events: none; /* text is decorative here */
+                pointer-events: none;
               }
-
-              /* ================================
-                 CHANGED: feedback-card (white border)
-                 ================================ */
-
               .feedback-card{
                 position:absolute; left:54%; top:50%;
                 transform: translate(-50%, -50%) rotate(-1.2deg);
                 width: min(285px, 90vw);
                 max-height: 64vh;
                 background:#fff; color:#111;
-                border-radius: 16px;      /* radius increased */
-                /* solid white border for a framed look */
+                border-radius: 16px;
                 border: 8px solid #ffffff;
-                /* keep depth */
                 box-shadow: 0 28px 80px rgba(0,0,0,.30), 0 6px 18px rgba(0,0,0,.18);
                 border: 1px solid rgba(0,0,0,.06);
                 overflow:hidden;
                 animation: cardIn .85s cubic-bezier(.22,.61,.36,1);
-                z-index:3;           /* above bg, below page chrome */
-                pointer-events: auto; /* clickable if you add interactions later */
+                z-index:3;
+                pointer-events: auto;
               }
               .feedback-card::after{
                 content:''; position:absolute; inset:0;
                 background: linear-gradient(180deg, rgba(0,0,0,0) 70%, rgba(0,0,0,.05));
                 pointer-events:none;
               }
-
-              /* =========================================
-                 CHANGED: photo-wrap (photograph cut look)
-                 ========================================= */
-
               .photo-wrap{
                 height: 34%;
                 overflow:hidden;
-                /* white photo frame inside the card */
                 background: #fff;
                 border: 10px solid #fff;
                 border-radius: 10px;
-                /* subtle inner line for â€œcutâ€ detail */
                 box-shadow: inset 0 0 0 1px rgba(0,0,0,.06);
               }
               .photo-wrap img{
                 width:100%; height:100%; object-fit:cover; display:block;
-                border-radius: 6px;        /* soften the photo edge within the frame */
+                border-radius: 6px;
                 transform: scale(1.02);
                 transition: transform 1.2s ease;
               }
               .feedback-card:hover .photo-wrap img{ transform: scale(1.10) }
-
               .meta{ padding:.55rem .85rem .1rem .85rem; display:grid; gap:.1rem }
               .who{ font-weight:900; font-size:.95rem; line-height:1.2 }
               .role{ opacity:.8; font-size:.83rem }
@@ -462,13 +498,11 @@ export default function About(){
                 font-style: italic;
                 font-size:.9rem; line-height:1.34;
               }
-
               @keyframes cardIn{
                 0%{ opacity:0; transform: translate(-50%, -44%) rotate(-6deg) scale(.94) }
                 60%{ opacity:1; transform: translate(-50%, -52%) rotate(1.4deg) scale(1.02) }
                 100%{ opacity:1; transform: translate(-50%, -50%) rotate(-1.2deg) scale(1) }
               }
-
               @media (max-width: 680px){
                 .feedback-caption{ right:1rem; top:1rem }
                 .feedback-card{

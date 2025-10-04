@@ -15,7 +15,14 @@ import heroBg from '../assets/turninsight.jpg'
 import introVideo from '../assets/intro.mp4'
 
 export default function Home() {
-  const [introOpen, setIntroOpen] = useState(true)
+  // Skip intro for return visitors (read once, before first render)
+  const [introOpen, setIntroOpen] = useState(() => {
+    try {
+      return localStorage.getItem('introSeen') === '1' ? false : true
+    } catch {
+      return true
+    }
+  })
   const [isFading, setIsFading] = useState(false)
   const videoRef = useRef(null)
 
@@ -23,6 +30,14 @@ export default function Home() {
     setIntroOpen(false)
   }, [])
 
+  // When intro is shown the first time, record the flag
+  useEffect(() => {
+    if (introOpen) {
+      try { localStorage.setItem('introSeen', '1') } catch {}
+    }
+  }, [introOpen])
+
+  // Lock scroll only while intro overlay is visible
   useEffect(() => {
     if (introOpen) {
       const prev = document.body.style.overflow
