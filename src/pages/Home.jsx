@@ -11,56 +11,79 @@ import Downloads from './downloads'
 import { Link } from 'react-router-dom'
 import heroBg from '../assets/turninsight.jpg'
 
-// ⬇️ Intro video (place your uploaded file at src/assets/intro.mp4)
+// ⬇️ Intro video (recommended): place at src/assets/intro.mp4
+// Fallback (public): /public/intro.mp4
 import introVideo from '../assets/intro.mp4'
 
+const STORAGE_KEY = 'introSeen_v1'
+
 export default function Home() {
-  // Show intro only if not seen before
-  const [introOpen, setIntroOpen] = useState(() => {
-    try { return localStorage.getItem('introSeen') === '1' ? false : true } catch { return true }
-  })
+  // Start with intro open; decide whether to skip after mount (avoids SSR/hydration issues)
+  const [introOpen, setIntroOpen] = useState(true)
   const [isFading, setIsFading] = useState(false)
+  const [duration, setDuration] = useState(null)
   const videoRef = useRef(null)
-  const safetyTimerRef = useRef(null)
+  const fallbackTimer = useRef(null)
 
-  const clearSafetyTimer = () => {
-    if (safetyTimerRef.current) {
-      clearTimeout(safetyTimerRef.current)
-      safetyTimerRef.current = null
-    }
-  }
+  // ✅ Simple, cross-bundler-safe source resolution
+  const videoSrc = introVideo || '/intro.mp4'
 
-  const enterSite = useCallback(() => {
-    clearSafetyTimer()
-    try { localStorage.setItem('introSeen', '1') } catch {}
-    setIntroOpen(false)
-    setIsFading(false)
+  // Return visitors: skip intro
+  useEffect(() => {
+    try {
+      if (localStorage.getItem(STORAGE_KEY)) {
+        setIntroOpen(false)
+      }
+    } catch { /* ignore */ }
   }, [])
 
-  // Optional: try to autoplay; if browser blocks or video can’t load, fall back
-  useEffect(() => {
-    if (!introOpen) return
-    const v = videoRef.current
-    if (!v) return
-    const playPromise = v.play?.()
-    if (playPromise && typeof playPromise.then === 'function') {
-      playPromise.catch(() => {
-        // Autoplay failed → show for a moment then exit
-        safetyTimerRef.current = setTimeout(enterSite, 1200)
-      })
-    }
-    return clearSafetyTimer
-  }, [introOpen, enterSite])
+  const enterSite = useCallback(() => {
+    try { localStorage.setItem(STORAGE_KEY, '1') } catch {}
+    setIntroOpen(false)
+  }, [])
 
-  // Lock scroll while intro overlay is visible
+  // Lock body scroll while intro is showing; stop/reset video when hidden
   useEffect(() => {
-    if (!introOpen) return
-    const prev = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
-    return () => { document.body.style.overflow = prev }
+    if (introOpen) {
+      const prev = document.body.style.overflow
+      document.body.style.overflow = 'hidden'
+      return () => { document.body.style.overflow = prev }
+    } else {
+      const v = videoRef.current
+      if (v) {
+        try { v.pause(); v.currentTime = 0 } catch {}
+      }
+    }
   }, [introOpen])
 
-  // Reveal-on-view for cards
+  // Try to play video promptly; add a safety fallback if events don’t fire
+  useEffect(() => {
+    const v = videoRef.current
+    if (!introOpen || !v) return
+
+    // Best-effort autoplay (muted + playsInline satisfies most policies)
+    const tryPlay = () => {
+      v.play().catch(() => { /* If browser blocks, overlay stays; fallback below will reveal */ })
+    }
+    tryPlay()
+
+    // Fallback: if neither metadata nor timeupdate fires within 12s, reveal site
+    fallbackTimer.current = window.setTimeout(() => {
+      if (!duration && introOpen) {
+        setIsFading(true)
+        window.setTimeout(enterSite, 800)
+      }
+    }, 12000)
+
+    return () => {
+      if (fallbackTimer.current) {
+        clearTimeout(fallbackTimer.current)
+        fallbackTimer.current = null
+      }
+    }
+  }, [introOpen, duration, enterSite])
+
+  // Reveal-on-scroll setup (existing)
   useEffect(() => {
     const svc = Array.from(document.querySelectorAll('.services .svc-card'))
     const reel = Array.from(document.querySelectorAll('.h-reel .h-card'))
@@ -95,21 +118,16 @@ export default function Home() {
         <video
           ref={videoRef}
           className="intro-video"
-          src={introVideo}
+          src={videoSrc}
+          preload="auto"
           autoPlay
           muted
           playsInline
           onLoadedMetadata={(e) => {
             const v = e.currentTarget
-            // Safety: if 'ended' doesn't fire, exit after duration + small buffer
-            if (v && isFinite(v.duration) && v.duration > 0) {
-              clearSafetyTimer()
-              safetyTimerRef.current = setTimeout(enterSite, (v.duration + 0.5) * 1000)
-            } else {
-              // Unknown duration → 5s fallback
-              clearSafetyTimer()
-              safetyTimerRef.current = setTimeout(enterSite, 5000)
-            }
+            setDuration(v.duration || null)
+            // Nudge playback after metadata
+            v.play().catch(() => {})
           }}
           onTimeUpdate={() => {
             const v = videoRef.current
@@ -119,14 +137,20 @@ export default function Home() {
               setIsFading(true)
             }
           }}
+          onCanPlay={(e) => {
+            const v = e.currentTarget
+            if (v.paused) { v.play().catch(() => {}) }
+          }}
           onEnded={enterSite}
-          onError={enterSite}
+          onError={() => {
+            // Graceful fallback if the video fails to load/play
+            setIsFading(true)
+            setTimeout(enterSite, 500)
+          }}
         />
-        {/* Manual skip (useful if user doesn’t want to wait) */}
-        <button className="intro-skip" onClick={enterSite} aria-label="Skip intro">Skip</button>
       </div>
 
-      {/* === HOME CONTENT (fades in when intro closes) === */}
+      {/* Wrap the real Home content so we can fade it in smoothly */}
       <div className={`home-content ${introOpen ? 'concealed' : 'revealed'}`}>
         {/* === HOME CORE === */}
         <Hero />
@@ -187,11 +211,10 @@ export default function Home() {
               line-height: 1.45;
             }
             .hero-morph .hm-old{ color: #000; }
-            .hero-morph .hm-new{ color: var(--accent-600, #0e99d5); }
-            .hero-morph .hm-old .hm-sub{ color: #fefefe; }
-            .hero-morph .hm-new .hm-sub{ color: #fefefe; }
+            .hero-morph .hm-new{ color: var(--accent-600, #000); }
+            .hero-morph .hm-old .hm-sub{ color: #fefefeff; }
+            .hero-morph .hm-new .hm-sub{ color: #fefefeff; }
 
-            /* 8s loop: old 0–3s, crossfade .5s, new 3.5–8s */
             .hero-morph .hm-old{
               opacity: 1;
               animation: hmOld 8s ease-in-out infinite;
@@ -235,14 +258,14 @@ export default function Home() {
         {/* About */}
         <div id="about" className="page-anchor" />
         <section className="page wide">
-          <SectionHeader title="About" />
+          <SectionHeader title="About" subtitle="Full page content inlined below" />
           <About />
         </section>
 
         {/* Contact */}
         <div id="contact" className="page-anchor" />
         <section className="page wide">
-          <SectionHeader title="Contact" />
+          <SectionHeader title="Contact" subtitle="Full page content inlined below" />
           <Contact />
         </section>
 
@@ -316,24 +339,9 @@ export default function Home() {
         .intro-video{
           width: 100vw;
           height: 100vh;
-          object-fit: contain; /* no crop; letterbox as needed */
+          object-fit: contain; /* no zoom/crop; letterbox as needed */
           background: #000;    /* fill any empty space around the video */
         }
-
-        .intro-skip{
-          position: absolute;
-          right: 18px;
-          bottom: 18px;
-          background: rgba(255,255,255,.12);
-          color: #fff;
-          border: 1px solid rgba(255,255,255,.25);
-          border-radius: 12px;
-          padding: .55rem .85rem;
-          font-weight: 700;
-          cursor: pointer;
-          backdrop-filter: blur(6px);
-        }
-        .intro-skip:hover{ background: rgba(255,255,255,.18); }
 
         @media (prefers-reduced-motion: reduce){
           .home-content{ transition: none; }
