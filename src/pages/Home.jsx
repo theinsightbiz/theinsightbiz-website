@@ -11,79 +11,26 @@ import Downloads from './downloads'
 import { Link } from 'react-router-dom'
 import heroBg from '../assets/turninsight.jpg'
 
-// ⬇️ Intro video (recommended): place at src/assets/intro.mp4
-// Fallback (public): /public/intro.mp4
+// ⬇️ Intro video (place your uploaded file at src/assets/intro.mp4)
 import introVideo from '../assets/intro.mp4'
 
-const STORAGE_KEY = 'introSeen_v1'
-
 export default function Home() {
-  // Start with intro open; decide whether to skip after mount (avoids SSR/hydration issues)
   const [introOpen, setIntroOpen] = useState(true)
   const [isFading, setIsFading] = useState(false)
-  const [duration, setDuration] = useState(null)
   const videoRef = useRef(null)
-  const fallbackTimer = useRef(null)
-
-  // ✅ Simple, cross-bundler-safe source resolution
-  const videoSrc = introVideo || '/intro.mp4'
-
-  // Return visitors: skip intro
-  useEffect(() => {
-    try {
-      if (localStorage.getItem(STORAGE_KEY)) {
-        setIntroOpen(false)
-      }
-    } catch { /* ignore */ }
-  }, [])
 
   const enterSite = useCallback(() => {
-    try { localStorage.setItem(STORAGE_KEY, '1') } catch {}
     setIntroOpen(false)
   }, [])
 
-  // Lock body scroll while intro is showing; stop/reset video when hidden
   useEffect(() => {
     if (introOpen) {
       const prev = document.body.style.overflow
       document.body.style.overflow = 'hidden'
       return () => { document.body.style.overflow = prev }
-    } else {
-      const v = videoRef.current
-      if (v) {
-        try { v.pause(); v.currentTime = 0 } catch {}
-      }
     }
   }, [introOpen])
 
-  // Try to play video promptly; add a safety fallback if events don’t fire
-  useEffect(() => {
-    const v = videoRef.current
-    if (!introOpen || !v) return
-
-    // Best-effort autoplay (muted + playsInline satisfies most policies)
-    const tryPlay = () => {
-      v.play().catch(() => { /* If browser blocks, overlay stays; fallback below will reveal */ })
-    }
-    tryPlay()
-
-    // Fallback: if neither metadata nor timeupdate fires within 12s, reveal site
-    fallbackTimer.current = window.setTimeout(() => {
-      if (!duration && introOpen) {
-        setIsFading(true)
-        window.setTimeout(enterSite, 800)
-      }
-    }, 12000)
-
-    return () => {
-      if (fallbackTimer.current) {
-        clearTimeout(fallbackTimer.current)
-        fallbackTimer.current = null
-      }
-    }
-  }, [introOpen, duration, enterSite])
-
-  // Reveal-on-scroll setup (existing)
   useEffect(() => {
     const svc = Array.from(document.querySelectorAll('.services .svc-card'))
     const reel = Array.from(document.querySelectorAll('.h-reel .h-card'))
@@ -118,17 +65,11 @@ export default function Home() {
         <video
           ref={videoRef}
           className="intro-video"
-          src={videoSrc}
-          preload="auto"
+          src={introVideo}
           autoPlay
           muted
           playsInline
-          onLoadedMetadata={(e) => {
-            const v = e.currentTarget
-            setDuration(v.duration || null)
-            // Nudge playback after metadata
-            v.play().catch(() => {})
-          }}
+          onEnded={enterSite}
           onTimeUpdate={() => {
             const v = videoRef.current
             if (!v) return
@@ -136,16 +77,6 @@ export default function Home() {
             if (!isFading && v.duration && v.duration - v.currentTime <= 1.2) {
               setIsFading(true)
             }
-          }}
-          onCanPlay={(e) => {
-            const v = e.currentTarget
-            if (v.paused) { v.play().catch(() => {}) }
-          }}
-          onEnded={enterSite}
-          onError={() => {
-            // Graceful fallback if the video fails to load/play
-            setIsFading(true)
-            setTimeout(enterSite, 500)
           }}
         />
       </div>
@@ -248,7 +179,7 @@ export default function Home() {
         <section className="page wide services" id="home-services-overview">
           <h2>What services we are offering</h2>
           <div className="grid4">
-            <div className="svc-card"><h4>Financial Advisory</h4><p>Guidance to individuals and businesses on managing finances, investment strategies, retirement planning, and portfolio optimization.</p></div>
+            <div className="svc-card"><h4>Financial Advisory Services</h4><p>Guidance to individuals and businesses on managing finances, investment strategies, retirement planning, and portfolio optimization.</p></div>
             <div className="svc-card"><h4>Tax Compliance & Advisory</h4><p>Ensures businesses adhere to tax regulations while optimizing tax liabilities. We help you navigate complex tax laws and minimize financial risks.</p></div>
             <div className="svc-card"><h4>Accounting & Bookkeeping</h4><p>From managing daily transactions to preparing financial statements, we maintain accurate records and provide insights to help your business grow efficiently.</p></div>
             <div className="svc-card"><h4>Regulatory & Compliance</h4><p>Ensure your business adheres to legal standards and industry regulations across jurisdictions with expert guidance, audits, and streamlined operations.</p></div>
@@ -339,7 +270,7 @@ export default function Home() {
         .intro-video{
           width: 100vw;
           height: 100vh;
-          object-fit: contain; /* no zoom/crop; letterbox as needed */
+          object-fit: contain; /* ensure no zoom/crop; letterbox as needed */
           background: #000;    /* fill any empty space around the video */
         }
 
