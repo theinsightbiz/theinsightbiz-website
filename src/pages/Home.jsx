@@ -15,37 +15,52 @@ import heroBg from '../assets/turninsight.jpg'
 import introVideo from '../assets/intro.mp4'
 
 export default function Home() {
-  // Skip intro for return visitors (read once, before first render)
+  // Show intro only if not seen before
   const [introOpen, setIntroOpen] = useState(() => {
-    try {
-      return localStorage.getItem('introSeen') === '1' ? false : true
-    } catch {
-      return true
-    }
+    try { return localStorage.getItem('introSeen') === '1' ? false : true } catch { return true }
   })
   const [isFading, setIsFading] = useState(false)
   const videoRef = useRef(null)
+  const safetyTimerRef = useRef(null)
+
+  const clearSafetyTimer = () => {
+    if (safetyTimerRef.current) {
+      clearTimeout(safetyTimerRef.current)
+      safetyTimerRef.current = null
+    }
+  }
 
   const enterSite = useCallback(() => {
+    clearSafetyTimer()
+    try { localStorage.setItem('introSeen', '1') } catch {}
     setIntroOpen(false)
+    setIsFading(false)
   }, [])
 
-  // When intro is shown the first time, record the flag
+  // Optional: try to autoplay; if browser blocks or video can’t load, fall back
   useEffect(() => {
-    if (introOpen) {
-      try { localStorage.setItem('introSeen', '1') } catch {}
+    if (!introOpen) return
+    const v = videoRef.current
+    if (!v) return
+    const playPromise = v.play?.()
+    if (playPromise && typeof playPromise.then === 'function') {
+      playPromise.catch(() => {
+        // Autoplay failed → show for a moment then exit
+        safetyTimerRef.current = setTimeout(enterSite, 1200)
+      })
     }
+    return clearSafetyTimer
+  }, [introOpen, enterSite])
+
+  // Lock scroll while intro overlay is visible
+  useEffect(() => {
+    if (!introOpen) return
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => { document.body.style.overflow = prev }
   }, [introOpen])
 
-  // Lock scroll only while intro overlay is visible
-  useEffect(() => {
-    if (introOpen) {
-      const prev = document.body.style.overflow
-      document.body.style.overflow = 'hidden'
-      return () => { document.body.style.overflow = prev }
-    }
-  }, [introOpen])
-
+  // Reveal-on-view for cards
   useEffect(() => {
     const svc = Array.from(document.querySelectorAll('.services .svc-card'))
     const reel = Array.from(document.querySelectorAll('.h-reel .h-card'))
@@ -84,7 +99,18 @@ export default function Home() {
           autoPlay
           muted
           playsInline
-          onEnded={enterSite}
+          onLoadedMetadata={(e) => {
+            const v = e.currentTarget
+            // Safety: if 'ended' doesn't fire, exit after duration + small buffer
+            if (v && isFinite(v.duration) && v.duration > 0) {
+              clearSafetyTimer()
+              safetyTimerRef.current = setTimeout(enterSite, (v.duration + 0.5) * 1000)
+            } else {
+              // Unknown duration → 5s fallback
+              clearSafetyTimer()
+              safetyTimerRef.current = setTimeout(enterSite, 5000)
+            }
+          }}
           onTimeUpdate={() => {
             const v = videoRef.current
             if (!v) return
@@ -93,10 +119,14 @@ export default function Home() {
               setIsFading(true)
             }
           }}
+          onEnded={enterSite}
+          onError={enterSite}
         />
+        {/* Manual skip (useful if user doesn’t want to wait) */}
+        <button className="intro-skip" onClick={enterSite} aria-label="Skip intro">Skip</button>
       </div>
 
-      {/* Wrap the real Home content so we can fade it in smoothly */}
+      {/* === HOME CONTENT (fades in when intro closes) === */}
       <div className={`home-content ${introOpen ? 'concealed' : 'revealed'}`}>
         {/* === HOME CORE === */}
         <Hero />
@@ -157,10 +187,11 @@ export default function Home() {
               line-height: 1.45;
             }
             .hero-morph .hm-old{ color: #000; }
-            .hero-morph .hm-new{ color: var(--accent-600, #000); }
-            .hero-morph .hm-old .hm-sub{ color: #fefefeff; }
-            .hero-morph .hm-new .hm-sub{ color: #fefefeff; }
+            .hero-morph .hm-new{ color: var(--accent-600, #0e99d5); }
+            .hero-morph .hm-old .hm-sub{ color: #fefefe; }
+            .hero-morph .hm-new .hm-sub{ color: #fefefe; }
 
+            /* 8s loop: old 0–3s, crossfade .5s, new 3.5–8s */
             .hero-morph .hm-old{
               opacity: 1;
               animation: hmOld 8s ease-in-out infinite;
@@ -285,9 +316,24 @@ export default function Home() {
         .intro-video{
           width: 100vw;
           height: 100vh;
-          object-fit: contain; /* ensure no zoom/crop; letterbox as needed */
+          object-fit: contain; /* no crop; letterbox as needed */
           background: #000;    /* fill any empty space around the video */
         }
+
+        .intro-skip{
+          position: absolute;
+          right: 18px;
+          bottom: 18px;
+          background: rgba(255,255,255,.12);
+          color: #fff;
+          border: 1px solid rgba(255,255,255,.25);
+          border-radius: 12px;
+          padding: .55rem .85rem;
+          font-weight: 700;
+          cursor: pointer;
+          backdrop-filter: blur(6px);
+        }
+        .intro-skip:hover{ background: rgba(255,255,255,.18); }
 
         @media (prefers-reduced-motion: reduce){
           .home-content{ transition: none; }
