@@ -16,45 +16,57 @@ export default function Services(){
   useEffect(() => {
   if (typeof window === 'undefined') return;
 
-  const elements = Array.from(
-    document.querySelectorAll('.work-row, .work-card')
-  );
+  const selector = '.work-row, .work-card';
+  const nodes = Array.from(document.querySelectorAll(selector));
 
-  // Ensure base state exists but avoid redundant work
-  elements.forEach((el) => el.classList.add('reveal'));
+  // Ensure base state only once
+  nodes.forEach(n => {
+    if (!n.classList.contains('reveal')) n.classList.add('reveal');
+  });
 
-  let io;
+  let cancelled = false;
 
   const onIntersect = (entries, observer) => {
-    // Batch DOM writes to avoid layout thrash while scrolling
-    requestAnimationFrame(() => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) {
-          e.target.classList.add('show');
-          observer.unobserve(e.target);
-        }
+    if (cancelled) return;
+
+    const toShow = [];
+    for (const entry of entries) {
+      if (entry.isIntersecting) {
+        toShow.push(entry.target);
+        observer.unobserve(entry.target); // stop observing ASAP
+      }
+    }
+
+    if (toShow.length) {
+      requestAnimationFrame(() => {
+        if (cancelled) return;
+        for (const el of toShow) el.classList.add('show');
       });
-    });
+    }
   };
 
-  if ('IntersectionObserver' in window) {
-    io = new IntersectionObserver(onIntersect, {
-      root: null,
-      threshold: 0.15,             // a bit lower to trigger earlier
-      rootMargin: '0px 0px -5% 0px' // gentler bottom margin
-    });
+  const io = 'IntersectionObserver' in window
+    ? new IntersectionObserver(onIntersect, {
+        root: null,
+        threshold: 0.12,
+        rootMargin: '0px 0px -8% 0px'
+      })
+    : null;
 
-    // Only observe items not already shown
-    elements.forEach((el) => {
+  if (io) {
+    nodes.forEach(el => {
       if (!el.classList.contains('show')) io.observe(el);
     });
   } else {
-    // Fallback: just show all
-    elements.forEach((el) => el.classList.add('show'));
+    nodes.forEach(el => el.classList.add('show'));
   }
 
-  return () => io?.disconnect();
+  return () => {
+    cancelled = true;
+    if (io && typeof io.disconnect === 'function') io.disconnect();
+  };
 }, [view, cat]);
+
 
 
   const openDetail = (slug) => navigate(`/services/${slug}`)
