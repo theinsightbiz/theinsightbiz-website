@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { SERVICES, findServiceBySlug, SERVICE_CATEGORIES } from '../data/servicesCatalog' // ← added SERVICES
 import { getCoverForService } from '../data/serviceImages'
@@ -1461,6 +1461,9 @@ const makeTemplate = (svc) => ({
   documents: [{ heading: 'Documents required (as applicable)', items: ['[Edit] List documents here.'] }],
 })
 
+// ─────────────────────────────────────────────────────────────────────────────
+// UPDATED COMPONENT
+// ─────────────────────────────────────────────────────────────────────────────
 export default function ServiceDetail(){
   const { slug } = useParams()
   const svc = findServiceBySlug(slug)
@@ -1485,8 +1488,7 @@ export default function ServiceDetail(){
   const spec = SECTIONS[svc.slug] || makeTemplate(svc)
   const { included = [], timelines = [], documents = [] } = spec
 
-  // ===== NEXT navigation (Individuals → Companies → Partnerships → NGOs) =====
-  // Use explicit label order to avoid reliance on array order elsewhere
+  // ===== Navigation order (Individuals → Companies → Partnerships → NGOs) =====
   const ORDERED_LABELS = [
     'Individuals & Sole Prop.',
     'Companies',
@@ -1496,7 +1498,6 @@ export default function ServiceDetail(){
   const labelToKey = new Map(SERVICE_CATEGORIES.map(c => [c.label, c.key]))
   const orderedKeys = ORDERED_LABELS.map(l => labelToKey.get(l)).filter(Boolean)
 
-  // Build a linear list in the required order; preserve original SERVICES order within each category
   const orderedServices = []
   for (const key of orderedKeys) {
     for (const s of SERVICES) {
@@ -1504,8 +1505,22 @@ export default function ServiceDetail(){
     }
   }
   const idx = orderedServices.findIndex(s => s.slug === slug)
-  const nextSlug = idx >= 0 && idx < orderedServices.length - 1 ? orderedServices[idx + 1].slug : null
-  // ==========================================================================
+
+  // NEW: previous slug (hidden when on very first service)
+  const prevSlug = idx > 0 ? orderedServices[idx - 1].slug : null
+
+  // Existing: next slug (hidden when on very last service)
+  const nextSlug = idx >= 0 && idx < orderedServices.length - 1
+    ? orderedServices[idx + 1].slug
+    : null
+
+  // ── Tabs state
+  const TABS = [
+    { key: 'included',  label: "What’s included",      count: included.length },
+    { key: 'timelines', label: 'Timelines',            count: timelines.length },
+    { key: 'documents', label: 'Documents required',   count: documents.length },
+  ]
+  const [active, setActive] = useState(TABS.find(t => t.count > 0)?.key || 'included')
 
   return (
     <section className="page wide">
@@ -1515,53 +1530,88 @@ export default function ServiceDetail(){
         <p>{catLabel}</p>
       </div>
 
-      <article className="detail">
-        {/* TOP-CENTER IMAGE */}
-        <div className="lead">
-          <img src={cover} alt={svc.title} />
-        </div>
+      {/* TWO-COLUMN LAYOUT */}
+      <article className="svc-layout">
+        {/* LEFT: compact service photo inside a “Service Overview” card */}
+        <aside className="svc-left">
+          <h3 className="svc-left-title">Service Overview</h3>
+          <div className="svc-photo">
+            <img src={cover} alt={svc.title} />
+          </div>
+        </aside>
 
-        {/* FULL-WIDTH CONTENT BELOW */}
-        <div className="panel-premium prose">
-          {/* 1) What’s included */}
-          {included.length > 0 && (
-            <>
-              <h3>What’s included</h3>
-              <ul>{included.map((t, i) => <li key={i}>{t}</li>)}</ul>
-            </>
-          )}
+        {/* RIGHT: tabbed content */}
+        <div className="svc-right">
+          {/* Tabs */}
+          <nav className="svc-tabs" role="tablist" aria-label="Service sections">
+            {TABS.map(tab => (
+              <button
+                key={tab.key}
+                type="button"
+                className={`svc-tab ${active === tab.key ? 'active' : ''}`}
+                role="tab"
+                aria-selected={active === tab.key}
+                onClick={() => setActive(tab.key)}
+              >
+                <span className="svc-tab-label">{tab.label}</span>
+              </button>
+            ))}
+          </nav>
 
-          {/* 2) Timelines */}
-          {timelines.length > 0 && (
-            <>
-              <h3>Timelines</h3>
-              <ul>{timelines.map((t, i) => <li key={i}>{t}</li>)}</ul>
-            </>
-          )}
+          {/* Panel */}
+          <div className="svc-panel prose" role="tabpanel">
+            {active === 'included' && included.length > 0 && (
+              <>
+                <h3 className="sr-only">What’s included</h3>
+                <ul>{included.map((t, i) => <li key={i}>{t}</li>)}</ul>
+              </>
+            )}
 
-          {/* 3) Documents required (with sub-groups) */}
-          {documents.length > 0 && (
-            <>
-              <h3>Documents required (as applicable)</h3>
-              {documents.map((grp, i) => (
-                <div key={i} style={{marginBottom:'.65rem'}}>
-                  {grp.heading ? <h4 style={{margin:'0 0 .25rem 0'}}>{grp.heading}</h4> : null}
-                  <ul style={{marginTop:0}}>
-                    {(grp.items || []).map((d, j) => <li key={j}>{d}</li>)}
-                  </ul>
-                </div>
-              ))}
-            </>
-          )}
+            {active === 'timelines' && timelines.length > 0 && (
+              <>
+                <h3 className="sr-only">Timelines</h3>
+                <ul>{timelines.map((t, i) => <li key={i}>{t}</li>)}</ul>
+              </>
+            )}
 
-          <div className="cta">
-            <Link className="btn-primary" to="/contact">Contact for more</Link>
-            <Link className="btn-ghost" to="/services">Back to All Work</Link>
+            {active === 'documents' && documents.length > 0 && (
+              <>
+                <h3 className="sr-only">Documents required</h3>
+                {documents.map((grp, i) => (
+                  <div key={i} className="doc-group">
+                    {grp.heading ? <h4>{grp.heading}</h4> : null}
+                    <ul>{(grp.items || []).map((d, j) => <li key={j}>{d}</li>)}</ul>
+                  </div>
+                ))}
+              </>
+            )}
+          </div>
+
+          {/* Centered CTA */}
+          <div className="svc-cta">
+            <h3>Ready to get started?</h3>
+            <div className="svc-cta-actions">
+              <Link className="btn-primary" to="/contact">Contact for more</Link>
+              <Link className="btn-ghost" to="/services">Back to All Work</Link>
+            </div>
           </div>
         </div>
       </article>
 
-      {/* Floating Next arrow – mid-right; hidden on last service */}
+      {/* NEW: Floating Previous arrow – mid-left; hidden on very first service */}
+      {prevSlug && (
+        <button
+          type="button"
+          className="prev-floater"
+          aria-label="Previous service"
+          onClick={() => navigate(`/services/${prevSlug}`)}
+          title="Previous"
+        >
+          ← Previous
+        </button>
+      )}
+
+      {/* Existing: Floating Next arrow – mid-right; hidden on last service */}
       {nextSlug && (
         <button
           type="button"
@@ -1574,44 +1624,80 @@ export default function ServiceDetail(){
         </button>
       )}
 
+      {/* ───────────────────────── Styles ───────────────────────── */}
       <style>{`
-        /* One-column flow */
-        .detail{
-          display:block;
+        /* Layout */
+        .svc-layout{
+          display:grid;
+          grid-template-columns: 320px 1fr;
+          gap: 1.2rem;
+        }
+        @media (max-width: 900px){
+          .svc-layout{ grid-template-columns: 1fr; }
         }
 
-        /* Centered top image */
-        .lead{
-          display:flex;
-          justify-content:center;
-          align-items:center;
-          border:1px solid var(--border);
-          border-radius:16px;
-          overflow:hidden;
-          background:var(--card);
-          margin-bottom:1rem;
+        /* Left card */
+        .svc-left-title{
+          font-size: .95rem;
+          font-weight: 700;
+          margin: 0 0 .5rem 0;
+          opacity: .9;
         }
-        .lead img{
-          width:100%;
-          max-width:1200px; /* feel free to tweak */
-          height:auto;
-          display:block;
-          object-fit:cover;
+        .svc-photo{
+          border: 1px solid var(--border);
+          border-radius: 16px;
+          overflow: hidden;
+          background: var(--card);
         }
-
-        /* Make the content span the full available width */
-        .panel-premium.prose{
-          width:100%;
-          max-width:none;   /* no artificial narrow column */
+        .svc-photo img{
+          width: 100%;
+          height: 200px;
+          object-fit: cover;
+          display: block;
         }
 
-        .prose p{ opacity:.9 }
-        .prose h3{ margin-top:.5rem }
-        .prose h4{ font-size:1rem; opacity:.9 }
+        /* Tabs */
+        .svc-right{ display:flex; flex-direction:column; gap:.9rem; }
+        .svc-tabs{
+          display:flex; gap:.6rem; flex-wrap:wrap;
+          border-bottom: 1px solid var(--border);
+          padding-bottom: .4rem;
+        }
+        .svc-tab{
+          appearance:none; border:none; cursor:pointer;
+          padding: .55rem .85rem; border-radius: 999px;
+          background: transparent; font-weight:700;
+        }
+        .svc-tab.active{
+          background: var(--accent-50, #e9f6fd);
+          color: var(--accent-700, #086d9c);
+          border: 1px solid var(--accent-200, #bfe7f7);
+        }
 
-        .cta{ display:flex; gap:.6rem; margin-top:.6rem }
+        /* Panel */
+        .svc-panel{
+          border: 1px solid var(--border);
+          border-radius: 16px;
+          background: var(--card);
+          padding: 1rem 1.1rem;
+        }
+        .doc-group{ margin-bottom: .7rem; }
+        .doc-group h4{
+          margin: 0 0 .25rem 0; font-size: 1rem; opacity: .9;
+        }
+
+        /* CTA (centered) */
+        .svc-cta{
+          text-align:center;
+          margin-top: .4rem;
+          padding: 0.4rem 0 .1rem;
+        }
+        .svc-cta h3{ margin: .4rem 0 .6rem; }
+        .svc-cta-actions{
+          display:flex; gap:.6rem; justify-content:center;
+        }
         .btn-primary{
-          background:var(--accent-600, #0e99d5);
+          background: var(--accent-600, #0e99d5);
           color:#fff; border:none; border-radius:12px; padding:.7rem .95rem;
           font-weight:700; cursor:pointer; text-decoration:none; display:inline-block;
         }
@@ -1620,30 +1706,27 @@ export default function ServiceDetail(){
           padding:.68rem .95rem; text-decoration:none; color:inherit;
         }
 
-        /* Floating next arrow */
+        /* Floating arrows */
+        .prev-floater{
+          position: fixed; left: 18px; top: 50%; transform: translateY(-50%);
+          z-index: 50; background: var(--accent-600, #0e99d5); color:#fff; border: none;
+          border-radius: 999px; padding: .6rem .9rem; font-weight: 800; cursor: pointer;
+          box-shadow: 0 12px 26px rgba(14,153,213,0.28);
+        }
+        .prev-floater:hover{ filter: brightness(1.05); }
+
         .next-floater{
-          position: fixed;
-          right: 18px;
-          top: 50%;
-          transform: translateY(-50%);
-          z-index: 50;
-          background: var(--accent-600, #0e99d5);
-          color:#fff;
-          border: none;
-          border-radius: 999px;
-          padding: .6rem .9rem;
-          font-weight: 800;
-          cursor: pointer;
-          box-shadow: 0 12px 26px rgba(14,153,213,.28);
+          position: fixed; right: 18px; top: 50%; transform: translateY(-50%);
+          z-index: 50; background: var(--accent-600, #0e99d5); color:#fff; border: none;
+          border-radius: 999px; padding: .6rem .9rem; font-weight: 800; cursor: pointer;
+          box-shadow: 0 12px 26px rgba(14,153,213,0.28);
         }
         .next-floater:hover{ filter: brightness(1.05); }
-        @media (max-width: 820px){
-          .next-floater{ right: 10px; padding: .55rem .8rem; }
-        }
 
-        /* Mobile keeps the same stacking naturally */
-        @media (max-width: 720px){
-          .lead img{ max-width:100%; }
+        /* A11y helpers */
+        .sr-only{
+          position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+          overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
         }
       `}</style>
     </section>

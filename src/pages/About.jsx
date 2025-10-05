@@ -162,7 +162,11 @@ export default function About(){
         {/* Stream */}
         <div className="about-stream" style={{display:'grid', gap:'1.2rem', position:'relative', zIndex:1}}>
           {/* BIO */}
-          <section id="bio" className="panel-premium">
+          <section
+            id="bio"
+            className="panel-premium"
+            style={{ padding: '12px 16px 14px', minHeight: 'auto' }}
+          >
             <h2 style={{marginTop:0}}>Why Work With Us ?</h2>
             <p>
               We bring a personalized, results-driven approach to every client engagement. Whether you're expanding internationally, optimizing taxes, or seeking financial clarity, we ensure tailored solutions to meet your business goals.
@@ -172,7 +176,7 @@ export default function About(){
               Reach out to us today and discuss how we can help streamline your business operations and ensure compliance in dynamic markets.
             </p>
 
-            <div className="tile-grid" style={{marginTop:'.8rem'}}>
+            <div className="tile-grid" style={{marginTop:'.4rem'}}>
               <article className="tile">
                 <h3>4+ Jurisdictions</h3>
                 <p className="m0">India, UAE, UK, USA - Global Coverage. Consistent Delivery.</p>
@@ -187,6 +191,13 @@ export default function About(){
               </article>
             </div>
           </section>
+
+          {/* local spacing fixes for this box only */}
+          <style>{`
+            #bio.panel-premium{ padding-bottom: 12px !important; }
+            #bio > *:last-child{ margin-bottom: 0; }
+            #bio p{ margin: 8px 0; line-height: 1.4; }
+          `}</style>
 
           {/* SERVICES */}
           <section id="services" className="panel-premium">
