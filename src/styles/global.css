@@ -680,5 +680,32 @@ a.btn.linklike{border:1px dashed var(--border); background:transparent}
 /* Tighten base page to match premium rhythm */
 .page.wide{ max-width:1280px }
 
+/* === Site-wide page background (put at END of your global CSS) === */
+html, body, #root, .site-shell { min-height: 100%; }
+
+/* One fixed layer behind everything (covers left/right/bottom) */
+.site-shell::before{
+  content:"";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  /* If you used the image import in App.jsx: */
+  background-image: var(--page-bg);
+  /* If you kept the image in /public, replace the line above with: */
+  /* background-image: url("/images/page-bg.jpg"); */
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* remove if you don’t want parallax */
+}
+
+/* Let the background show through page wrappers */
+body, .page, .wide { background: transparent !important; }
+
+/* Keep cards readable without full white slabs (optional) */
+.panel-premium, .card.glass { background-color: rgba(255,255,255,.88); }
+
+/* If your footer has a solid bg, make it transparent */
+footer, .site-footer { background: transparent !important; }
 
 

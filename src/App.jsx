@@ -13,11 +13,13 @@ import Contact from './pages/Contact'
 import Privacy from './pages/Privacy'
 import Downloads from './pages/downloads'
 import ScrollToTop from './components/ScrollToTop'
+import pageBg from './assets/page-bg.jpg'
 
 export default function App(){
   return (
     <div className="app-container">
       <Navbar />
+      <div className="site-shell" style={{ '--page-bg': `url(${pageBg})` }}></div>
       <ScrollToTop />   {/* <- ensures top-of-page on every route change */}
       <main className="main-content">
         <Routes>
