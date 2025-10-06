@@ -5,7 +5,7 @@ import TeamGrid from '../components/TeamGrid'
 import ceo1 from '../assets/ceo-1.jpg'
 import founder2 from '../assets/founder-2.jpg'
 import trustee3 from '../assets/trustee-3.jpg'
-import phoneBg from '../assets/phone-bg.jpg'
+import phoneBg from '../assets/feedback-bg.jpg'
 
 // ✅ NEW: team member photos imported from src/assets (no /team subfolder)
 import Priyam from '../assets/priyam-adarsh.jpg'
@@ -420,7 +420,7 @@ export default function About(){
 
             {/* right caption text */}
             <div className="feedback-caption">
-              Their expertise transformed<br/>our digital presence.
+              Their expertise transformed<br/>our business presence.
             </div>
 
             {/* floating photo card that cycles */}
@@ -465,7 +465,7 @@ export default function About(){
                 pointer-events: none;
               }
               .feedback-card{
-                position:absolute; left:54%; top:50%;
+                position:absolute; left:20%; top:50%;
                 transform: translate(-50%, -50%) rotate(-1.2deg);
                 width: min(285px, 90vw);
                 max-height: 64vh;
