@@ -189,20 +189,18 @@ export default function Home() {
         {/* About */}
         <div id="about" className="page-anchor" />
         <section className="page wide">
-          <SectionHeader title="About" />
           <About />
         </section>
 
         {/* Contact */}
         <div id="contact" className="page-anchor" />
         <section className="page wide">
-          <SectionHeader title="Contact" />
           <Contact />
         </section>
 
         {/* Explore */}
         <section className="page wide" aria-label="Explore other pages" style={{marginTop: '1rem'}}>
-          <h2>Explore</h2>
+          <SectionHeader title="Explore other pages" subtitle="Discover more about our offerings and resources" />
           <div className="grid5" style={{display:'grid', gridTemplateColumns:'repeat(5, minmax(120px,1fr))', gap:'.8rem'}}>
             <Link to="/services" className="card glass" style={{padding:'0.9rem 1rem', textDecoration:'none'}}>
               <h4 style={{margin:0}}>Services</h4>
@@ -281,10 +279,38 @@ export default function Home() {
       `}</style>
 
       <style>{`
+      /* Break the Explore section out to full viewport width */
+      section.page.wide[aria-label="Explore other pages"] {
+      position: relative;
+      width: 100vw;
+      left: 50%;
+      right: 50%;
+      margin-left: -34vw;
+      margin-right: -34vw;
+      }
+      /* Center the inner grid and make it wider than the normal page width */
+      section.page.wide[aria-label="Explore other pages"] .grid5 {
+      max-width: 1400px;     /* adjust to taste: 1280–1440px are common */
+      margin: 0 auto;        /* center the grid */
+      padding-inline: 24px;  /* side gutters */
+      }
+      `}</style>
+
+      <style>{`
         .page-anchor { position: relative; top: -80px; height: 0; }
         .section-head { margin: 0 0 1rem 0; }
         .section-head h2 { margin: 0; font-weight: 900; letter-spacing: -0.2px; }
         .section-head p { margin: .25rem 0 0 0; opacity: .8; }
+      `}</style>
+
+      <style>{`
+      section.page.wide[aria-label="Explore other pages"] .section-head {
+      text-align: center;
+      left: 40%;
+      right: 40%;
+      margin-left: -75vw;
+      margin-right: -60vw;
+      } 
       `}</style>
     </>
   );
