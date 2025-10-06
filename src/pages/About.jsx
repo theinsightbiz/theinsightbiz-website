@@ -465,7 +465,7 @@ export default function About(){
                 pointer-events: none;
               }
               .feedback-card{
-                position:absolute; left:20%; top:50%;
+                position:absolute; left:70%; top:50%;
                 transform: translate(-50%, -50%) rotate(-1.2deg);
                 width: min(285px, 90vw);
                 max-height: 64vh;
