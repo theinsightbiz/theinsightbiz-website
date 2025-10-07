@@ -5,12 +5,33 @@ import { useDispatch, useSelector } from 'react-redux'
 import { toggleMenu } from '../actions'
 import { FaBars, FaTimes } from 'react-icons/fa'
 
+/** Global hotfix: kill any max-width caps causing the narrow column on mobile */
+const GlobalWidthFix = () => (
+  <style>{`
+    html, body, #root {
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 !important;
+      padding: 0;             
+    }
+    /* If your CSS framework uses container/wrapper classes, override them */
+    .container, .container-fluid, .wrapper, .page, .content, .section, .hero, .grid {
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+    header.navbar, .nav-inner, nav.menu {
+      width: 100% !important;
+      max-width: 100vw !important;
+      box-sizing: border-box;
+    }
+  `}</style>
+)
+
 const NavItem = ({ to, label, onClick }) => (
   <NavLink
     to={to}
     onClick={onClick}
     className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')}
-    // Make sure links don’t shrink on small screens
     style={{ whiteSpace: 'nowrap' }}
   >
     {label}
@@ -19,9 +40,9 @@ const NavItem = ({ to, label, onClick }) => (
 
 export default function Navbar() {
   const dispatch = useDispatch()
-  const open = useSelector((s) => s.ui.mobileMenuOpen)
+  const open = useSelector((s) => s.ui?.mobileMenuOpen)
 
-  // Inline styles to guarantee 100% width on mobile viewports
+  // Inline styles to guarantee full-width layout for the bar itself
   const styles = {
     header: {
       width: '100%',
@@ -33,7 +54,7 @@ export default function Navbar() {
     },
     inner: {
       width: '100%',
-      maxWidth: '100%', // prevents any fixed container width
+      maxWidth: '100%',
       margin: '0 auto',
       padding: '0 16px',
       display: 'flex',
@@ -47,7 +68,7 @@ export default function Navbar() {
       display: 'block',
     },
     nav: {
-      width: '100%',        // allow nav to use full width when stacked on mobile
+      width: '100%',
       maxWidth: '100%',
       display: 'flex',
       gap: 16,
@@ -66,6 +87,8 @@ export default function Navbar() {
 
   return (
     <header className="navbar" style={styles.header}>
+      <GlobalWidthFix />
+
       <div className="nav-inner" style={styles.inner}>
         <Link to="/" className="logo" aria-label="Insight Business Consultancy">
           <img
