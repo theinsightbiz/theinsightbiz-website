@@ -671,18 +671,33 @@ export default function About() {
                 font-size:.9rem; line-height:1.34;
               }
                 /* Keep hover zoom for mouse/desktop */
-@media (hover: hover) and (pointer: fine){
-  .feedback-card:hover .photo-wrap img{
-    transform: scale(1.10);
-  }
-}
+              @media (hover: hover) and (pointer: fine){
+                .feedback-card:hover .photo-wrap img{
+                transform: scale(1.10);
+                }
+              }
 
-/* Enable tap-to-zoom for touch/mobile */
-@media (hover: none) and (pointer: coarse){
-  .feedback-card.is-zoomed .photo-wrap img{
-    transform: scale(1.10);
-  }
-}
+              /* Enable tap-to-zoom for touch/mobile */
+              @media (hover: none) and (pointer: coarse){
+                .feedback-card.is-zoomed .photo-wrap img{
+                transform: scale(1.10);
+                }
+              }
+
+              /* Desktop-only hover (adds a width guard) */
+              @media (hover: hover) and (pointer: fine) and (min-width: 768px) {
+                .feedback-card:hover .photo-wrap img { transform: scale(1.10); }
+              }
+
+              /* Touch/mobile tap-to-zoom (capability only) */
+              @media (hover: none) and (pointer: coarse) {
+                .feedback-card.is-zoomed .photo-wrap img { transform: scale(1.10); }
+              }
+
+              /* Or, touch + small screens */
+              @media (hover: none) and (pointer: coarse) and (max-width: 680px) {
+                .feedback-card.is-zoomed .photo-wrap img { transform: scale(1.10); }
+              }
 
               @keyframes cardIn{
                 0%{ opacity:0; transform: translate(-50%, -44%) rotate(-6deg) scale(.94) }
