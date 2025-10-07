@@ -1,63 +1,70 @@
 // src/pages/Home.jsx
-import React, { useEffect, useState, useCallback, useRef } from 'react'
-import Hero from '../components/Hero'
-import Counters from '../components/Counters'
-import QnA from '../components/QnA'
+import React, { useEffect, useState, useCallback, useRef } from "react";
+import Hero from "../components/Hero";
+import Counters from "../components/Counters";
+import QnA from "../components/QnA";
 
 // 🔗 Bring full pages into Home
-import About from './About'
-import Contact from './Contact'
-import Downloads from './downloads'
-import { Link } from 'react-router-dom'
-import heroBg from '../assets/turninsight.jpg'
+import About from "./About";
+import Contact from "./Contact";
+import Downloads from "./downloads";
+import { Link } from "react-router-dom";
+import heroBg from "../assets/turninsight.jpg";
 
 // ⬇️ Intro video (place your uploaded file at src/assets/intro.mp4)
-import introVideo from '../assets/intro.mp4'
+import introVideo from "../assets/intro.mp4";
 
 export default function Home() {
-  const [introOpen, setIntroOpen] = useState(true)
-  const [isFading, setIsFading] = useState(false)
-  const videoRef = useRef(null)
+  const [introOpen, setIntroOpen] = useState(true);
+  const [isFading, setIsFading] = useState(false);
+  const videoRef = useRef(null);
 
   const enterSite = useCallback(() => {
-    setIntroOpen(false)
-  }, [])
+    setIntroOpen(false);
+  }, []);
 
   useEffect(() => {
     if (introOpen) {
-      const prev = document.body.style.overflow
-      document.body.style.overflow = 'hidden'
-      return () => { document.body.style.overflow = prev }
+      const prev = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = prev;
+      };
     }
-  }, [introOpen])
+  }, [introOpen]);
 
   useEffect(() => {
-    const svc = Array.from(document.querySelectorAll('.services .svc-card'))
-    const reel = Array.from(document.querySelectorAll('.h-reel .h-card'))
-    const targets = [...svc, ...reel]
-    if (!targets.length) return
-    targets.forEach(el => el.classList.add('reveal-up'))
-    if (!('IntersectionObserver' in window)) {
-      targets.forEach(el => el.classList.add('show'))
-      return
+    const svc = Array.from(document.querySelectorAll(".services .svc-card"));
+    const reel = Array.from(document.querySelectorAll(".h-reel .h-card"));
+    const targets = [...svc, ...reel];
+    if (!targets.length) return;
+    targets.forEach((el) => el.classList.add("reveal-up"));
+    if (!("IntersectionObserver" in window)) {
+      targets.forEach((el) => el.classList.add("show"));
+      return;
     }
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('show')
-          io.unobserve(e.target)
-        }
-      })
-    }, { threshold: 0.18, rootMargin: '0px 0px -8% 0px' })
-    targets.forEach(el => io.observe(el))
-    return () => io.disconnect()
-  }, [])
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("show");
+            io.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.18, rootMargin: "0px 0px -8% 0px" }
+    );
+    targets.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
 
   return (
     <>
       {/* === INTRO OVERLAY WITH VIDEO === */}
       <div
-        className={`intro-video-overlay ${introOpen ? 'show' : 'hide'} ${isFading ? 'fade' : ''}`}
+        className={`intro-video-overlay ${introOpen ? "show" : "hide"} ${
+          isFading ? "fade" : ""
+        }`}
         role="dialog"
         aria-modal="true"
         aria-label="Intro"
@@ -71,18 +78,18 @@ export default function Home() {
           playsInline
           onEnded={enterSite}
           onTimeUpdate={() => {
-            const v = videoRef.current
-            if (!v) return
+            const v = videoRef.current;
+            if (!v) return;
             // Start fading ~1.2s before the end
             if (!isFading && v.duration && v.duration - v.currentTime <= 1.2) {
-              setIsFading(true)
+              setIsFading(true);
             }
           }}
         />
       </div>
 
       {/* Wrap the real Home content so we can fade it in smoothly */}
-      <div className={`home-content ${introOpen ? 'concealed' : 'revealed'}`}>
+      <div className={`home-content ${introOpen ? "concealed" : "revealed"}`}>
         {/* === HOME CORE === */}
         <Hero />
         <Counters />
@@ -95,17 +102,24 @@ export default function Home() {
             {/* Layer A — OLD */}
             <div className="hm-layer hm-old" aria-live="polite">
               <h1 className="hm-line">
-                We build clarity.<br />We design compliance.<br />We scale trust.
+                We build clarity.
+                <br />
+                We design compliance.
+                <br />
+                We scale trust.
               </h1>
               <p className="hm-sub">
-                Finance, tax and regulatory outcomes crafted with the polish of a professional services partnership.
+                Finance, tax and regulatory outcomes crafted with the polish of
+                a professional services partnership.
               </p>
             </div>
 
             {/* Layer B — NEW */}
             <div className="hm-layer hm-new" aria-hidden="true">
               <h1 className="hm-line">
-                Insight Business Consultancy<br />Trusted Consultancy Partner
+                Insight Business Consultancy
+                <br />
+                Trusted Consultancy Partner
               </h1>
               <p className="hm-sub">
                 Your one step solution for turning sight into insight.
@@ -179,10 +193,38 @@ export default function Home() {
         <section className="page wide services" id="home-services-overview">
           <h2>What services we are offering</h2>
           <div className="grid4">
-            <div className="svc-card"><h4>Financial Advisory Services</h4><p>Guidance to individuals and businesses on managing finances, investment strategies, retirement planning, and portfolio optimization.</p></div>
-            <div className="svc-card"><h4>Tax Compliance & Advisory</h4><p>Ensures businesses adhere to tax regulations while optimizing tax liabilities. We help you navigate complex tax laws and minimize financial risks.</p></div>
-            <div className="svc-card"><h4>Accounting & Bookkeeping</h4><p>From managing daily transactions to preparing financial statements, we maintain accurate records and provide insights to help your business grow efficiently.</p></div>
-            <div className="svc-card"><h4>Regulatory & Compliance</h4><p>Ensure your business adheres to legal standards and industry regulations across jurisdictions with expert guidance, audits, and streamlined operations.</p></div>
+            <div className="svc-card">
+              <h4>Financial Advisory Services</h4>
+              <p>
+                Guidance to individuals and businesses on managing finances,
+                investment strategies, retirement planning, and portfolio
+                optimization.
+              </p>
+            </div>
+            <div className="svc-card">
+              <h4>Tax Compliance & Advisory</h4>
+              <p>
+                Ensures businesses adhere to tax regulations while optimizing
+                tax liabilities. We help you navigate complex tax laws and
+                minimize financial risks.
+              </p>
+            </div>
+            <div className="svc-card">
+              <h4>Accounting & Bookkeeping</h4>
+              <p>
+                From managing daily transactions to preparing financial
+                statements, we maintain accurate records and provide insights to
+                help your business grow efficiently.
+              </p>
+            </div>
+            <div className="svc-card">
+              <h4>Regulatory & Compliance</h4>
+              <p>
+                Ensure your business adheres to legal standards and industry
+                regulations across jurisdictions with expert guidance, audits,
+                and streamlined operations.
+              </p>
+            </div>
           </div>
         </section>
 
@@ -199,24 +241,63 @@ export default function Home() {
         </section>
 
         {/* Explore */}
-        <section className="page wide" aria-label="Explore other pages" style={{marginTop: '1rem'}}>
-          <SectionHeader title="Explore other pages" subtitle="Discover more about our offerings and resources" />
-          <div className="grid5" style={{display:'grid', gridTemplateColumns:'repeat(5, minmax(120px,1fr))', gap:'.8rem'}}>
-            <Link to="/services" className="card glass" style={{padding:'0.9rem 1rem', textDecoration:'none'}}>
-              <h4 style={{margin:0}}>Services</h4>
-              <p className="m0" style={{opacity:.8}}>What we do</p>
+        <section
+          className="page wide"
+          aria-label="Explore other pages"
+          style={{ marginTop: "1rem" }}
+        >
+          <SectionHeader
+            title="Explore other pages"
+            subtitle="Discover more about our offerings and resources"
+          />
+          <div
+            className="grid5"
+            style={{
+              width: "100%",
+              display: "grid",
+              gridTemplateColumns: "repeat(4, 1fr)",
+              gap: ".8rem",
+            }}
+          >
+            <Link
+              to="/services"
+              className="card glass"
+              style={{ padding: "0.9rem 1rem", textDecoration: "none" }}
+            >
+              <h4 style={{ margin: 0 }}>Services</h4>
+              <p className="m0" style={{ opacity: 0.8 }}>
+                What we do
+              </p>
             </Link>
-            <Link to="/blog" className="card glass" style={{padding:'0.9rem 1rem', textDecoration:'none'}}>
-              <h4 style={{margin:0}}>Blog</h4>
-              <p className="m0" style={{opacity:.8}}>Insights & updates</p>
+            <Link
+              to="/blog"
+              className="card glass"
+              style={{ padding: "0.9rem 1rem", textDecoration: "none" }}
+            >
+              <h4 style={{ margin: 0 }}>Blog</h4>
+              <p className="m0" style={{ opacity: 0.8 }}>
+                Insights & updates
+              </p>
             </Link>
-            <Link to="/privacy" className="card glass" style={{padding:'0.9rem 1rem', textDecoration:'none'}}>
-              <h4 style={{margin:0}}>Privacy Policy</h4>
-              <p className="m0" style={{opacity:.8}}>Data & security</p>
+            <Link
+              to="/privacy"
+              className="card glass"
+              style={{ padding: "0.9rem 1rem", textDecoration: "none" }}
+            >
+              <h4 style={{ margin: 0 }}>Privacy Policy</h4>
+              <p className="m0" style={{ opacity: 0.8 }}>
+                Data & security
+              </p>
             </Link>
-            <Link to="/downloads" className="card glass" style={{padding:'0.9rem 1rem', textDecoration:'none'}}>
-              <h4 style={{margin:0}}>Downloads</h4>
-              <p className="m0" style={{opacity:.8}}>Client resources</p>
+            <Link
+              to="/downloads"
+              className="card glass"
+              style={{ padding: "0.9rem 1rem", textDecoration: "none" }}
+            >
+              <h4 style={{ margin: 0 }}>Downloads</h4>
+              <p className="m0" style={{ opacity: 0.8 }}>
+                Client resources
+              </p>
             </Link>
           </div>
         </section>
@@ -279,14 +360,15 @@ export default function Home() {
       `}</style>
 
       <style>{`
+      body { overflow-x: hidden; }
       /* Break the Explore section out to full viewport width */
       section.page.wide[aria-label="Explore other pages"] {
       position: relative;
       width: 100vw;
-      left: 50%;
-      right: 50%;
-      margin-left: -34vw;
-      margin-right: -34vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+     
       }
       /* Center the inner grid and make it wider than the normal page width */
       section.page.wide[aria-label="Explore other pages"] .grid5 {
@@ -305,12 +387,34 @@ export default function Home() {
 
       <style>{`
       section.page.wide[aria-label="Explore other pages"] .section-head {
-      text-align: center;
-      left: 40%;
-      right: 40%;
-      margin-left: -75vw;
-      margin-right: -60vw;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     text-align: center;
       } 
+       .grid5 .card{
+       height: 100px;
+  text-align: center;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+      `}</style>
+
+      <style>{`
+      /* Stack the 4 cards vertically on small screens */
+@media (max-width: 640px) {
+  .grid5{
+    display: grid !important;
+    grid-template-columns: 1fr !important; /* override inline style */
+    gap: 0.6rem !important;
+  }
+  .grid5 .card{
+    width: 100%;
+  }
+}
       `}</style>
     </>
   );
@@ -322,5 +426,5 @@ function SectionHeader({ title, subtitle }) {
       <h2>{title}</h2>
       {subtitle ? <p>{subtitle}</p> : null}
     </div>
-  )
+  );
 }
