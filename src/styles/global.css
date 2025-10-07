@@ -718,7 +718,7 @@ footer, .site-footer { background: transparent !important; }
 .qna .accordion .item.open .q .chev { transform: rotate(180deg); }
 .qna .accordion .a { padding: 0 20px 18px; }
 .qna .accordion .q span {
-  font-size: clamp(2px, 1.2vw, 22px);
+  font-size: clamp(14px, 1.2vw, 22px);
   line-height: 1.35;
   font-weight: 400;
 }
