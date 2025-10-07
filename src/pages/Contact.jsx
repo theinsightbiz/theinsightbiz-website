@@ -13,12 +13,47 @@ export default function Contact(){
 
   const onSubmit = (e) => {
     e.preventDefault()
-    const data = new FormData(e.target)
-    data.append('types', JSON.stringify(types))
-    data.append('timeline', timeline)
-    data.append('filesCount', files.length.toString())
-    // TODO: integrate with your backend/email service
-    alert('Thanks! Your message has been queued. We’ll get back shortly.')
+    const fd = new FormData(e.target)
+
+    const name    = (fd.get('name')||'').toString().trim()
+    const email   = (fd.get('email')||'').toString().trim()
+    const company = (fd.get('company')||'').toString().trim()
+    const country = (fd.get('country')||'').toString().trim()
+    const message = (fd.get('message')||'').toString().trim()
+
+    const lines = [
+      '*New Contact Enquiry*',
+      `Name: ${name}`,
+      `Email: ${email}`,
+      company ? `Company: ${company}` : null,
+      country ? `Country: ${country}` : null,
+      types.length ? `Service Type(s): ${types.join(', ')}` : null,
+      timeline ? `Timeline: ${timeline}` : null,
+      '',
+      'Project brief:',
+      message,
+    ].filter(Boolean)
+
+    if (files.length){
+      lines.push(
+        '',
+        `Attachments selected (${files.length}):`
+      )
+      files.forEach((f, i) => {
+        const sizeKB = Math.round(f.size / 1024)
+        lines.push(`${i+1}. ${f.name} (${sizeKB} KB)`)
+      })
+      lines.push(
+        '',
+        'Note: Please attach the above file(s) in WhatsApp after redirect — web pages cannot auto-attach local files.'
+      )
+    }
+
+    const text = lines.join('\n')
+    const waUrl = `https://wa.me/918298869079?text=${encodeURIComponent(text)}`
+    window.open(waUrl, '_blank', 'noopener')
+
+    // reset form state
     e.target.reset()
     setTypes([]); setTimeline(''); setFiles([])
   }
