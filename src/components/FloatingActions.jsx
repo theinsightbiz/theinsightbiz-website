@@ -4,7 +4,7 @@ import { FaPhoneAlt, FaWhatsapp } from 'react-icons/fa'
 export default function FloatingActions(){
   return (
     <div className="fab-wrap" aria-label="Quick contact">
-      <a className="fab" href="tel:+91829869079">
+      <a className="fab" href="tel:+918298869079">
         <FaPhoneAlt/> Call Us
       </a>
       <a
