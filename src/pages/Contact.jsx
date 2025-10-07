@@ -1,68 +1,84 @@
-import React, { useMemo, useState } from 'react'
-import { FaEnvelope, FaWhatsapp, FaPhoneAlt, FaCalendarAlt, FaPaperclip } from 'react-icons/fa'
+import React, { useMemo, useState } from "react";
+import {
+  FaEnvelope,
+  FaWhatsapp,
+  FaPhoneAlt,
+  FaCalendarAlt,
+  FaPaperclip,
+} from "react-icons/fa";
 
-export default function Contact(){
+export default function Contact() {
   // --- simple form state (uncontrolled inputs + light state for chips/radios) ---
-  const [types, setTypes] = useState([])
-  const [timeline, setTimeline] = useState('')
-  const [files, setFiles] = useState([])
-  const maxMsg = 900
+  const [types, setTypes] = useState([]);
+  const [timeline, setTimeline] = useState("");
+  const [files, setFiles] = useState([]);
+  const maxMsg = 900;
 
   const toggleType = (t) =>
-    setTypes(prev => prev.includes(t) ? prev.filter(x => x !== t) : [...prev, t])
+    setTypes((prev) =>
+      prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t]
+    );
 
   const onSubmit = (e) => {
-    e.preventDefault()
-    const fd = new FormData(e.target)
+    e.preventDefault();
+    const fd = new FormData(e.target);
 
-    const name    = (fd.get('name')||'').toString().trim()
-    const email   = (fd.get('email')||'').toString().trim()
-    const company = (fd.get('company')||'').toString().trim()
-    const country = (fd.get('country')||'').toString().trim()
-    const message = (fd.get('message')||'').toString().trim()
+    const name = (fd.get("name") || "").toString().trim();
+    const tel = (fd.get("tel") || "").toString().trim();
+    const email = (fd.get("email") || "").toString().trim();
+    const company = (fd.get("company") || "").toString().trim();
+    const country = (fd.get("country") || "").toString().trim();
+    const message = (fd.get("message") || "").toString().trim();
 
     const lines = [
-      '*New Contact Enquiry*',
+      "*New Contact Enquiry*",
       `Name: ${name}`,
+      `Mobile: ${tel}`,
       `Email: ${email}`,
       company ? `Company: ${company}` : null,
       country ? `Country: ${country}` : null,
-      types.length ? `Service Type(s): ${types.join(', ')}` : null,
+      types.length ? `Service Type(s): ${types.join(", ")}` : null,
       timeline ? `Timeline: ${timeline}` : null,
-      '',
-      'Project brief:',
+      "",
+      "Project brief:",
       message,
-    ].filter(Boolean)
+    ].filter(Boolean);
 
-    if (files.length){
-      lines.push(
-        '',
-        `Attachments selected (${files.length}):`
-      )
+    if (files.length) {
+      lines.push("", `Attachments selected (${files.length}):`);
       files.forEach((f, i) => {
-        const sizeKB = Math.round(f.size / 1024)
-        lines.push(`${i+1}. ${f.name} (${sizeKB} KB)`)
-      })
+        const sizeKB = Math.round(f.size / 1024);
+        lines.push(`${i + 1}. ${f.name} (${sizeKB} KB)`);
+      });
       lines.push(
-        '',
-        'Note: Please attach the above file(s) in WhatsApp after redirect — web pages cannot auto-attach local files.'
-      )
+        "",
+        "Note: Please attach the above file(s) in WhatsApp after redirect — web pages cannot auto-attach local files."
+      );
     }
 
-    const text = lines.join('\n')
-    const waUrl = `https://wa.me/918298869079?text=${encodeURIComponent(text)}`
-    window.open(waUrl, '_blank', 'noopener')
+    const text = lines.join("\n");
+    const waUrl = `https://wa.me/918298869079?text=${encodeURIComponent(text)}`;
+    window.open(waUrl, "_blank", "noopener");
 
     // reset form state
-    e.target.reset()
-    setTypes([]); setTimeline(''); setFiles([])
-  }
+    e.target.reset();
+    setTypes([]);
+    setTimeline("");
+    setFiles([]);
+  };
 
-  const typeOptions = useMemo(()=>[
-    'Financial Advisory','Tax Advisory / Filing','Accounting & Bookkeeping','Regulatory & Compliance','Others'
-  ],[])
+  const typeOptions = useMemo(
+    () => [
+      "Financial Advisory",
+      "Tax Advisory / Filing",
+      "Accounting & Bookkeeping",
+      "Regulatory & Compliance",
+      "Others",
+    ],
+    []
+  );
 
-  const timeOptions   = ['ASAP','In 1 week','In 1–2 months','Exploring']
+  const timeOptions = ["ASAP", "In 1 week", "In 1–2 months", "Exploring"];
 
   return (
     <section className="page wide contact-miux">
@@ -70,7 +86,10 @@ export default function Contact(){
       <div className="pr-hero">
         <span className="ribbon" aria-hidden="true"></span>
         <h1>Let’s build something exceptional</h1>
-        <p style={{maxWidth:860}}>Tell us about your needs— advisory, compliance, design, or other business matters. We’ll respond within 1 business day.</p>
+        <p style={{ maxWidth: 860 }}>
+          Tell us about your needs— advisory, compliance, design, or other
+          business matters. We’ll respond within 1 business day.
+        </p>
       </div>
 
       {/* split layout */}
@@ -80,28 +99,44 @@ export default function Contact(){
           <div className="rail-card">
             <h3 className="rail-title">Start a conversation</h3>
             <a className="rail-action" href="mailto:contact@theinsightbiz.com">
-              <span className="ico"><FaEnvelope/></span>
+              <span className="ico">
+                <FaEnvelope />
+              </span>
               <div>
                 <strong>Email</strong>
                 <div className="muted">contact@theinsightbiz.com</div>
               </div>
             </a>
-            <a className="rail-action" href="https://wa.me/918298869079" target="_blank" rel="noreferrer">
-              <span className="ico" style={{background:'var(--whatsapp, #25D366)'}}><FaWhatsapp/></span>
+            <a
+              className="rail-action"
+              href="https://wa.me/918298869079"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span
+                className="ico"
+                style={{ background: "var(--whatsapp, #25D366)" }}
+              >
+                <FaWhatsapp />
+              </span>
               <div>
                 <strong>WhatsApp</strong>
                 <div className="muted">+91 82988 69079</div>
               </div>
             </a>
             <a className="rail-action" href="tel:+918676856153">
-              <span className="ico"><FaPhoneAlt/></span>
+              <span className="ico">
+                <FaPhoneAlt />
+              </span>
               <div>
                 <strong>Call</strong>
                 <div className="muted">+91 86768 56153</div>
               </div>
             </a>
             <a className="rail-action" href="#calendar">
-              <span className="ico"><FaCalendarAlt/></span>
+              <span className="ico">
+                <FaCalendarAlt />
+              </span>
               <div>
                 <strong>Book a slot</strong>
                 <div className="muted">We’ll share calendar on request</div>
@@ -113,13 +148,19 @@ export default function Contact(){
             <h3 className="rail-title">Offices</h3>
             <div className="office">
               <div className="k">Head Office</div>
-              <div className="v">A-272, Block A, Surajmal Vihar, New Delhi – 110092</div>
+              <div className="v">
+                A-272, Block A, Surajmal Vihar, New Delhi – 110092
+              </div>
             </div>
             <div className="office">
               <div className="k">Branch Office</div>
-              <div className="v">Hamriyah Street, Al Fahidi, Bur Dubai, Dubai</div>
+              <div className="v">
+                Hamriyah Street, Al Fahidi, Bur Dubai, Dubai
+              </div>
               <div className="k">Branch Office</div>
-              <div className="v">134-140 Church Road, Hove, East Sussex, UK</div>
+              <div className="v">
+                134-140 Church Road, Hove, East Sussex, UK
+              </div>
             </div>
             <div className="hours">
               <div className="k">Opening Hours</div>
@@ -133,32 +174,61 @@ export default function Contact(){
           <div className="grid">
             <div className="field">
               <label>Full name</label>
-              <input type="text" name="name" placeholder="Your full name" required/>
+              <input
+                type="text"
+                name="name"
+                placeholder="Your full name"
+                required
+              />
+            </div>
+            <div className="field">
+              <label>Mobile number</label>
+              <input
+                name="tel"
+                type="tel"
+                inputmode="numeric"
+                autocomplete="tel-national"
+                pattern="^[6-9]\d{9}$"
+                maxlength="10"
+                placeholder="10-digit mobile number"
+                required
+              />
             </div>
             <div className="field">
               <label>Email</label>
-              <input type="email" name="email" placeholder="you@company.com" required/>
+              <input
+                type="email"
+                name="email"
+                placeholder="you@company.com"
+                required
+              />
             </div>
             <div className="field">
               <label>Company / Organization</label>
-              <input type="text" name="company" placeholder="Company name"/>
+              <input type="text" name="company" placeholder="Company name" />
             </div>
             <div className="field">
               <label>Country</label>
-              <input type="text" name="country" placeholder="India / UAE / UK / USA"/>
+              <input
+                type="text"
+                name="country"
+                placeholder="India / UAE / UK / USA"
+              />
             </div>
           </div>
 
           <div className="field">
             <label>What are you looking for?</label>
             <div className="chips">
-              {typeOptions.map(t=>(
+              {typeOptions.map((t) => (
                 <button
                   key={t}
                   type="button"
-                  className={'chip '+(types.includes(t)?'active':'')}
-                  onClick={()=>toggleType(t)}
-                >{t}</button>
+                  className={"chip " + (types.includes(t) ? "active" : "")}
+                  onClick={() => toggleType(t)}
+                >
+                  {t}
+                </button>
               ))}
             </div>
           </div>
@@ -167,9 +237,17 @@ export default function Contact(){
             <div className="field">
               <label>Timeline</label>
               <div className="radios">
-                {timeOptions.map(t=>(
-                  <label key={t} className={'radio '+(timeline===t?'active':'')}>
-                    <input type="radio" name="timeline" value={t} onChange={()=>setTimeline(t)} />
+                {timeOptions.map((t) => (
+                  <label
+                    key={t}
+                    className={"radio " + (timeline === t ? "active" : "")}
+                  >
+                    <input
+                      type="radio"
+                      name="timeline"
+                      value={t}
+                      onChange={() => setTimeline(t)}
+                    />
                     <span>{t}</span>
                   </label>
                 ))}
@@ -184,38 +262,59 @@ export default function Contact(){
               rows={6}
               maxLength={maxMsg}
               placeholder="Share goals, current pain points, and any links we should review."
-              onInput={(e)=>e.currentTarget.nextSibling.querySelector('em').textContent =
-                `${e.currentTarget.value.length}/${maxMsg}`}
+              onInput={(e) =>
+                (e.currentTarget.nextSibling.querySelector(
+                  "em"
+                ).textContent = `${e.currentTarget.value.length}/${maxMsg}`)
+              }
               required
             />
-            <div className="help"><em>0/{maxMsg}</em></div>
+            <div className="help">
+              <em>0/{maxMsg}</em>
+            </div>
           </div>
 
           <div className="grid">
             <div className="field">
               <label>Attachments</label>
               <label className="attach">
-                <input type="file" multiple onChange={(e)=>setFiles(Array.from(e.target.files||[]))}/>
-                <FaPaperclip/> {files.length ? `${files.length} file(s) selected` : 'Upload brief / scope / RFP'}
+                <input
+                  type="file"
+                  multiple
+                  onChange={(e) => setFiles(Array.from(e.target.files || []))}
+                />
+                <FaPaperclip />{" "}
+                {files.length
+                  ? `${files.length} file(s) selected`
+                  : "Upload brief / scope / RFP"}
               </label>
             </div>
             <div className="field">
               <label>Consent</label>
               <label className="consent">
-                <input type="checkbox" required/> I agree to be contacted and accept the Privacy Policy.
+                <input type="checkbox" required /> I agree to be contacted and
+                accept the Privacy Policy.
               </label>
             </div>
           </div>
 
           <div className="actions">
-            <button className="btn-primary" type="submit">Send message</button>
-            <a className="btn-ghost" href="mailto:contact@theinsightbiz.com">Email instead</a>
+            <button className="btn-primary" type="submit">
+              Send message
+            </button>
+            <a className="btn-ghost" href="mailto:contact@theinsightbiz.com">
+              Email instead
+            </a>
           </div>
         </form>
       </div>
 
       {/* full-bleed map */}
-      <div className="map-wrap" id="calendar" aria-label="Our location on Google Maps">
+      <div
+        className="map-wrap"
+        id="calendar"
+        aria-label="Our location on Google Maps"
+      >
         <iframe
           title="INSIGHT — New Delhi"
           src="https://www.google.com/maps?q=A-272,+Block+A,+Surajmal+Vihar,+New+Delhi+-+110092&output=embed"
@@ -257,7 +356,7 @@ export default function Contact(){
         .form .grid{ display:grid; grid-template-columns: 1fr 1fr; gap:.9rem }
         .field{ display:grid; gap:.35rem }
         .field label{ font-weight:600 }
-        input[type="text"], input[type="email"], textarea{
+        input[type="text"], input[type="email"], input[type="tel"], textarea{
           border:1px solid var(--border); background:var(--surface, #fff); border-radius:12px; padding:.75rem .9rem;
           outline:none; transition:border-color .2s ease, box-shadow .2s ease;
         }
@@ -308,5 +407,5 @@ export default function Contact(){
         }
       `}</style>
     </section>
-  )
+  );
 }
