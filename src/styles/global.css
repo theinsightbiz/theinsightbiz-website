@@ -711,14 +711,17 @@ footer, .site-footer { background: transparent !important; }
 /* FAQ (QnA) */
 .qna .accordion .item { border-radius: 12px; }
 .qna .accordion .q {
-  display:flex; align-items:center; justify-content:space-between;
+  text-align: left;
+  display:flex; align-items:start; justify-content:space-between;
   width:100%; padding:0px 20px; cursor:pointer; border:0; background:transparent;
 }
 .qna .accordion .q .chev { transition: transform 220ms ease; will-change: transform; }
 .qna .accordion .item.open .q .chev { transform: rotate(180deg); }
 .qna .accordion .a { padding: 0 20px 18px; }
+/* qna font size */
 .qna .accordion .q span {
-  font-size: clamp(14px, 1.2vw, 22px);
+  text-align: left;
+  font-size: clamp(18px, 1.2vw, 22px);
   line-height: 1.35;
   font-weight: 400;
 }
@@ -728,7 +731,6 @@ footer, .site-footer { background: transparent !important; }
   width: 100%;
   margin-inline: auto;
 }
-
 /* Ensure each FAQ box uses the full width of the .qna container */
 .qna .accordion { margin: 0; }
 .qna .accordion .item { margin: 14px 0; }
@@ -737,3 +739,7 @@ footer, .site-footer { background: transparent !important; }
 .qna .accordion .q,
 .qna .accordion .a { padding-left: 8px; padding-right: 8px; }
 
+/* qna answer font size */
+.a{
+  font-size:18px;
+}
