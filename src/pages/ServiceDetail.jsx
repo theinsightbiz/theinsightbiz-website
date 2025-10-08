@@ -1,6 +1,6 @@
-import React, { useMemo, useState, useEffect } from 'react'
+import React, { useMemo, useState, useEffect, useRef } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
-import { SERVICES, findServiceBySlug, SERVICE_CATEGORIES } from '../data/servicesCatalog' // ← added SERVICES
+import { SERVICES, findServiceBySlug, SERVICE_CATEGORIES } from '../data/servicesCatalog'
 import { getCoverForService } from '../data/serviceImages'
 
 // ============================
@@ -1454,281 +1454,278 @@ const SECTIONS = {
 },
 }
 
-// Fallback template if a service has no predefined SECTIONS entry
-const makeTemplate = (svc) => ({
-  included: [`[Edit] What’s included for “${svc?.title || 'This service'}”.`],
-  timelines: ['[Edit] Add your timelines here.'],
-  documents: [{ heading: 'Documents required (as applicable)', items: ['[Edit] List documents here.'] }],
-})
+// ============== Helper: Section Accordion Panel ==============
+function Accordion({ items }) {
+  const [open, setOpen] = useState(items?.[0]?.key ?? null)
+  useEffect(() => { if (!open && items?.length) setOpen(items[0].key) }, [items, open])
+  return (
+    <div className="svd-accordion">
+      {items.map((it) => (
+        <section key={it.key} className={'svd-accItem ' + (open === it.key ? 'open' : '')}>
+          <button className="svd-accHead" onClick={() => setOpen(open === it.key ? null : it.key)}>
+            <span className="svd-accTitle">{it.title}</span>
+            <span className="svd-accChev" aria-hidden="true">▾</span>
+          </button>
+          <div className="svd-accBody">
+            {Array.isArray(it.content)
+              ? (
+                <ul className="svd-list">
+                  {it.content.map((li, i) => <li key={i} dangerouslySetInnerHTML={{ __html: li }} />)}
+                </ul>
+              )
+              : it.content /* already JSX */
+            }
+          </div>
+        </section>
+      ))}
+    </div>
+  )
+}
 
-// ─────────────────────────────────────────────────────────────────────────────
-// UPDATED COMPONENT
-// ─────────────────────────────────────────────────────────────────────────────
-export default function ServiceDetail(){
+export default function ServiceDetail() {
   const { slug } = useParams()
-  const svc = findServiceBySlug(slug)
   const navigate = useNavigate()
+  const wrapperRef = useRef(null)
 
-  if(!svc){
+  // Find service & neighbors (in same category ordering as SERVICES)
+  const service = useMemo(() => findServiceBySlug(slug), [slug])
+
+  const orderedInCategory = useMemo(() => {
+    if (!service) return []
+    return SERVICES.filter(s => s.category === service.category)
+  }, [service])
+
+  const idx = useMemo(() => {
+    if (!service) return -1
+    return orderedInCategory.findIndex(s => s.slug === service.slug)
+  }, [service, orderedInCategory])
+
+  const prevSvc = idx > 0 ? orderedInCategory[idx - 1] : null
+  const nextSvc = idx >= 0 && idx < orderedInCategory.length - 1 ? orderedInCategory[idx + 1] : null
+
+  // Smooth reveal
+  useEffect(() => {
+    const el = wrapperRef.current
+    if (!el) return
+    el.classList.remove('show')
+    // small delay to re-trigger on route change
+    requestAnimationFrame(() => el.classList.add('show'))
+  }, [slug])
+
+  if (!service) {
     return (
       <section className="page wide">
-        <div className="panel-premium">
-          <h2>Service not found</h2>
-          <p>The item you’re looking for isn’t available.</p>
-          <button className="btn-primary" onClick={()=>navigate('/services')}>Back to Services</button>
+        <div className="panel-premium" style={{ padding: '1rem', textAlign: 'center' }}>
+          <h2 style={{ marginTop: 0 }}>Service not found</h2>
+          <p>It looks like this service no longer exists or the URL is incorrect.</p>
+          <Link className="svd-btnGhost" to="/services">Back to Services</Link>
         </div>
       </section>
     )
   }
 
-  const catLabel = SERVICE_CATEGORIES.find(c => c.key === svc.category)?.label
-  const cover = getCoverForService(svc)
+  const catLabel = SERVICE_CATEGORIES.find(c => c.key === service.category)?.label || 'Services'
 
-  // Pull sections; if missing, give a clean template
-  const spec = SECTIONS[svc.slug] || makeTemplate(svc)
-  const { included = [], timelines = [], documents = [] } = spec
+  // Build accordion sections from your SECTIONS map if present on window/global import (kept from your file)
+  // The file you shared defines SECTIONS in the same module; here we read from global if attached by bundler.
+  // If you’ve retained SECTIONS in this file, you can import it directly instead.
+  
+  const detail = SECTIONS?.[service.slug] || {}
 
-  // ===== Navigation order (Individuals → Companies → Partnerships → NGOs) =====
-  const ORDERED_LABELS = [
-    'Individuals & Sole Prop.',
-    'Companies',
-    'Partnerships',
-    'NGOs & Non-Profits'
-  ]
-  const labelToKey = new Map(SERVICE_CATEGORIES.map(c => [c.label, c.key]))
-  const orderedKeys = ORDERED_LABELS.map(l => labelToKey.get(l)).filter(Boolean)
-
-  const orderedServices = []
-  for (const key of orderedKeys) {
-    for (const s of SERVICES) {
-      if (s.category === key) orderedServices.push(s)
+  const accordionItems = [
+    {
+      key: 'included',
+      title: "What's included",
+      content: (detail.included || service.included || []).map(escapeHTML)
+    },
+    {
+      key: 'timelines',
+      title: 'Timelines',
+      content: (detail.timelines || service.timelines || []).map(escapeHTML)
+    },
+    {
+      key: 'documents',
+      title: 'Documents required',
+      content: (detail.documents || service.documents || []).length
+        ? flattenDocGroups(detail.documents || service.documents)
+        : []
     }
-  }
-  const idx = orderedServices.findIndex(s => s.slug === slug)
-
-  // NEW: previous slug (hidden when on very first service)
-  const prevSlug = idx > 0 ? orderedServices[idx - 1].slug : null
-
-  // Existing: next slug (hidden when on very last service)
-  const nextSlug = idx >= 0 && idx < orderedServices.length - 1
-    ? orderedServices[idx + 1].slug
-    : null
-
-  // ── Tabs state
-  const TABS = [
-    { key: 'included',  label: "What’s included",      count: included.length },
-    { key: 'timelines', label: 'Timelines',            count: timelines.length },
-    { key: 'documents', label: 'Documents required',   count: documents.length },
   ]
-  const [active, setActive] = useState(TABS.find(t => t.count > 0)?.key || 'included')
+
+  function openPrev() { if (prevSvc) navigate(`/services/${prevSvc.slug}`) }
+  function openNext() { if (nextSvc) navigate(`/services/${nextSvc.slug}`) }
 
   return (
-    <section className="page wide">
-      <div className="pr-hero">
-        <span className="ribbon" aria-hidden="true"></span>
-        <h1>{svc.title}</h1>
-        <p>{catLabel}</p>
-      </div>
+    <section className="page wide svd">
+      {/* Side arrows (mid-left & mid-right) */}
+      {prevSvc && (
+        <button
+          className="svd-nav svd-prev"
+          aria-label={`Previous: ${prevSvc.title}`}
+          onClick={openPrev}
+          title={prevSvc.title}
+        >
+          ‹
+        </button>
+      )}
+      {nextSvc && (
+        <button
+          className="svd-nav svd-next"
+          aria-label={`Next: ${nextSvc.title}`}
+          onClick={openNext}
+          title={nextSvc.title}
+        >
+          ›
+        </button>
+      )}
 
-      {/* TWO-COLUMN LAYOUT */}
-      <article className="svc-layout">
-        {/* LEFT: compact service photo inside a “Service Overview” card */}
-        <aside className="svc-left">
-          <h3 className="svc-left-title">Service Overview</h3>
-          <div className="svc-photo">
-            <img src={cover} alt={svc.title} />
-          </div>
-        </aside>
+      {/* Header */}
+      <header className="svd-hero">
+        <div className="svd-badge">{catLabel}</div>
+        <h1 className="svd-title">{service.title}</h1>
+        {service.summary ? <p className="svd-lead">{service.summary}</p> : null}
+      </header>
 
-        {/* RIGHT: tabbed content */}
-        <div className="svc-right">
-          {/* Tabs */}
-          <nav className="svc-tabs" role="tablist" aria-label="Service sections">
-            {TABS.map(tab => (
-              <button
-                key={tab.key}
-                type="button"
-                className={`svc-tab ${active === tab.key ? 'active' : ''}`}
-                role="tab"
-                aria-selected={active === tab.key}
-                onClick={() => setActive(tab.key)}
-              >
-                <span className="svc-tab-label">{tab.label}</span>
-              </button>
-            ))}
-          </nav>
-
-          {/* Panel */}
-          <div className="svc-panel prose" role="tabpanel">
-            {active === 'included' && included.length > 0 && (
-              <>
-                <h3 className="sr-only">What’s included</h3>
-                <ul>{included.map((t, i) => <li key={i}>{t}</li>)}</ul>
-              </>
-            )}
-
-            {active === 'timelines' && timelines.length > 0 && (
-              <>
-                <h3 className="sr-only">Timelines</h3>
-                <ul>{timelines.map((t, i) => <li key={i}>{t}</li>)}</ul>
-              </>
-            )}
-
-            {active === 'documents' && documents.length > 0 && (
-              <>
-                <h3 className="sr-only">Documents required</h3>
-                {documents.map((grp, i) => (
-                  <div key={i} className="doc-group">
-                    {grp.heading ? <h4>{grp.heading}</h4> : null}
-                    <ul>{(grp.items || []).map((d, j) => <li key={j}>{d}</li>)}</ul>
-                  </div>
-                ))}
-              </>
-            )}
+      {/* Main two-column layout */}
+      <div ref={wrapperRef} className="svd-wrap">
+        {/* Left: accordion */}
+        <div className="svd-col svd-main">
+          <div className="panel-premium svd-panel">
+            <Accordion items={accordionItems} />
           </div>
 
-          {/* Centered CTA */}
-          <div className="svc-cta">
-            <h3>Ready to get started?</h3>
-            <div className="svc-cta-actions">
-              <Link className="btn-primary" to="/contact">Contact for more</Link>
-              <Link className="btn-ghost" to="/services">Back to All Work</Link>
+          {/* Bottom CTA */}
+          <div className="svd-cta">
+            <div className="svd-ctaTitle">Ready to get started?</div>
+            <div className="svd-ctaActions">
+              <Link className="svd-btnPrimary" to="/contact">Contact for more</Link>
+              <Link className="svd-btnGhost" to="/services">Back to all work</Link>
             </div>
           </div>
         </div>
-      </article>
 
-      {/* NEW: Floating Previous arrow – mid-left; hidden on very first service */}
-      {prevSlug && (
-        <button
-          type="button"
-          className="prev-floater"
-          aria-label="Previous service"
-          onClick={() => navigate(`/services/${prevSlug}`)}
-          title="Previous"
-        >
-          ← Previous
-        </button>
-      )}
+        {/* Right: small photo */}
+        <aside className="svd-col svd-side">
+          <figure className="svd-photo card">
+            <img src={getCoverForService(service)} alt={service.title} />
+            <figcaption>{service.title}</figcaption>
+          </figure>
 
-      {/* Existing: Floating Next arrow – mid-right; hidden on last service */}
-      {nextSlug && (
-        <button
-          type="button"
-          className="next-floater"
-          aria-label="Next service"
-          onClick={() => navigate(`/services/${nextSlug}`)}
-          title="Next"
-        >
-          Next →
-        </button>
-      )}
+          {/* Quick meta */}
+          <div className="svd-meta card">
+            <div className="svd-metaRow">
+              <div className="svd-metaKey">Category</div>
+              <div className="svd-metaVal">{catLabel}</div>
+            </div>
+            {service.tags?.length ? (
+              <div className="svd-metaRow">
+                <div className="svd-metaKey">Tags</div>
+                <div className="svd-metaVal">{service.tags.join(', ')}</div>
+              </div>
+            ) : null}
+          </div>
+        </aside>
+      </div>
 
-      {/* ───────────────────────── Styles ───────────────────────── */}
+      {/* Styles (scoped to .svd) */}
       <style>{`
-        /* Layout */
-        .svc-layout{
-          display:grid;
-          grid-template-columns: 320px 1fr;
-          gap: 1.2rem;
-        }
-        @media (max-width: 900px){
-          .svc-layout{ grid-template-columns: 1fr; }
-        }
+        .svd :where(h1,h2,h3){ letter-spacing:-.2px }
+        .svd .card{ border:1px solid var(--border); background:var(--card); border-radius:16px; }
 
-        /* Left card */
-        .svc-left-title{
-          font-size: .95rem;
-          font-weight: 700;
-          margin: 0 0 .5rem 0;
-          opacity: .9;
+        .svd-hero{ padding: 1rem 0 .4rem }
+        .svd-badge{
+          display:inline-block; font-size:.8rem; font-weight:800; padding:.35rem .6rem; border-radius:999px;
+          background:rgba(14,153,213,.12); color:#086488; border:1px solid rgba(14,153,213,.28); margin-bottom:.5rem;
         }
-        .svc-photo{
-          border: 1px solid var(--border);
-          border-radius: 16px;
-          overflow: hidden;
-          background: var(--card);
-        }
-        .svc-photo img{
-          width: 100%;
-          height: 200px;
-          object-fit: cover;
-          display: block;
-        }
+        .svd-title{ margin:.1rem 0 .25rem; font-weight:900 }
+        .svd-lead{ max-width: 980px; opacity:.92 }
 
-        /* Tabs */
-        .svc-right{ display:flex; flex-direction:column; gap:.9rem; }
-        .svc-tabs{
-          display:flex; gap:.6rem; flex-wrap:wrap;
-          border-bottom: 1px solid var(--border);
-          padding-bottom: .4rem;
+        .svd-wrap{
+          display:grid; grid-template-columns: minmax(0,1fr) 360px; gap:1rem; align-items: start;
+          transform: translateY(8px); opacity: 0;
         }
-        .svc-tab{
-          appearance:none; border:none; cursor:pointer;
-          padding: .55rem .85rem; border-radius: 999px;
-          background: transparent; font-weight:700;
-        }
-        .svc-tab.active{
-          background: var(--accent-50, #e9f6fd);
-          color: var(--accent-700, #086d9c);
-          border: 1px solid var(--accent-200, #bfe7f7);
-        }
+        .svd-wrap.show{ transform: translateY(0); opacity: 1; transition: all .6s cubic-bezier(.22,.61,.36,1) }
+        @media (max-width: 1020px){ .svd-wrap{ grid-template-columns: 1fr } }
 
-        /* Panel */
-        .svc-panel{
-          border: 1px solid var(--border);
-          border-radius: 16px;
-          background: var(--card);
-          padding: 1rem 1.1rem;
-        }
-        .doc-group{ margin-bottom: .7rem; }
-        .doc-group h4{
-          margin: 0 0 .25rem 0; font-size: 1rem; opacity: .9;
-        }
+        .svd-panel{ padding: .9rem }
 
-        /* CTA (centered) */
-        .svc-cta{
-          text-align:center;
-          margin-top: .4rem;
-          padding: 0.4rem 0 .1rem;
+        /* Accordion */
+        .svd-accordion{ display:grid; gap:.6rem }
+        .svd-accItem{ border:1px solid var(--border); border-radius:14px; overflow:hidden; background:linear-gradient(180deg, rgba(255,255,255,.78), rgba(255,255,255,.68)) }
+        .svd-accHead{
+          width:100%; display:flex; align-items:center; justify-content:space-between; gap:.5rem;
+          padding:.75rem .9rem; background:transparent; border:0; cursor:pointer; font-weight:900; letter-spacing:.1px;
         }
-        .svc-cta h3{ margin: .4rem 0 .6rem; }
-        .svc-cta-actions{
-          display:flex; gap:.6rem; justify-content:center;
-        }
-        .btn-primary{
-          background: var(--accent-600, #0e99d5);
-          color:#fff; border:none; border-radius:12px; padding:.7rem .95rem;
-          font-weight:700; cursor:pointer; text-decoration:none; display:inline-block;
-        }
-        .btn-ghost{
-          border:1px solid var(--border); border-radius:12px;
-          padding:.68rem .95rem; text-decoration:none; color:inherit;
-        }
+        .svd-accItem.open .svd-accHead{ background:rgba(14,153,213,.07) }
+        .svd-accChev{ transition: transform .18s ease }
+        .svd-accItem.open .svd-accChev{ transform: rotate(180deg) }
+        .svd-accBody{ padding:.75rem .95rem .9rem; display:none }
+        .svd-accItem.open .svd-accBody{ display:block }
+        .svd-list{ margin:.1rem 0 0; padding-left: 1.1rem; display:grid; gap:.35rem; line-height:1.45 }
+        .svd-list li{ margin-left:.1rem }
 
-        /* Floating arrows */
-        .prev-floater{
-          position: fixed; left: 18px; top: 50%; transform: translateY(-50%);
-          z-index: 50; background: var(--accent-600, #0e99d5); color:#fff; border: none;
-          border-radius: 999px; padding: .6rem .9rem; font-weight: 800; cursor: pointer;
-          box-shadow: 0 12px 26px rgba(14,153,213,0.28);
-        }
-        .prev-floater:hover{ filter: brightness(1.05); }
+        /* Right rail */
+        .svd-side{ display:grid; gap:.8rem }
+        .svd-photo{ margin:0; overflow:hidden }
+        .svd-photo img{ width:100%; height: 220px; object-fit: cover; display:block; }
+        .svd-photo figcaption{ padding:.6rem .8rem; font-size:.9rem; opacity:.85 }
 
-        .next-floater{
-          position: fixed; right: 18px; top: 50%; transform: translateY(-50%);
-          z-index: 50; background: var(--accent-600, #0e99d5); color:#fff; border: none;
-          border-radius: 999px; padding: .6rem .9rem; font-weight: 800; cursor: pointer;
-          box-shadow: 0 12px 26px rgba(14,153,213,0.28);
-        }
-        .next-floater:hover{ filter: brightness(1.05); }
+        .svd-meta{ padding: .7rem .8rem; display:grid; gap:.35rem }
+        .svd-metaRow{ display:grid; grid-template-columns: 120px 1fr; gap:.5rem; align-items:baseline }
+        .svd-metaKey{ opacity:.7; font-weight:700 }
+        .svd-metaVal{ opacity:.95 }
 
-        /* A11y helpers */
-        .sr-only{
-          position:absolute; width:1px; height:1px; padding:0; margin:-1px;
-          overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+        /* CTA */
+        .svd-cta{
+          margin: .9rem 0 0; display:grid; place-items:center; text-align:center; gap:.5rem;
+          border:1px dashed var(--border); border-radius:16px; padding:.9rem; background:linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,0));
+        }
+        .svd-ctaTitle{ font-weight:900; letter-spacing:.2px }
+        .svd-ctaActions{ display:flex; gap:.6rem; flex-wrap:wrap; justify-content:center }
+        .svd-btnPrimary{
+          background:var(--accent-600, #0e99d5); color:#fff; border:none; border-radius:12px; padding:.7rem .95rem;
+          font-weight:800; text-decoration:none; display:inline-block; transition: transform .18s ease, box-shadow .18s ease;
+        }
+        .svd-btnPrimary:hover{ transform:translateY(-1px); box-shadow:0 10px 26px rgba(14,153,213,.25) }
+        .svd-btnGhost{
+          border:1px solid var(--border); border-radius:12px; padding:.66rem .95rem; text-decoration:none; color:inherit;
+          transition: all .18s ease;
+        }
+        .svd-btnGhost:hover{ border-color: rgba(14,153,213,.3) }
+
+        /* Side nav arrows */
+        .svd-nav{
+          position: fixed; top: 50%; transform: translateY(-50%);
+          width: 44px; height: 44px; border-radius: 999px;
+          border: 1px solid var(--border); background: var(--card);
+          display: grid; place-items: center; font-size: 28px; line-height: 1; font-weight: 700;
+          z-index: 50; cursor: pointer; box-shadow: 0 10px 24px rgba(0,0,0,.08);
+          transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease, background .15s ease;
+        }
+        .svd-nav:hover{ transform: translateY(calc(-50% - 1px)); box-shadow: 0 16px 30px rgba(0,0,0,.12); border-color: rgba(14,153,213,.35) }
+        .svd-prev{ left: 10px }
+        .svd-next{ right: 10px }
+        @media (max-width: 820px){
+          .svd-nav{ top: auto; bottom: 16px; transform: none; width: 40px; height: 40px; font-size:24px }
+          .svd-prev{ left: 12px } .svd-next{ right: 12px }
         }
       `}</style>
     </section>
   )
+}
+
+// ============== helpers ==============
+function escapeHTML(s) {
+  // allow your original strings to include <strong> etc via SECTIONS; otherwise escape plain text
+  if (typeof s !== 'string') return s
+  return s.replace(/</g, '&lt;').replace(/>/g, '&gt;')
+}
+function flattenDocGroups(groups) {
+  // groups: [{heading, items[]}]
+  const out = []
+  for (const g of groups) {
+    if (g?.heading) out.push(`<strong>${escapeHTML(g.heading)}</strong>`)
+    if (Array.isArray(g?.items)) for (const it of g.items) out.push(escapeHTML(it))
+  }
+  return out
 }
