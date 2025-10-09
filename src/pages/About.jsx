@@ -143,7 +143,7 @@ export default function About() {
     <section className="page wide about-prime">
       {/* ===== Premium hero ===== */}
       <div className="prime-hero">
-        <div className="prime-hero__badge">Since 2019 • Multi-jurisdiction advisory</div>
+        <div className="prime-hero__badge">Since 2011 • Multi-jurisdiction advisory</div>
         <h1 className="prime-hero__title">About INSIGHT</h1>
         <p className="prime-hero__lead">
           We are a seasoned business consultant specializing in financial advisory, tax compliance and business setup solutions across India, UAE, UK and USA. With deep expertise in regulatory frameworks and financial strategies, we help businesses optimise operations, save costs and achieve sustainable growth.
