@@ -7,7 +7,6 @@ import QnA from "../components/QnA";
 // 🔗 Bring full pages into Home
 import About from "./About";
 import Contact from "./Contact";
-import Downloads from "./downloads";
 import { Link } from "react-router-dom";
 import heroBg from "../assets/turninsight.jpg";
 
