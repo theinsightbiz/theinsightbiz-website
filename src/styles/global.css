@@ -564,12 +564,6 @@ a.btn.linklike{border:1px dashed var(--border); background:transparent}
 /* Make legacy page-hero adopt premium styling when needed */
 .page-hero.premium{ border:1px solid var(--border); border-radius:20px; padding:2rem 1.4rem }
 
-/* === Services "dice" pop-in animation on scroll === */
-.services .grid4{
-  perspective: 1000px;              /* gives depth to the 3D rotate */
-  transform-style: preserve-3d;
-}
-
 /* Initial (hidden) state is added by JS as `.reveal` */
 .services .svc-card.reveal{
   opacity: 0;

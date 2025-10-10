@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useCallback } from "react";
 import {
   FaEnvelope,
   FaWhatsapp,
@@ -12,14 +12,18 @@ export default function Contact() {
   const [types, setTypes] = useState([]);
   const [timeline, setTimeline] = useState("");
   const [files, setFiles] = useState([]);
+  const [msgLen, setMsgLen] = useState(0); // controlled counter (avoids DOM thrash)
   const maxMsg = 900;
 
-  const toggleType = (t) =>
-    setTypes((prev) =>
-      prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t]
-    );
+  const toggleType = useCallback(
+    (t) =>
+      setTypes((prev) =>
+        prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t]
+      ),
+    []
+  );
 
-  const onSubmit = (e) => {
+  const onSubmit = useCallback((e) => {
     e.preventDefault();
     const fd = new FormData(e.target);
 
@@ -65,7 +69,8 @@ export default function Contact() {
     setTypes([]);
     setTimeline("");
     setFiles([]);
-  };
+    setMsgLen(0);
+  }, [files, timeline, types]);
 
   const typeOptions = useMemo(
     () => [
@@ -217,15 +222,11 @@ export default function Contact() {
                 rows={6}
                 maxLength={maxMsg}
                 placeholder="Example: We need monthly bookkeeping for India & UAE, GST returns, and MIS dashboards…"
-                onInput={(e) =>
-                  (e.currentTarget.nextSibling.querySelector(
-                    "em"
-                  ).textContent = `${e.currentTarget.value.length}/${maxMsg}`)
-                }
+                onInput={(e) => setMsgLen(e.currentTarget.value.length)}
                 required
               />
               <div className="help">
-                <em>0/{maxMsg}</em>
+                <em>{msgLen}/{maxMsg}</em>
               </div>
             </div>
 
@@ -391,9 +392,12 @@ export default function Contact() {
         /* Form (primary) */
         .prime-form{
           border:1px solid var(--border); border-radius:16px; padding: 1.05rem;
-          background: linear-gradient(180deg, rgba(255,255,255,.75), rgba(255,255,255,.65));
-          backdrop-filter: blur(2px);
-          box-shadow: 0 10px 30px rgba(0,0,0,.06);
+          /* Removed backdrop-filter to prevent repaint cost on scroll */
+          background:#fff;
+          /* Lighter shadow to reduce paint time */
+          box-shadow: 0 6px 18px rgba(0,0,0,.05);
+          /* Promote to own layer without animating on every frame */
+          transform: translateZ(0);
         }
         .form-top{
           display:flex; justify-content:space-between; align-items:center; margin-bottom:.5rem;
@@ -404,7 +408,7 @@ export default function Contact() {
         .form-section{
           border:1px dashed var(--border);
           border-radius:14px; padding:.85rem; margin:.8rem 0;
-          background: rgba(255,255,255,.6);
+          background:#fff;
         }
         .section-head h3{ margin:.1rem 0 .2rem 0 }
         .section-head p{ margin:0; opacity:.75; font-size:.92rem }
@@ -419,19 +423,21 @@ export default function Contact() {
 
         input[type="text"], input[type="email"], input[type="tel"], textarea{
           border:1px solid var(--border); background:var(--surface, #fff); border-radius:12px; padding:.75rem .9rem;
-          outline:none; transition:border-color .2s ease, box-shadow .2s ease;
+          outline:none; transition:border-color .18s ease, box-shadow .18s ease;
         }
         input:focus, textarea:focus{ border-color:rgba(14,153,213,.45); box-shadow:0 0 0 4px rgba(14,153,213,.12) }
 
         .chips{ display:flex; flex-wrap:wrap; gap:.5rem }
         .chip{
           border:1px solid var(--border); border-radius:999px; padding:.5rem .75rem; background:#fff;
-          transition:all .18s ease; font-size:.92rem;
+          transition:transform .16s ease, border-color .16s ease, color .16s ease, background-color .16s ease;
+          font-size:.92rem; will-change: transform;
         }
         .chip.active{ background:rgba(14,153,213,.12); border-color:rgba(14,153,213,.35); color:#085c83; transform:translateY(-1px) }
 
         .radios{ display:flex; flex-wrap:wrap; gap:.5rem }
-        .radio{ border:1px solid var(--border); border-radius:10px; padding:.5rem .65rem; cursor:pointer; transition:all .18s ease }
+        .radio{ border:1px solid var(--border); border-radius:10px; padding:.5rem .65rem; cursor:pointer;
+          transition:transform .16s ease, border-color .16s ease, color .16s ease, background-color .16s ease; will-change: transform; }
         .radio input{ display:none }
         .radio.active{ background:rgba(14,153,213,.10); border-color:rgba(14,153,213,.35); color:#085c83; transform:translateY(-1px) }
 
@@ -450,12 +456,12 @@ export default function Contact() {
         }
         .btn-primary{
           background:var(--accent-600, #0e99d5); color:#fff; border:none; border-radius:12px; padding:.75rem 1rem;
-          font-weight:700; transition:transform .18s ease, box-shadow .18s ease; cursor:pointer;
+          font-weight:700; transition:transform .16s ease, box-shadow .16s ease; cursor:pointer; will-change: transform;
         }
-        .btn-primary:hover{ transform:translateY(-1px); box-shadow:0 10px 26px rgba(14,153,213,.25) }
+        .btn-primary:hover{ transform:translateY(-1px); box-shadow:0 10px 26px rgba(14,153,213,.22) }
         .btn-ghost{
           border:1px solid var(--border); border-radius:12px; padding:.72rem .95rem; text-decoration:none; color:inherit;
-          transition:all .18s ease;
+          transition:border-color .16s ease, background-color .16s ease;
         }
         .btn-ghost:hover{ border-color:rgba(14,153,213,.3) }
 
@@ -478,8 +484,8 @@ export default function Contact() {
           .prime-rail{ position: sticky; top: 86px; height: fit-content; }
         }
         .rail-card{
-          border:1px solid var(--border); background:var(--card); border-radius:16px; padding:1rem;
-          box-shadow: 0 10px 30px rgba(0,0,0,.06);
+          border:1px solid var(--border); background:var(--card,#fff); border-radius:16px; padding:1rem;
+          box-shadow: 0 6px 18px rgba(0,0,0,.05);
         }
         .rail-card.callout{
           background:linear-gradient(180deg, rgba(21,30,69,.85), rgba(21,30,69,.65));
@@ -489,9 +495,10 @@ export default function Contact() {
         .rail-action{
           display:flex; align-items:center; gap:.7rem; padding:.65rem .6rem; border-radius:12px;
           border:1px solid var(--border); text-decoration:none; color:inherit;
-          transition:transform .18s ease, background .18s ease, border-color .18s ease;
+          transition:transform .16s ease, background-color .16s ease, border-color .16s ease;
           margin:.45rem 0;
           background:linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,.00));
+          will-change: transform;
         }
         .rail-card.callout .rail-action{ border-color: rgba(255,255,255,.18) }
         .rail-action:hover{ transform:translateY(-2px); border-color:rgba(14,153,213,.28) }
@@ -508,9 +515,17 @@ export default function Contact() {
         /* Map */
         .map-wrap{
           margin-top:1.2rem; border-radius:16px; overflow:hidden; border:1px solid var(--border);
-          box-shadow:0 10px 30px rgba(0,0,0,.06);
+          box-shadow:0 6px 18px rgba(0,0,0,.05);
+          /* Let browser skip offscreen work where supported */
+          content-visibility: auto;
+          contain-intrinsic-size: 380px 1000px;
         }
         .map-wrap iframe{ width:100%; height:380px; border:0 }
+
+        /* Respect user preference to reduce motion */
+        @media (prefers-reduced-motion: reduce){
+          * { transition: none !important; animation: none !important; }
+        }
       `}</style>
     </section>
   );

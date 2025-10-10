@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import TeamGrid from "../components/TeamGrid";
 
-// Assets (kept same)
+// Assets (keep your existing imports)
 import ceo1 from "../assets/ceo-1.jpg";
 import founder2 from "../assets/founder-2.jpg";
 import trustee3 from "../assets/trustee-3.jpg";
@@ -11,27 +11,31 @@ import Pratik from "../assets/pratik-raj.jpg";
 import Aniket from "../assets/aniket-kishore.jpg";
 import Hrithik from "../assets/hrithik-raj.jpg";
 
+// NEW: photo shown in the left space below "Why Work With Us ?"
+// ▸ Put your image file in /src/assets and update the path/name below.
+import aboutLeft from "../assets/about-left.jpg";
+
 export default function About() {
   // --- Testimonial slider state (kept) ---
   const slides = [
     {
       photo: ceo1,
-      name: "Jina Huang",
-      role: "CEO • Watt Property Management",
+      name: "Faiyaz & Ramesh",
+      role: "Co-Founders • ABIZ-Global, India → UAE",
       quote:
         "INSIGHT transformed our digital and compliance presence with clear timelines and zero surprises.",
     },
     {
       photo: founder2,
-      name: "Arjun Mehta",
-      role: "Founder • SaaS, India → UAE",
+      name: "Jyoti Bala",
+      role: "CEO • Jankees India, India",
       quote:
         "From tax to cross-border set-up—one accountable partner. Documents are board-ready.",
     },
     {
       photo: trustee3,
-      name: "Nisha Rao",
-      role: "Trustee • Non-Profit, India",
+      name: "Rhea",
+      role: "Director • RK Designs, India",
       quote:
         "FCRA + audit support were airtight. The team is meticulous and communicative.",
     },
@@ -42,10 +46,10 @@ export default function About() {
     return () => clearInterval(t);
   }, [slides.length]);
 
-  // ===== 3D tilt (kept) =====
+  // ===== 3D tilt (kept but lightweight) =====
   useEffect(() => {
     const cards = Array.from(
-      document.querySelectorAll("#team .tcard[data-tilt]")
+      document.querySelectorAll("#team .tcard[data-tilt], #team .member-card")
     );
     const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
     const listeners = [];
@@ -63,31 +67,18 @@ export default function About() {
       };
       const onMove = (e) => {
         if (!hover) return;
-        const mx = (e.clientX - rect.left) / rect.width;
-        const my = (e.clientY - rect.top) / rect.height;
-        card.style.setProperty("--mx", `${clamp(mx * 100, 0, 100)}%`);
-        card.style.setProperty("--my", `${clamp(my * 100, 0, 100)}%`);
-        const tiltX = clamp(((cy - e.clientY) / (rect.height / 2)) * 8, -10, 10);
-        const tiltY = clamp(((e.clientX - cx) / (rect.width / 2)) * 8, -10, 10);
-        card.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.02,1.02,1.02)`;
+        const tiltX = clamp(((cy - e.clientY) / (rect.height / 2)) * 6, -8, 8);
+        const tiltY = clamp(((e.clientX - cx) / (rect.width / 2)) * 6, -8, 8);
+        card.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
       };
-      const onLeave = () => { hover = false; card.style.transform = ""; card.style.removeProperty("--mx"); card.style.removeProperty("--my"); };
+      const onLeave = () => { hover = false; card.style.transform = ""; };
 
       card.addEventListener("mouseenter", onEnter);
       card.addEventListener("mousemove", onMove);
       card.addEventListener("mouseleave", onLeave);
 
-      const onTouchStart = (e) => {
-        const t = e.touches[0];
-        const r = card.getBoundingClientRect();
-        const mx = (t.clientX - r.left) / r.width;
-        const my = (t.clientY - r.top) / r.height;
-        card.style.setProperty("--mx", `${clamp(mx * 100, 0, 100)}%`);
-        card.style.setProperty("--my", `${clamp(my * 100, 0, 100)}%`);
-        card.style.transform = "scale3d(1.01,1.01,1.01)";
-        if (glare) glare.style.opacity = 1;
-      };
-      const onTouchEnd = () => { card.style.transform = ""; if (glare) glare.style.opacity = 0; };
+      const onTouchStart = () => { if (glare) glare.style.opacity = 1; };
+      const onTouchEnd = () => { if (glare) glare.style.opacity = 0; };
 
       card.addEventListener("touchstart", onTouchStart, { passive: true });
       card.addEventListener("touchend", onTouchEnd);
@@ -162,6 +153,7 @@ export default function About() {
           </header>
 
           <div className="bio-body">
+            {/* LEFT column */}
             <div className="bio-text">
               <p>
                 We bring a personalized, results-driven approach to every client engagement. Whether you're expanding internationally, optimizing taxes, or seeking financial clarity, we ensure tailored solutions to meet your business goals.
@@ -169,8 +161,19 @@ export default function About() {
               <p className="m0">
                 Let’s connect—discover how we can streamline your operations and keep you compliant across dynamic markets.
               </p>
+
+              {/* NEW: visual photo in the left space */}
+              <figure className="bio-visual">
+                <img
+                  src={aboutLeft}
+                  alt="INSIGHT team collaborating with clients"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </figure>
             </div>
 
+            {/* RIGHT column */}
             <div className="bio-highlights">
               <article className="tile">
                 <h3>4+ Jurisdictions</h3>
@@ -224,7 +227,13 @@ export default function About() {
           <div className="tm-grid">
             {/* Card 1 */}
             <article className="member-card">
-              <img className="member-card__photo" src={Hrithik} alt="Portrait of Hrithik Raj" />
+              <img
+                className="member-card__photo"
+                src={Hrithik}
+                alt="Portrait of Hrithik Raj"
+                loading="lazy"
+                decoding="async"
+              />
               <div className="member-card__glass"></div>
               <div className="member-card__info" aria-hidden="true">
                 <h3 className="member-card__name">Hrithik Raj</h3>
@@ -246,7 +255,13 @@ export default function About() {
 
             {/* Card 2 */}
             <article className="member-card">
-              <img className="member-card__photo" src={Pratik} alt="Portrait of Pratik Raj" />
+              <img
+                className="member-card__photo"
+                src={Pratik}
+                alt="Portrait of Pratik Raj"
+                loading="lazy"
+                decoding="async"
+              />
               <div className="member-card__glass"></div>
               <div className="member-card__info" aria-hidden="true">
                 <h3 className="member-card__name">Pratik Raj</h3>
@@ -268,7 +283,13 @@ export default function About() {
 
             {/* Card 3 */}
             <article className="member-card">
-              <img className="member-card__photo" src={Aniket} alt="Portrait of Aniket Kishore" />
+              <img
+                className="member-card__photo"
+                src={Aniket}
+                alt="Portrait of Aniket Kishore"
+                loading="lazy"
+                decoding="async"
+              />
               <div className="member-card__glass"></div>
               <div className="member-card__info" aria-hidden="true">
                 <h3 className="member-card__name">Aniket Kishore</h3>
@@ -290,7 +311,13 @@ export default function About() {
 
             {/* Card 4 */}
             <article className="member-card">
-              <img className="member-card__photo" src={Priyam} alt="Portrait of Priyam Adarsh" />
+              <img
+                className="member-card__photo"
+                src={Priyam}
+                alt="Portrait of Priyam Adarsh"
+                loading="lazy"
+                decoding="async"
+              />
               <div className="member-card__glass"></div>
               <div className="member-card__info" aria-hidden="true">
                 <h3 className="member-card__name">Priyam Adarsh</h3>
@@ -311,7 +338,7 @@ export default function About() {
             </article>
           </div>
 
-          {/* Team styles (kept) */}
+          {/* Team styles (optimized) */}
           <style>{`
             .tm-grid{
               display:grid;
@@ -321,21 +348,24 @@ export default function About() {
             }
             .member-card{
               position: relative; aspect-ratio: 3 / 4; border-radius: 20px; overflow: hidden;
-              box-shadow: 0 20px 40px rgba(2, 6, 23, 0.2); background: #000; isolation: isolate;
+              box-shadow: 0 10px 24px rgba(2, 6, 23, 0.12);
+              background: #000; isolation: isolate;
+              will-change: transform;
             }
             .member-card__photo{
               position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform-origin: 50% 30%;
-              transition: transform 420ms cubic-bezier(.2,.7,.2,1), filter 420ms cubic-bezier(.2,.7,.2,1); will-change: transform, filter;
+              transition: transform 380ms cubic-bezier(.2,.7,.2,1);
+              will-change: transform;
             }
             .member-card__glass{
               position: absolute; inset: auto 0 0 0; height: 56%;
-              background: linear-gradient(to top, rgba(2,6,23,.75), rgba(2,6,23,0.2) 60%, transparent);
-              opacity: 0; transform: translateY(10%); transition: opacity 320ms ease, transform 320ms ease;
+              background: linear-gradient(to top, rgba(2,6,23,.78), rgba(2,6,23,0.18) 60%, transparent);
+              opacity: 0; transform: translateY(10%); transition: opacity 260ms ease, transform 260ms ease;
               pointer-events: none; z-index: 1;
             }
             .member-card__info{
               position: absolute; left: 0; right: 0; bottom: 0; padding: 18px 18px 20px; color: #fff; z-index: 2;
-              opacity: 0; transform: translateY(20px); transition: opacity 280ms ease, transform 280ms ease;
+              opacity: 0; transform: translateY(18px); transition: opacity 240ms ease, transform 240ms ease;
             }
             .member-card__name{ font-size: 1.1rem; margin: 0 0 2px; line-height:1.1; font-weight: 700; }
             .member-card__role{ margin: 0 0 8px; font-size: .88rem; color: #cbd5e1; }
@@ -343,14 +373,16 @@ export default function About() {
             .member-card__socials{ display: flex; gap: 10px; }
             .icon-btn{
               --size: 36px; width: var(--size); height: var(--size); display: inline-grid; place-items: center;
-              border-radius: 50%; background: rgba(255,255,255,0.12);
-              backdrop-filter: blur(4px); text-decoration: none; transition: transform 180ms ease, background 180ms ease;
+              border-radius: 50%;
+              background: rgba(255,255,255,0.12);
+              text-decoration: none; transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
               outline: none; border: 1px solid rgba(255,255,255,.15);
+              will-change: transform;
             }
             .icon-btn:hover, .icon-btn:focus-visible{ transform: translateY(-2px); background: rgba(255,255,255,0.2); }
             .icon-btn svg{ width: 18px; height: 18px; fill: #fff; }
             .member-card__sr-toggle{ position: absolute; inset: 0; width: 100%; height: 100%; background: none; border: 0; padding: 0; margin: 0; cursor: default; z-index: 3; opacity: 0; }
-            .member-card.active .member-card__photo{ transform: translateY(-6%) scale(0.54); filter: blur(2px) saturate(1.05) contrast(1.05) brightness(0.9); }
+            .member-card.active .member-card__photo{ transform: translateY(-4%) scale(0.78); }
             .member-card.active .member-card__glass{ opacity: 1; transform: translateY(0); }
             .member-card.active .member-card__info{ opacity: 1; transform: translateY(0); }
             .member-card.revert .member-card__photo{ transform: translateY(0) scale(1); }
@@ -364,9 +396,13 @@ export default function About() {
           `}</style>
         </section>
 
-        {/* Row 4: Client feedback scene (kept with premium placement) */}
+        {/* Row 4: Client feedback scene (optimized) */}
         <section id="feedback" className="feedback-scene">
-          <div className="feedback-bg" style={{ backgroundImage: `url(${phoneBg})` }} aria-hidden="true" />
+          <div
+            className="feedback-bg"
+            style={{ backgroundImage: `url(${phoneBg})` }}
+            aria-hidden="true"
+          />
           <div className="feedback-caption">
             Their expertise transformed<br/>our business presence.
           </div>
@@ -383,12 +419,17 @@ export default function About() {
             tabIndex={0}
           >
             <div className="photo-wrap">
-              <img src={s.photo} alt={s.name} />
+              <img
+                src={s.photo}
+                alt={s.name}
+                loading="lazy"
+                decoding="async"
+              />
             </div>
             <div className="meta">
               <div className="who">{s.name}</div>
               <div className="role">{s.role}</div>
-              {s.logo && <img className="brand" src={s.logo} alt="brand" />}
+              {s.logo && <img className="brand" src={s.logo} alt="brand" loading="lazy" decoding="async" />}
             </div>
             <div className="quote">“{s.quote}”</div>
           </div>
@@ -397,39 +438,44 @@ export default function About() {
             .feedback-scene{
               position: relative; min-height: clamp(560px, 72vh, 860px);
               border-radius: 20px; overflow: hidden; border: 1px solid var(--border); background: var(--card);
+              content-visibility: auto;
+              contain-intrinsic-size: 680px 1200px;
             }
-            .feedback-bg{ position:absolute; inset:0; background-size: cover; background-position: center; filter: saturate(1.05) contrast(1.05); transform: scale(1.02); z-index: 0; }
+            .feedback-bg{
+              position:absolute; inset:0; background-size: cover; background-position: center;
+              z-index: 0;
+            }
             .feedback-caption{
-              position:absolute; right:2rem; top:2.4rem; color:#fff; text-align:right; text-shadow: 0 2px 16px rgba(0,0,0,.45);
+              position:absolute; right:2rem; top:2.4rem; color:#fff; text-align:right;
+              text-shadow: 0 2px 16px rgba(0,0,0,.45);
               font-weight:800; letter-spacing:.2px; font-size: clamp(18px, 1.6vw, 22px); line-height:1.3; z-index:2;
             }
             .feedback-card{
               position:absolute; left:70%; top:50%; transform: translate(-50%, -50%) rotate(-1.2deg);
               width: min(285px, 90vw); max-height: 64vh; background:#fff; color:#111; border-radius: 16px;
-              border: 1px solid rgba(0,0,0,.06); overflow:hidden; animation: cardIn .85s cubic-bezier(.22,.61,.36,1); z-index:3;
+              border: 1px solid rgba(0,0,0,.06); overflow:hidden;
+              animation: cardIn .65s cubic-bezier(.22,.61,.36,1);
+              z-index:3; will-change: transform;
+              box-shadow: 0 10px 24px rgba(2, 6, 23, 0.14);
             }
-            .feedback-card::after{ content:''; position:absolute; inset:0; background: linear-gradient(180deg, rgba(0,0,0,0) 70%, rgba(0,0,0,.05)); pointer-events:none; }
+            .feedback-card::after{ content:''; position:absolute; inset:0;
+              background: linear-gradient(180deg, rgba(0,0,0,0) 70%, rgba(0,0,0,.05));
+              pointer-events:none; }
             .photo-wrap{ height: 34%; overflow:hidden; background: #fff; border: 10px solid #fff; border-radius: 10px; box-shadow: inset 0 0 0 1px rgba(0,0,0,.06); }
-            .photo-wrap img{ width:100%; height:100%; object-fit:cover; display:block; border-radius: 6px; transform: scale(1.02); transition: transform 1.2s ease; }
-
-            /* Desktop hover */
+            .photo-wrap img{ width:100%; height:100%; object-fit:cover; display:block; border-radius: 6px; transform: scale(1.02); transition: transform 800ms ease; will-change: transform; }
             @media (hover: hover) and (pointer: fine){
-              .feedback-card:hover .photo-wrap img{ transform: scale(1.10); }
+              .feedback-card:hover .photo-wrap img{ transform: scale(1.06); }
             }
-            /* Touch tap-to-zoom */
             @media (hover: none) and (pointer: coarse){
-              .feedback-card.is-zoomed .photo-wrap img{ transform: scale(1.10); }
+              .feedback-card.is-zoomed .photo-wrap img{ transform: scale(1.06); }
             }
-
             .meta{ padding:.55rem .85rem .1rem .85rem; display:grid; gap:.1rem }
             .who{ font-weight:900; font-size:.95rem; line-height:1.2 }
             .role{ opacity:.8; font-size:.83rem }
             .brand{ height:18px; width:auto; margin-top:.22rem; opacity:.9 }
             .quote{ padding:.45rem .85rem .75rem .85rem; border-top: 1px dashed rgba(0,0,0,.08); font-style: italic; font-size:.9rem; line-height:1.34; }
-
             @keyframes cardIn{
-              0%{ opacity:0; transform: translate(-50%, -44%) rotate(-6deg) scale(.94) }
-              60%{ opacity:1; transform: translate(-50%, -52%) rotate(1.4deg) scale(1.02) }
+              0%{ opacity:0; transform: translate(-50%, -44%) rotate(-4deg) scale(.97) }
               100%{ opacity:1; transform: translate(-50%, -50%) rotate(-1.2deg) scale(1) }
             }
             @media (max-width: 680px){
@@ -469,6 +515,7 @@ export default function About() {
         /* Cards */
         .panel-premium{
           border:1px solid var(--border); border-radius:16px; background:var(--card);
+          box-shadow: 0 6px 18px rgba(0,0,0,.05);
         }
         .bio-card{ background: linear-gradient(180deg, rgba(255,255,255,.75), rgba(255,255,255,.65)); padding: 1rem; }
         .svc-summary{ background: linear-gradient(180deg, rgba(255,255,255,.70), rgba(255,255,255,.62)); padding: 1rem; }
@@ -484,6 +531,21 @@ export default function About() {
         }
 
         .bio-text p{ margin: .4rem 0; line-height:1.45 }
+
+        /* NEW: left photo block */
+        .bio-visual{
+          margin-top:.8rem;
+          border-radius:16px; overflow:hidden;
+          border:1px solid var(--border);
+          box-shadow: 0 8px 18px rgba(2,6,23,.08);
+          background:#fff;
+          aspect-ratio: 16 / 9; /* reserves layout space (prevents CLS) */
+        }
+        .bio-visual img{
+          width:100%; height:100%; object-fit:cover; display:block;
+          transform: translateZ(0); /* promote to layer for scroll smoothness */
+        }
+
         .bio-highlights{
           display:grid; gap:.6rem;
         }
@@ -518,13 +580,19 @@ export default function About() {
         .btn-primary{
           background:var(--accent-600, #0e99d5); color:#fff; border:none; border-radius:12px; padding:.72rem .95rem;
           font-weight:700; text-decoration:none; display:inline-block; transition: transform .18s ease, box-shadow .18s ease;
+          will-change: transform;
         }
         .btn-primary:hover{ transform:translateY(-1px); box-shadow:0 10px 26px rgba(14,153,213,.25) }
         .btn-ghost{
           border:1px solid var(--border); border-radius:12px; padding:.7rem .95rem; text-decoration:none; color:inherit;
-          transition:all .18s ease;
+          transition: border-color .18s ease, background-color .18s ease;
         }
         .btn-ghost:hover{ border-color:rgba(14,153,213,.3) }
+
+        /* Respect reduced motion */
+        @media (prefers-reduced-motion: reduce){
+          * { transition: none !important; animation: none !important; }
+        }
       `}</style>
     </section>
   );
