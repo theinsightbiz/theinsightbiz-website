@@ -82,7 +82,7 @@ export default function Services() {
                 <p className="svx-sum">{s.summary}</p>
                 <div className="svx-actions">
                   <button className="svx-btn-primary" onClick={() => openDetail(s.slug)}>
-                    View Project
+                    View
                   </button>
                 </div>
                 <div className="svx-chips">

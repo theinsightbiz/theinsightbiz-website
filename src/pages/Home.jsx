@@ -121,7 +121,7 @@ export default function Home() {
                 Trusted Consultancy Partner
               </h1>
               <p className="hm-sub">
-                Your one step solution for turning sight into insight.
+                Your one stop solution for all your business worries.
               </p>
             </div>
           </div>
@@ -190,7 +190,7 @@ export default function Home() {
 
         {/* Services */}
         <section className="page wide services" id="home-services-overview">
-          <h2>What services we are offering</h2>
+          <h2>How We Can Help ?</h2>
           <div className="grid4">
             <div className="svc-card">
               <h4>Financial Advisory Services</h4>

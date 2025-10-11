@@ -10,7 +10,7 @@ export default function Footer(){
           <p>At the Insight Biz, we are dedicated to providing expert consulting services in finance, tax, and compliance, helping businesses thrive in India, UAE, UK and USA. Our tailored solutions, deep regulatory knowledge, and commitment to excellence make us a trusted partner for your business success.</p>
         </div>
         <div>
-          <h4>Useful Links</h4>
+          <h4>Quick Links</h4>
           <ul className="links">
             <li><a href="https://www.incometax.gov.in/" target="_blank" rel="noreferrer">Income Tax <FaExternalLinkAlt/></a></li>
             <li><a href="https://www.mca.gov.in/" target="_blank" rel="noreferrer">MCA <FaExternalLinkAlt/></a></li>

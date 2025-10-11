@@ -194,7 +194,7 @@ export default function About() {
         {/* Row 2: Services summary (clean, scannable) */}
         <section id="services" className="panel-premium svc-summary">
           <header className="card-head">
-            <h2>Services</h2>
+            <h2>Our Services</h2>
             <p className="muted">Advisory, documentation and filing—clear scope, timelines and deliverables.</p>
           </header>
           <div className="svc-grid">
@@ -220,7 +220,7 @@ export default function About() {
         {/* Row 3: Team */}
         <section id="team" className="panel-premium">
           <header className="card-head">
-            <h2>Our Professionals</h2>
+            <h2>Our Experts</h2>
             <p className="muted">Certified team backed by internal reviews, checklists, and audit-grade documentation.</p>
           </header>
 
