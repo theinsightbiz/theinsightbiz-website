@@ -103,8 +103,6 @@ export default function Home() {
               <h1 className="hm-line">
                 We build clarity.
                 <br />
-                We design compliance.
-                <br />
                 We scale trust.
               </h1>
               <p className="hm-sub">
@@ -149,9 +147,9 @@ export default function Home() {
             }
             .hero-morph .hm-sub{
               margin: 0;
-              opacity: .9;
+              opacity: 1;
               max-width: 980px;
-              font-size: clamp(14px, 1.4vw, 18px);
+              font-size: clamp(28px, 1.4vw, 64px);
               line-height: 1.45;
             }
             .hero-morph .hm-old{ color: #000; }

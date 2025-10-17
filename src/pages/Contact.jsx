@@ -83,7 +83,7 @@ export default function Contact() {
     []
   );
 
-  const timeOptions = ["ASAP", "In 1 week", "In 1–2 months", "Exploring"];
+  const timeOptions = ["Urgent", "In 1 week", "In 1–2 months", "Exploring"];
 
   return (
     <section className="page wide contact-prime">
@@ -229,30 +229,6 @@ export default function Contact() {
                 <em>{msgLen}/{maxMsg}</em>
               </div>
             </div>
-
-            <div className="grid">
-              <div className="field">
-                <label>Attachments</label>
-                <label className="attach">
-                  <input
-                    type="file"
-                    multiple
-                    onChange={(e) => setFiles(Array.from(e.target.files || []))}
-                  />
-                  <FaPaperclip />{" "}
-                  {files.length
-                    ? `${files.length} file(s) selected`
-                    : "Upload brief / scope / RFP"}
-                </label>
-              </div>
-              <div className="field">
-                <label>Consent</label>
-                <label className="consent">
-                  <input type="checkbox" required /> I agree to be contacted and
-                  accept the Privacy Policy.
-                </label>
-              </div>
-            </div>
           </div>
 
           {/* Primary actions */}
@@ -310,15 +286,6 @@ export default function Contact() {
               <div>
                 <strong>Call</strong>
                 <div className="muted">+91 86768 56153</div>
-              </div>
-            </a>
-            <a className="rail-action" href="#calendar">
-              <span className="ico">
-                <FaCalendarAlt />
-              </span>
-              <div>
-                <strong>Book a slot</strong>
-                <div className="muted">We’ll share calendar on request</div>
               </div>
             </a>
           </div>

@@ -23,21 +23,21 @@ export default function About() {
       name: "Faiyaz & Ramesh",
       role: "Co-Founders • ABIZ-Global, India → UAE",
       quote:
-        "INSIGHT transformed our digital and compliance presence with clear timelines and zero surprises.",
+        "From VAT to Corporate Tax readiness, they made compliance in the UAE effortless.",
     },
     {
       photo: founder2,
-      name: "Jyoti Bala",
+      name: "Jyoti",
       role: "CEO • Jankees India, India",
       quote:
-        "From tax to cross-border set-up—one accountable partner. Documents are board-ready.",
+        "Their documents are clear and easy to find. When audit time came, everything was exactly where we needed it.",
     },
     {
       photo: trustee3,
-      name: "Rhea",
+      name: "Riya",
       role: "Director • RK Designs, India",
       quote:
-        "FCRA + audit support were airtight. The team is meticulous and communicative.",
+        "They set up our company and handled all compliances so we could launch in weeks, not months.",
     },
   ];
   const [idx, setIdx] = useState(0);
@@ -242,10 +242,10 @@ export default function About() {
                   Cross-border consultant for India, UAE, UK & USA tax and compliances; structures, filings, and checklists.
                 </p>
                 <div className="member-card__socials">
-                  <a className="icon-btn" href="#" aria-label="Facebook profile">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12.06C22 6.48 17.52 2 11.94 2S2 6.48 2 12.06c0 5.01 3.66 9.16 8.44 9.94v-7.03H8.4v-2.9h2.04V9.41c0-2.01 1.2-3.12 3.03-3.12.88 0 1.8.16 1.8.16v1.98h-1.02c-1 0-1.31.62-1.31 1.25v1.5h2.23l-.36 2.9h-1.87V22c4.78-.78 8.44-4.93 8.44-9.94z"/></svg>
+                  <a className="icon-btn" href="https://wa.me/918676856153" aria-label="WhatsApp chat" target="_blank" rel="noopener noreferrer">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.94 11.94 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.11.55 4.15 1.6 5.95L0 24l6.2-1.62A12 12 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.2-3.48-8.52ZM12 21.5a9.44 9.44 0 0 1-4.82-1.32l-.35-.2-3.67.96.98-3.57-.23-.37A9.5 9.5 0 1 1 21.5 12 9.52 9.52 0 0 1 12 21.5Zm5.44-6.98c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.95 1.18-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.8-1.48-1.78-1.65-2.08-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.92-2.18-.24-.58-.49-.5-.67-.5l-.57-.01c-.2 0-.52.07-.8.37-.27.3-1.05 1.03-1.05 2.52 0 1.48 1.07 2.92 1.22 3.12.15.2 2.1 3.2 5.08 4.48.71.31 1.27.49 1.7.63.71.23 1.35.2 1.86.12.57-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.08-.12-.27-.2-.57-.35Z"/></svg>
                   </a>
-                  <a className="icon-btn" href="#" aria-label="Instagram profile">
+                  <a className="icon-btn" href="https://www.instagram.com/insight_biz_global?igsh=Y2ZkN2c3MmFpdzc5" aria-label="Instagram profile" target="_blank" rel="noopener noreferrer">
                     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.75A5.25 5.25 0 1 1 6.75 13 5.26 5.26 0 0 1 12 7.75zm0 2a3.25 3.25 0 1 0 3.25 3.25A3.25 3.25 0 0 0 12 9.75zM18.5 6.88a1.13 1.13 0 1 1-1.13 1.13 1.13 1.13 0 0 1 1.13-1.13z"/></svg>
                   </a>
                 </div>
@@ -270,10 +270,10 @@ export default function About() {
                   Incorporations across India/UAE/UK/USA; SEBI, FEMA (ODI/FDI), and Companies Act, 2013 compliances.
                 </p>
                 <div className="member-card__socials">
-                  <a className="icon-btn" href="#" aria-label="Facebook profile">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12.06C22 6.48 17.52 2 11.94 2S2 6.48 2 12.06c0 5.01 3.66 9.16 8.44 9.94v-7.03H8.4v-2.9h2.04V9.41c0-2.01 1.2-3.12 3.03-3.12.88 0 1.8.16 1.8.16v1.98h-1.02c-1 0-1.31.62-1.31 1.25v1.5h2.23l-.36 2.9h-1.87V22c4.78-.78 8.44-4.93 8.44-9.94z"/></svg>
+                  <a className="icon-btn" href="https://wa.me/918676856153" aria-label="WhatsApp chat" target="_blank" rel="noopener noreferrer">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.94 11.94 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.11.55 4.15 1.6 5.95L0 24l6.2-1.62A12 12 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.2-3.48-8.52ZM12 21.5a9.44 9.44 0 0 1-4.82-1.32l-.35-.2-3.67.96.98-3.57-.23-.37A9.5 9.5 0 1 1 21.5 12 9.52 9.52 0 0 1 12 21.5Zm5.44-6.98c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.95 1.18-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.8-1.48-1.78-1.65-2.08-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.92-2.18-.24-.58-.49-.5-.67-.5l-.57-.01c-.2 0-.52.07-.8.37-.27.3-1.05 1.03-1.05 2.52 0 1.48 1.07 2.92 1.22 3.12.15.2 2.1 3.2 5.08 4.48.71.31 1.27.49 1.7.63.71.23 1.35.2 1.86.12.57-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.08-.12-.27-.2-.57-.35Z"/></svg>
                   </a>
-                  <a className="icon-btn" href="#" aria-label="Instagram profile">
+                  <a className="icon-btn" href="https://www.instagram.com/insight_biz_global?igsh=Y2ZkN2c3MmFpdzc5" aria-label="Instagram profile" target="_blank" rel="noopener noreferrer">
                     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.75A5.25 5.25 0 1 1 6.75 13 5.26 5.26 0 0 1 12 7.75zm0 2a3.25 3.25 0 1 0 3.25 3.25A3.25 3.25 0 0 0 12 9.75zM18.5 6.88a1.13 1.13 0 1 1-1.13 1.13 1.13 1.13 0 0 1 1.13-1.13z"/></svg>
                   </a>
                 </div>
@@ -298,10 +298,10 @@ export default function About() {
                   Income-tax compliance & assessments; bank-ready project finance models and term-sheet documentation.
                 </p>
                 <div className="member-card__socials">
-                  <a className="icon-btn" href="#" aria-label="Facebook profile">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12.06C22 6.48 17.52 2 11.94 2S2 6.48 2 12.06c0 5.01 3.66 9.16 8.44 9.94v-7.03H8.4v-2.9h2.04V9.41c0-2.01 1.2-3.12 3.03-3.12.88 0 1.8.16 1.8.16v1.98h-1.02c-1 0-1.31.62-1.31 1.25v1.5h2.23l-.36 2.9h-1.87V22c4.78-.78 8.44-4.93 8.44-9.94z"/></svg>
+                  <a className="icon-btn" href="https://wa.me/918676856153" aria-label="WhatsApp chat" target="_blank" rel="noopener noreferrer">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.94 11.94 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.11.55 4.15 1.6 5.95L0 24l6.2-1.62A12 12 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.2-3.48-8.52ZM12 21.5a9.44 9.44 0 0 1-4.82-1.32l-.35-.2-3.67.96.98-3.57-.23-.37A9.5 9.5 0 1 1 21.5 12 9.52 9.52 0 0 1 12 21.5Zm5.44-6.98c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.95 1.18-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.8-1.48-1.78-1.65-2.08-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.92-2.18-.24-.58-.49-.5-.67-.5l-.57-.01c-.2 0-.52.07-.8.37-.27.3-1.05 1.03-1.05 2.52 0 1.48 1.07 2.92 1.22 3.12.15.2 2.1 3.2 5.08 4.48.71.31 1.27.49 1.7.63.71.23 1.35.2 1.86.12.57-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.08-.12-.27-.2-.57-.35Z"/></svg>
                   </a>
-                  <a className="icon-btn" href="#" aria-label="Instagram profile">
+                  <a className="icon-btn" href="https://www.instagram.com/insight_biz_global?igsh=Y2ZkN2c3MmFpdzc5" aria-label="Instagram profile" target="_blank" rel="noopener noreferrer">
                     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.75A5.25 5.25 0 1 1 6.75 13 5.26 5.26 0 0 1 12 7.75zm0 2a3.25 3.25 0 1 0 3.25 3.25A3.25 3.25 0 0 0 12 9.75zM18.5 6.88a1.13 1.13 0 1 1-1.13 1.13 1.13 1.13 0 0 1 1.13-1.13z"/></svg>
                   </a>
                 </div>
@@ -326,10 +326,10 @@ export default function About() {
                   Monthly MIS ownership, books close, variance analysis; India GST and UAE VAT with robust reconciliations.
                 </p>
                 <div className="member-card__socials">
-                  <a className="icon-btn" href="#" aria-label="Facebook profile">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12.06C22 6.48 17.52 2 11.94 2S2 6.48 2 12.06c0 5.01 3.66 9.16 8.44 9.94v-7.03H8.4v-2.9h2.04V9.41c0-2.01 1.2-3.12 3.03-3.12.88 0 1.8.16 1.8.16v1.98h-1.02c-1 0-1.31.62-1.31 1.25v1.5h2.23l-.36 2.9h-1.87V22c4.78-.78 8.44-4.93 8.44-9.94z"/></svg>
+                  <a className="icon-btn" href="https://wa.me/918676856153" aria-label="WhatsApp chat" target="_blank" rel="noopener noreferrer">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.94 11.94 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.11.55 4.15 1.6 5.95L0 24l6.2-1.62A12 12 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.2-3.48-8.52ZM12 21.5a9.44 9.44 0 0 1-4.82-1.32l-.35-.2-3.67.96.98-3.57-.23-.37A9.5 9.5 0 1 1 21.5 12 9.52 9.52 0 0 1 12 21.5Zm5.44-6.98c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.95 1.18-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.8-1.48-1.78-1.65-2.08-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.92-2.18-.24-.58-.49-.5-.67-.5l-.57-.01c-.2 0 -.52 .07 -.8 .37 -.27 .3 -1.05 1.03 -1.05 2.52 0 1.48 1.07 2.92 1.22 3.12 .15 .2 2.1 3.2 5.08 4.48 .71 .31 1.27 .49 1.7 .63 .71 .23 1.35 .2 1.86 .12 .57 -.09 1.77 -.72 2.02 -1.42 .25 -.7 .25 -1.3 .17 -1.42 -.08 -.12 -.27 -.2 -.57 -.35Z"/></svg>
                   </a>
-                  <a className="icon-btn" href="#" aria-label="Instagram profile">
+                  <a className="icon-btn" href="https://www.instagram.com/insight_biz_global?igsh=Y2ZkN2c3MmFpdzc5" aria-label="Instagram profile" target="_blank" rel="noopener noreferrer">
                     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.75A5.25 5.25 0 1 1 6.75 13 5.26 5.26 0 0 1 12 7.75zm0 2a3.25 3.25 0 1 0 3.25 3.25A3.25 3.25 0 0 0 12 9.75zM18.5 6.88a1.13 1.13 0 1 1-1.13 1.13 1.13 1.13 0 0 1 1.13-1.13z"/></svg>
                   </a>
                 </div>
@@ -381,7 +381,7 @@ export default function About() {
             }
             .icon-btn:hover, .icon-btn:focus-visible{ transform: translateY(-2px); background: rgba(255,255,255,0.2); }
             .icon-btn svg{ width: 18px; height: 18px; fill: #fff; }
-            .member-card__sr-toggle{ position: absolute; inset: 0; width: 100%; height: 100%; background: none; border: 0; padding: 0; margin: 0; cursor: default; z-index: 3; opacity: 0; }
+            .member-card__sr-toggle{ position: absolute; inset: 0; width: 100%; height: 100%; background: none; border: 0; padding: 0; margin: 0; cursor: default; z-index: 3; opacity: 0; pointer-events: none; }
             .member-card.active .member-card__photo{ transform: translateY(-4%) scale(0.78); }
             .member-card.active .member-card__glass{ opacity: 1; transform: translateY(0); }
             .member-card.active .member-card__info{ opacity: 1; transform: translateY(0); }
@@ -451,7 +451,7 @@ export default function About() {
               font-weight:800; letter-spacing:.2px; font-size: clamp(18px, 1.6vw, 22px); line-height:1.3; z-index:2;
             }
             .feedback-card{
-              position:absolute; left:70%; top:50%; transform: translate(-50%, -50%) rotate(-1.2deg);
+              position:absolute; left:60%; top:50%; transform: translate(-50%, -50%) rotate(-1.2deg);
               width: min(285px, 90vw); max-height: 64vh; background:#fff; color:#111; border-radius: 16px;
               border: 1px solid rgba(0,0,0,.06); overflow:hidden;
               animation: cardIn .65s cubic-bezier(.22,.61,.36,1);
