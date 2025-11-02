@@ -737,3 +737,16 @@ footer, .site-footer { background: transparent !important; }
 .a{
   font-size:18px;
 }
+
+
+/* e.g., src/index.css or your global CSS */
+#root, .app-root, .site-wrap {
+  position: relative;
+  z-index: 1;
+}
+
+/* Keep the app above the fluid canvas */
+#root, .app-container, .main-content {
+  position: relative;
+  z-index: 3; /* higher than the canvas (2) */
+}
