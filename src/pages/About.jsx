@@ -367,6 +367,25 @@ export default function About() {
               position: absolute; left: 0; right: 0; bottom: 0; padding: 18px 18px 20px; color: #fff; z-index: 2;
               opacity: 0; transform: translateY(18px); transition: opacity 240ms ease, transform 240ms ease;
             }
+
+            /* 👇 on hover/focus: blur image and show text */
+            .member-card:hover .member-card__photo,
+            .member-card:focus-within .member-card__photo {
+            filter: blur(3px);
+            transform: translateY(-4%) scale(0.78);
+            }
+
+            .member-card:hover .member-card__glass,
+            .member-card:focus-within .member-card__glass {
+            opacity: 1;
+            transform: translateY(0);
+            }
+
+            .member-card:hover .member-card__info,
+            .member-card:focus-within .member-card__info {
+            opacity: 1;
+            transform: translateY(0);
+            }
             .member-card__name{ font-size: 1.1rem; margin: 0 0 2px; line-height:1.1; font-weight: 700; }
             .member-card__role{ margin: 0 0 8px; font-size: .88rem; color: #cbd5e1; }
             .member-card__bio{ margin: 0 0 12px; font-size: .86rem; line-height: 1.45; color: #e2e8f0; }
