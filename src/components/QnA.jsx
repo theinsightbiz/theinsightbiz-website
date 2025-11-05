@@ -10,8 +10,8 @@ export default function QnA() {
   const toggle = (i) => setOpenIdx((idx) => (idx === i ? -1 : i));
 
   return (
-    <section className="qna">
-      <h3>Frequently Asked Questions</h3>
+    <section className="qna" style={{ color: '#000' }}>
+      <h3 style={{ color: '#fff' }}>Frequently Asked Questions</h3>
       <ul className="accordion">
         {faqs.map((f, i) => {
           const isOpen = openIdx === i;
@@ -36,8 +36,8 @@ export default function QnA() {
                 ref={(el) => (panelsRef.current[i] = el)}
                 className="a"
                 style={{
-                  maxHeight,                   // smooth height animation
-                  opacity: isOpen ? 1 : 0,    // fade for polish
+                  maxHeight,
+                  opacity: isOpen ? 1 : 0,
                   transition: 'max-height 280ms ease, opacity 220ms ease',
                   overflow: 'hidden',
                 }}

@@ -99,7 +99,9 @@ export default function Home() {
             style={{ backgroundImage: `url(${heroBg})` }}
           >
             {/* Layer A — OLD */}
-            <div className="hm-layer hm-old" aria-live="polite">
+            <div className="hm-layer hm-old" aria-live="polite"
+            style={{ color: "#fff" }}
+            >
               <h1 className="hm-line">
                 We build clarity.
                 <br />
@@ -112,7 +114,9 @@ export default function Home() {
             </div>
 
             {/* Layer B — NEW */}
-            <div className="hm-layer hm-new" aria-hidden="true">
+            <div className="hm-layer hm-new" aria-hidden="true"
+            style={{ color: "#fff" }}
+            >
               <h1 className="hm-line">
                 Insight Business Consultancy
                 <br />
@@ -187,11 +191,13 @@ export default function Home() {
         </section>
 
         {/* Services */}
-        <section className="page wide services" id="home-services-overview">
+        <section className="page wide services" id="home-services-overview"
+        style={{ color: "#fff" }}
+        >
           <h2>How We Can Help ?</h2>
           <div className="grid4">
             <div className="svc-card">
-              <h4>Financial Advisory Services</h4>
+              <h4 style={{ color: "#000" }}>Financial Advisory Services</h4>
               <p>
                 Guidance to individuals and businesses on managing finances,
                 investment strategies, retirement planning, and portfolio
@@ -199,7 +205,7 @@ export default function Home() {
               </p>
             </div>
             <div className="svc-card">
-              <h4>Tax Compliance & Advisory</h4>
+              <h4 style={{ color: "#000" }}>Tax Compliance & Advisory</h4>
               <p>
                 Ensures businesses adhere to tax regulations while optimizing
                 tax liabilities. We help you navigate complex tax laws and
@@ -207,7 +213,7 @@ export default function Home() {
               </p>
             </div>
             <div className="svc-card">
-              <h4>Accounting & Bookkeeping</h4>
+              <h4 style={{ color: "#000" }}>Accounting & Bookkeeping</h4>
               <p>
                 From managing daily transactions to preparing financial
                 statements, we maintain accurate records and provide insights to
@@ -215,7 +221,7 @@ export default function Home() {
               </p>
             </div>
             <div className="svc-card">
-              <h4>Regulatory & Compliance</h4>
+              <h4 style={{ color: "#000" }}>Regulatory & Compliance</h4>
               <p>
                 Ensure your business adheres to legal standards and industry
                 regulations across jurisdictions with expert guidance, audits,
@@ -239,65 +245,66 @@ export default function Home() {
 
         {/* Explore */}
         <section
-          className="page wide"
-          aria-label="Explore other pages"
-          style={{ marginTop: "1rem" }}
+        className="page wide"
+        aria-label="Explore other pages"
+        style={{ color: "#fff" }}
         >
-          <SectionHeader
-            title="Explore other pages"
-            subtitle="Discover more about our offerings and resources"
-          />
-          <div
-            className="grid5"
-            style={{
-              width: "100%",
-              display: "grid",
-              gridTemplateColumns: "repeat(4, 1fr)",
-              gap: ".8rem",
-            }}
-          >
-            <Link
-              to="/services"
-              className="card glass"
-              style={{ padding: "0.9rem 1rem", textDecoration: "none" }}
-            >
-              <h4 style={{ margin: 0 }}>Services</h4>
-              <p className="m0" style={{ opacity: 0.8 }}>
-                What we do
-              </p>
-            </Link>
-            <Link
-              to="/blog"
-              className="card glass"
-              style={{ padding: "0.9rem 1rem", textDecoration: "none" }}
-            >
-              <h4 style={{ margin: 0 }}>Blog</h4>
-              <p className="m0" style={{ opacity: 0.8 }}>
-                Insights & updates
-              </p>
-            </Link>
-            <Link
-              to="/privacy"
-              className="card glass"
-              style={{ padding: "0.9rem 1rem", textDecoration: "none" }}
-            >
-              <h4 style={{ margin: 0 }}>Privacy Policy</h4>
-              <p className="m0" style={{ opacity: 0.8 }}>
-                Data & security
-              </p>
-            </Link>
-            <Link
-              to="/downloads"
-              className="card glass"
-              style={{ padding: "0.9rem 1rem", textDecoration: "none" }}
-            >
-              <h4 style={{ margin: 0 }}>Downloads</h4>
-              <p className="m0" style={{ opacity: 0.8 }}>
-                Client resources
-              </p>
-            </Link>
-          </div>
+        <SectionHeader
+        title="Explore other pages"
+        style={{ color: "#fff" }}
+        />
+        <div
+        className="grid5"
+        style={{
+        width: "100%",
+        display: "grid",
+        gridTemplateColumns: "repeat(4, 1fr)",
+        gap: ".8rem",
+        }}
+        >
+        <Link
+        to="/services"
+        className="card glass"
+        style={{ padding: "0.9rem 1rem", textDecoration: "none", color: "#000" }}
+        >
+        <h4 style={{ margin: 0, color: "#000" }}>Services</h4>
+        <p className="m0" style={{ opacity: 0.8, color: "#000" }}>
+        What we do
+        </p>
+        </Link>
+        <Link
+        to="/blog"
+        className="card glass"
+        style={{ padding: "0.9rem 1rem", textDecoration: "none", color: "#000" }}
+        >
+        <h4 style={{ margin: 0, color: "#000" }}>Blog</h4>
+        <p className="m0" style={{ opacity: 0.8, color: "#000" }}>
+        Insights & updates
+        </p>
+        </Link>
+        <Link
+        to="/privacy"
+        className="card glass"
+        style={{ padding: "0.9rem 1rem", textDecoration: "none", color: "#000" }}
+        >
+        <h4 style={{ margin: 0, color: "#000" }}>Privacy Policy</h4>
+        <p className="m0" style={{ opacity: 0.8, color: "#000" }}>
+        Data & security
+        </p>
+        </Link>
+        <Link
+        to="/downloads"
+        className="card glass"
+        style={{ padding: "0.9rem 1rem", textDecoration: "none", color: "#000" }}
+        >
+        <h4 style={{ margin: 0, color: "#000" }}>Downloads</h4>
+        <p className="m0" style={{ opacity: 0.8, color: "#000" }}>
+        Client resources
+        </p>
+        </Link>
+        </div>
         </section>
+
 
         {/* QnA */}
         <section className="page wide">

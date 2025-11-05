@@ -134,10 +134,18 @@ export default function About() {
     <section className="page wide about-prime">
       {/* ===== Premium hero ===== */}
       <div className="prime-hero">
-        <div className="prime-hero__badge">Since 2011 • Multi-jurisdiction advisory</div>
-        <h1 className="prime-hero__title">About INSIGHT</h1>
-        <p className="prime-hero__lead">
-          We are a seasoned business consultant specializing in financial advisory, tax compliance and business setup solutions across India, UAE, UK and USA. With deep expertise in regulatory frameworks and financial strategies, we help businesses optimise operations, save costs and achieve sustainable growth.
+        <div className="prime-hero__badge"
+        style={{ color: "#fff" }}
+        >
+        Since 2011 • Multi-jurisdiction advisory</div>
+        <h1 className="prime-hero__title"
+        style={{ color: "#07cbfcff" }}
+        >
+        About INSIGHT</h1>
+        <p className="prime-hero__lead"
+        style={{ color: "#fff" }}
+        >
+        We are a seasoned business consultant specializing in financial advisory, tax compliance and business setup solutions across India, UAE, UK and USA. With deep expertise in regulatory frameworks and financial strategies, we help businesses optimise operations, save costs and achieve sustainable growth.
         </p>
       </div>
 
@@ -147,18 +155,20 @@ export default function About() {
         <section id="bio" className="panel-premium bio-card">
           <header className="card-head">
             <h2>Why Work With Us ?</h2>
-            <p className="muted">
+            <p className="muted"
+            style={{ color: "#000" }}
+            >
               Personalized, results-driven engagement—from first call to final filing.
             </p>
           </header>
 
           <div className="bio-body">
             {/* LEFT column */}
-            <div className="bio-text">
-              <p>
+                <div className="bio-text">
+                <p style={{ color: "#000" }}>
                 We bring a personalized, results-driven approach to every client engagement. Whether you're expanding internationally, optimizing taxes, or seeking financial clarity, we ensure tailored solutions to meet your business goals.
               </p>
-              <p className="m0">
+              <p className="m0" style={{ color: "#000" }}>
                 Let’s connect—discover how we can streamline your operations and keep you compliant across dynamic markets.
               </p>
 
@@ -177,15 +187,15 @@ export default function About() {
             <div className="bio-highlights">
               <article className="tile">
                 <h3>4+ Jurisdictions</h3>
-                <p className="m0">India, UAE, UK, USA — global coverage, consistent delivery.</p>
+                <p className="m0" style={{ color: "#000" }}>India, UAE, UK, USA — global coverage, consistent delivery.</p>
               </article>
               <article className="tile">
                 <h3>Precision You Can Present</h3>
-                <p className="m0">Investor-ready documents and clean papers your board can act on.</p>
+                <p className="m0" style={{ color: "#000" }}>Investor-ready documents and clean papers your board can act on.</p>
               </article>
               <article className="tile">
                 <h3>From Call to Filing</h3>
-                <p className="m0">We plan, paper, file and maintain so you always stay current.</p>
+                <p className="m0" style={{ color: "#000" }}>We plan, paper, file and maintain so you always stay current.</p>
               </article>
             </div>
           </div>
@@ -195,24 +205,24 @@ export default function About() {
         <section id="services" className="panel-premium svc-summary">
           <header className="card-head">
             <h2>Our Services</h2>
-            <p className="muted">Advisory, documentation and filing—clear scope, timelines and deliverables.</p>
+            <p className="muted" style={{ color: "#000" }}>Advisory, documentation and filing—clear scope, timelines and deliverables.</p>
           </header>
           <div className="svc-grid">
             <div className="card glass svc">
               <h4>Financial Advisory</h4>
-              <p className="m0">Guidance to individuals and businesses—investments, retirement planning, portfolio optimization.</p>
+              <p className="m0" style={{ color: "#000" }}>Guidance to individuals and businesses—investments, retirement planning, portfolio optimization.</p>
             </div>
             <div className="card glass svc">
               <h4>Tax Compliance & Advisory</h4>
-              <p className="m0">Adhere to regulations while optimizing liabilities; navigate complex tax laws with confidence.</p>
+              <p className="m0" style={{ color: "#000" }}>Adhere to regulations while optimizing liabilities; navigate complex tax laws with confidence.</p>
             </div>
             <div className="card glass svc">
               <h4>Accounting & Bookkeeping</h4>
-              <p className="m0">Daily transactions to financial statements—accurate records and decision-ready insights.</p>
+              <p className="m0" style={{ color: "#000" }}>Daily transactions to financial statements—accurate records and decision-ready insights.</p>
             </div>
             <div className="card glass svc">
               <h4>Regulatory & Compliance</h4>
-              <p className="m0">Multi-jurisdiction guidance, audits, and streamlined operations that scale.</p>
+              <p className="m0" style={{ color: "#000" }}>Multi-jurisdiction guidance, audits, and streamlined operations that scale.</p>
             </div>
           </div>
         </section>
@@ -221,7 +231,7 @@ export default function About() {
         <section id="team" className="panel-premium">
           <header className="card-head">
             <h2>Our Experts</h2>
-            <p className="muted">Certified team backed by internal reviews, checklists, and audit-grade documentation.</p>
+            <p className="muted" style={{ color: "#000" }}>Certified team backed by internal reviews, checklists, and audit-grade documentation.</p>
           </header>
 
           <div className="tm-grid">
@@ -508,7 +518,7 @@ export default function About() {
 
       {/* ===== Bottom CTA ===== */}
       <div className="about-cta">
-        <div className="about-cta__title">Ready to get started?</div>
+        <div className="about-cta__title" style={{ color: "#fff" }}>Ready to get started?</div>
         <div className="about-cta__actions">
           <a className="btn-primary" href="/contact">Contact us</a>
           <a className="btn-ghost" href="/services">Explore services</a>
@@ -603,10 +613,11 @@ export default function About() {
         }
         .btn-primary:hover{ transform:translateY(-1px); box-shadow:0 10px 26px rgba(14,153,213,.25) }
         .btn-ghost{
-          border:1px solid var(--border); border-radius:12px; padding:.7rem .95rem; text-decoration:none; color:inherit;
-          transition: border-color .18s ease, background-color .18s ease;
+          background:var(--accent-600, #0e99d5); color:#fff; border:none; border-radius:12px; padding:.72rem .95rem;
+          font-weight:700; text-decoration:none; display:inline-block; transition: transform .18s ease, box-shadow .18s ease;
+          will-change: transform;
         }
-        .btn-ghost:hover{ border-color:rgba(14,153,213,.3) }
+        .btn-ghost:hover{ transform:translateY(-1px); box-shadow:0 10px 26px rgba(14,153,213,.25) }
 
         /* Respect reduced motion */
         @media (prefers-reduced-motion: reduce){

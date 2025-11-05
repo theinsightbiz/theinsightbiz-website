@@ -15,9 +15,9 @@ export default function Downloads(){
     <section className="page wide downloads-prime">
       {/* Premium hero */}
       <div className="prime-hero">
-        <div className="prime-hero__badge">Curated PDFs • Always up to date</div>
-        <h1 className="prime-hero__title">Downloads</h1>
-        <p className="prime-hero__lead">One place for brochures, service catalogues, and onboarding checklists.</p>
+        <div className="prime-hero__badge" style={{ color: "#fff" }}>Curated PDFs • Always up to date</div>
+        <h1 className="prime-hero__title" style={{ color: "#07cbfcff" }}>Downloads</h1>
+        <p className="prime-hero__lead" style={{ color: "#fff" }}>One place for brochures, service catalogues, and onboarding checklists.</p>
       </div>
 
       <div className="panel-premium dl-wrap">
@@ -40,7 +40,7 @@ export default function Downloads(){
 
       {/* CTA */}
       <div className="dl-cta">
-        <div className="dl-cta__title">Need a custom checklist or scope?</div>
+        <div className="dl-cta__title" style={{ color: "#fff" }}>Need a custom checklist or scope?</div>
         <div className="dl-cta__actions">
           <a className="btn-primary" href="/contact">Contact us</a>
           <a className="btn-ghost" href="/services">Explore services</a>
@@ -82,10 +82,10 @@ export default function Downloads(){
         }
         .btn-primary:hover{ transform:translateY(-1px); box-shadow:0 10px 26px rgba(14,153,213,.25) }
         .btn-ghost{
-          border:1px solid var(--border); border-radius:12px; padding:.58rem .85rem; text-decoration:none; color:inherit;
-          transition:all .18s ease;
+          background:var(--accent-600, #0e99d5); color:#fff; border:none; border-radius:12px; padding:.6rem .85rem;
+          font-weight:700; text-decoration:none; transition: transform .18s ease, box-shadow .18s ease;
         }
-        .btn-ghost:hover{ border-color:rgba(14,153,213,.3) }
+        .btn-ghost:hover{ transform:translateY(-1px); box-shadow:0 10px 26px rgba(14,153,213,.25) }
 
         .dl-cta{
           margin: 1rem 0 0; display:grid; place-items:center; text-align:center; gap:.5rem;

@@ -35,9 +35,9 @@ export default function Services() {
     <section className="page wide svx">
       {/* Premium header */}
       <header className="svx-hero">
-        <div className="svx-badge">Clear scope • Transparent timelines</div>
-        <h1 className="svx-title">Services</h1>
-        <p className="svx-lead">Browse our offerings by client type and open a service to see what’s included, timelines, and documents required.</p>
+        <div className="svx-badge" style={{ color: "#fff" }}>Clear scope • Transparent timelines</div>
+        <h1 className="svx-title" style={{ color: "#07cbfcff" }}>Services</h1>
+        <p className="svx-lead" style={{ color: "#fff" }}>Browse our offerings by client type and open a service to see what’s included, timelines, and documents required.</p>
       </header>
 
       {/* Toolbar: Tabs + View Toggle */}

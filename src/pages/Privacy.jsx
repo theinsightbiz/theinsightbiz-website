@@ -5,9 +5,9 @@ export default function Privacy(){
     <section className="page wide privacy-prime">
       {/* Premium hero */}
       <div className="prime-hero">
-        <div className="prime-hero__badge">Transparent • Compliant • Secure</div>
-        <h1 className="prime-hero__title">Privacy Policy</h1>
-        <p className="prime-hero__lead">Your data, safeguarded—clear controls and responsible use.</p>
+        <div className="prime-hero__badge" style={{ color: "#fff" }}>Transparent • Compliant • Secure</div>
+        <h1 className="prime-hero__title" style={{ color: "#07cbfcff" }}>Privacy Policy</h1>
+        <p className="prime-hero__lead" style={{ color: "#fff" }}>Your data, safeguarded—clear controls and responsible use.</p>
       </div>
 
       {/* Content layout */}
@@ -15,7 +15,7 @@ export default function Privacy(){
         <article className="panel-premium privacy-card">
           <div className="section">
             <h2>Overview</h2>
-            <p>
+            <p style={{ color: "#000" }}>
               We value your privacy. Any information you share via forms or communication channels is used solely to respond to your queries,
               provide services you request, and improve our offerings. We do not sell your data to third parties. Where we use third-party services
               (e.g., analytics, mapping), their respective privacy policies apply.
@@ -24,7 +24,7 @@ export default function Privacy(){
 
           <div className="section">
             <h2>Your Rights</h2>
-            <p>
+            <p style={{ color: "#000" }}>
               You may request access, correction, or deletion of your information by contacting us at <strong>contact@theinsightbiz.com</strong>.
               We implement reasonable technical and organizational measures to safeguard your data.
             </p>
@@ -32,7 +32,7 @@ export default function Privacy(){
 
           <div className="section">
             <h2>Consent & Updates</h2>
-            <p>
+            <p style={{ color: "#000" }}>
               By using this website, you consent to this policy. Updates to this policy will be posted on this page.
             </p>
           </div>
@@ -49,7 +49,7 @@ export default function Privacy(){
 
       {/* CTA */}
       <div className="privacy-cta">
-        <div className="privacy-cta__title">Questions about your data?</div>
+        <div className="privacy-cta__title" style={{ color: "#fff" }}>Questions about your data?</div>
         <div className="privacy-cta__actions">
           <a className="btn-primary" href="mailto:contact@theinsightbiz.com">Email us</a>
           <a className="btn-ghost" href="/contact">Contact form</a>
@@ -97,10 +97,10 @@ export default function Privacy(){
         }
         .btn-primary:hover{ transform:translateY(-1px); box-shadow:0 10px 26px rgba(14,153,213,.25) }
         .btn-ghost{
-          border:1px solid var(--border); border-radius:12px; padding:.7rem .95rem; text-decoration:none; color:inherit;
-          transition:all .18s ease;
+          background:var(--accent-600, #0e99d5); color:#fff; border:none; border-radius:12px; padding:.72rem .95rem;
+          font-weight:700; text-decoration:none; transition: transform .18s ease, box-shadow .18s ease;
         }
-        .btn-ghost:hover{ border-color:rgba(14,153,213,.3) }
+        .btn-ghost:hover{ transform:translateY(-1px); box-shadow:0 10px 26px rgba(14,153,213,.25) }
       `}</style>
     </section>
   )

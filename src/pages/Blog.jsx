@@ -21,9 +21,9 @@ export default function Blog(){
     <section className="page wide blog-prime">
       {/* Premium hero */}
       <div className="prime-hero">
-        <div className="prime-hero__badge">Expert takes • Practical playbooks</div>
-        <h1 className="prime-hero__title">Insights & Updates</h1>
-        <p className="prime-hero__lead">
+        <div className="prime-hero__badge" style={{ color: "#fff" }}>Expert takes • Practical playbooks</div>
+        <h1 className="prime-hero__title" style={{ color: "#07cbfcff" }}>Insights & Updates</h1>
+        <p className="prime-hero__lead" style={{ color: "#fff" }}>
           Curated knowledge across tax, accounting, and global compliance—written for decision-makers.
         </p>
       </div>
@@ -33,7 +33,7 @@ export default function Blog(){
         <div className="panel-premium tool-card">
           <div className="tool-head">
             <h3>Publish</h3>
-            <p className="muted">Create or edit posts</p>
+            <p className="muted" style={{ color: "#000" }}>Create or edit posts</p>
           </div>
           <BlogEditor />
         </div>
@@ -41,7 +41,7 @@ export default function Blog(){
         <div className="panel-premium tool-card">
           <div className="tool-head">
             <h3>Find articles</h3>
-            <p className="muted">Search by topic, tag, or date</p>
+            <p className="muted" style={{ color: "#000" }}>Search by topic, tag, or date</p>
           </div>
           <BlogSearch />
         </div>
@@ -51,14 +51,14 @@ export default function Blog(){
       <div className="panel-premium feed-card">
         <div className="feed-head">
           <h2>Latest from the blog</h2>
-          <p className="muted">Fresh perspectives and step-by-step guidance</p>
+          <p className="muted" style={{ color: "#000" }}>Fresh perspectives and step-by-step guidance</p>
         </div>
         <BlogList />
       </div>
 
       {/* CTA */}
       <div className="blog-cta">
-        <div className="blog-cta__title">Want help applying these ideas?</div>
+        <div className="blog-cta__title" style={{ color: "#fff" }}>Want help applying these ideas?</div>
         <div className="blog-cta__actions">
           <Link className="btn-primary" to="/contact">Talk to us</Link>
           <Link className="btn-ghost" to="/services">Explore services</Link>
@@ -103,10 +103,10 @@ export default function Blog(){
         }
         .btn-primary:hover{ transform:translateY(-1px); box-shadow:0 10px 26px rgba(14,153,213,.25) }
         .btn-ghost{
-          border:1px solid var(--border); border-radius:12px; padding:.7rem .95rem; text-decoration:none; color:inherit;
-          transition:all .18s ease;
+          background:var(--accent-600, #0e99d5); color:#fff; border:none; border-radius:12px; padding:.72rem .95rem;
+          font-weight:700; text-decoration:none; transition: transform .18s ease, box-shadow .18s ease;
         }
-        .btn-ghost:hover{ border-color:rgba(14,153,213,.3) }
+        .btn-ghost:hover{ transform:translateY(-1px); box-shadow:0 10px 26px rgba(14,153,213,.25) }
       `}</style>
     </section>
   )

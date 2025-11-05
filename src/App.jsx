@@ -36,7 +36,7 @@ function FxToggle({ on, setOn }) {
       <style>{`
         .fx-toggle{
           position: fixed;
-          right: 14px; bottom: 14px;
+          left: 14px; bottom: 14px;
           z-index: 2147483647; /* on top of everything */
           padding: .55rem .8rem;
           border-radius: 999px;

@@ -89,9 +89,9 @@ export default function Contact() {
     <section className="page wide contact-prime">
       {/* Premium hero */}
       <div className="prime-hero">
-        <div className="prime-hero__badge">Response in 1 business day</div>
-        <h1 className="prime-hero__title">Let’s build something exceptional</h1>
-        <p className="prime-hero__lead">
+        <div className="prime-hero__badge" style={{ color: "#fff" }}>Response in 1 business day</div>
+        <h1 className="prime-hero__title" style={{ color: "#07cbfcff" }}>Let’s build something exceptional</h1>
+        <p className="prime-hero__lead" style={{ color: "#fff" }}>
           Tell us about your needs—advisory, compliance, design, or other business matters.
           We review every enquiry and reply within one business day.
         </p>
@@ -113,7 +113,6 @@ export default function Contact() {
           <div className="form-section">
             <div className="section-head">
               <h3>Contact details</h3>
-              <p>We’ll use these to get back to you.</p>
             </div>
             <div className="grid">
               <div className="field">
@@ -166,7 +165,6 @@ export default function Contact() {
           <div className="form-section">
             <div className="section-head">
               <h3>Scope & timeline</h3>
-              <p>Choose what fits best right now.</p>
             </div>
 
             <div className="field">
@@ -212,11 +210,10 @@ export default function Contact() {
           <div className="form-section">
             <div className="section-head">
               <h3>Project brief</h3>
-              <p>Share goals, pain points, and any useful links.</p>
+              <p style={{ color: "#000" }}>Share goals, pain points, and any useful links.</p>
             </div>
 
             <div className="field">
-              <label>Project brief</label>
               <textarea
                 name="message"
                 rows={6}
