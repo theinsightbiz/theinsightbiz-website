@@ -67,8 +67,8 @@ function FxToggle({ on, setOn }) {
 }
 
 export default function App(){
-  // UI toggle for the fluid cursor (default ON)
-  const [fxOn, setFxOn] = useState(true)
+  // UI toggle for the fluid cursor (default OFF)
+  const [fxOn, setFxOn] = useState(false)
 
   return (
     <div className="app-container">
