@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 
 const items = [
   { label: 'Years of Experience', to: 10 },
-  { label: 'Clients Served', to: 500 },
-  { label: 'Projects Delivered', to: 1000 },
+  { label: 'Clients Served', to: 1500 },
+  { label: 'Projects Delivered', to: 3500 },
   { label: 'Jurisdictions', to: 4 },
 ]
 
