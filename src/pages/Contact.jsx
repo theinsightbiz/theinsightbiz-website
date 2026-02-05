@@ -89,7 +89,7 @@ export default function Contact() {
     <section className="page wide contact-prime">
       {/* Premium hero */}
       <div className="prime-hero">
-        <div className="prime-hero__badge" style={{ color: "#000000" }}>Response in 1 business day</div>
+        <div className="prime-hero__badge" style={{ color: "#00000" }}>Response in 1 business day</div>
         <h1 className="prime-hero__title" style={{ color: "#07cbfcff" }}>Let’s build something exceptional</h1>
         <p className="prime-hero__lead" style={{ color: "#000000" }}>
           Tell us about your needs—advisory, compliance, design, or other business matters.
