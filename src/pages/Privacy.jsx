@@ -5,9 +5,9 @@ export default function Privacy(){
     <section className="page wide privacy-prime">
       {/* Premium hero */}
       <div className="prime-hero">
-        <div className="prime-hero__badge" style={{ color: "#fff" }}>Transparent • Compliant • Secure</div>
+        <div className="prime-hero__badge" style={{ color: "#000000" }}>Transparent • Compliant • Secure</div>
         <h1 className="prime-hero__title" style={{ color: "#07cbfcff" }}>Privacy Policy</h1>
-        <p className="prime-hero__lead" style={{ color: "#fff" }}>Your data, safeguarded—clear controls and responsible use.</p>
+        <p className="prime-hero__lead" style={{ color: "#000000" }}>Your data, safeguarded—clear controls and responsible use.</p>
       </div>
 
       {/* Content layout */}
@@ -49,7 +49,7 @@ export default function Privacy(){
 
       {/* CTA */}
       <div className="privacy-cta">
-        <div className="privacy-cta__title" style={{ color: "#fff" }}>Questions about your data?</div>
+        <div className="privacy-cta__title" style={{ color: "#000000" }}>Questions about your data?</div>
         <div className="privacy-cta__actions">
           <a className="btn-primary" href="mailto:contact@theinsightbiz.com">Email us</a>
           <a className="btn-ghost" href="/contact">Contact form</a>

@@ -15,9 +15,9 @@ export default function Downloads(){
     <section className="page wide downloads-prime">
       {/* Premium hero */}
       <div className="prime-hero">
-        <div className="prime-hero__badge" style={{ color: "#fff" }}>Curated PDFs • Always up to date</div>
+        <div className="prime-hero__badge" style={{ color: "#000000" }}>Curated PDFs • Always up to date</div>
         <h1 className="prime-hero__title" style={{ color: "#07cbfcff" }}>Downloads</h1>
-        <p className="prime-hero__lead" style={{ color: "#fff" }}>One place for brochures, service catalogues, and onboarding checklists.</p>
+        <p className="prime-hero__lead" style={{ color: "#000000" }}>One place for brochures, service catalogues, and onboarding checklists.</p>
       </div>
 
       <div className="panel-premium dl-wrap">

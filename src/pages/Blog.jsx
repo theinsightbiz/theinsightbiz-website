@@ -21,9 +21,9 @@ export default function Blog(){
     <section className="page wide blog-prime">
       {/* Premium hero */}
       <div className="prime-hero">
-        <div className="prime-hero__badge" style={{ color: "#fff" }}>Expert takes • Practical playbooks</div>
+        <div className="prime-hero__badge" style={{ color: "#000000" }}>Expert takes • Practical playbooks</div>
         <h1 className="prime-hero__title" style={{ color: "#07cbfcff" }}>Insights & Updates</h1>
-        <p className="prime-hero__lead" style={{ color: "#fff" }}>
+        <p className="prime-hero__lead" style={{ color: "#000000" }}>
           Curated knowledge across tax, accounting, and global compliance—written for decision-makers.
         </p>
       </div>
@@ -58,7 +58,7 @@ export default function Blog(){
 
       {/* CTA */}
       <div className="blog-cta">
-        <div className="blog-cta__title" style={{ color: "#fff" }}>Want help applying these ideas?</div>
+        <div className="blog-cta__title" style={{ color: "#000000" }}>Want help applying these ideas?</div>
         <div className="blog-cta__actions">
           <Link className="btn-primary" to="/contact">Talk to us</Link>
           <Link className="btn-ghost" to="/services">Explore services</Link>

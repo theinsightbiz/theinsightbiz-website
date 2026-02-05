@@ -89,9 +89,9 @@ export default function Contact() {
     <section className="page wide contact-prime">
       {/* Premium hero */}
       <div className="prime-hero">
-        <div className="prime-hero__badge" style={{ color: "#fff" }}>Response in 1 business day</div>
+        <div className="prime-hero__badge" style={{ color: "#000000" }}>Response in 1 business day</div>
         <h1 className="prime-hero__title" style={{ color: "#07cbfcff" }}>Let’s build something exceptional</h1>
-        <p className="prime-hero__lead" style={{ color: "#fff" }}>
+        <p className="prime-hero__lead" style={{ color: "#000000" }}>
           Tell us about your needs—advisory, compliance, design, or other business matters.
           We review every enquiry and reply within one business day.
         </p>
@@ -292,7 +292,7 @@ export default function Contact() {
             <div className="office">
               <div className="k">Head Office</div>
               <div className="v">
-                A-272, Block A, Surajmal Vihar, New Delhi – 110092
+                Office No. 34 & 35, C Block, DDA Market, Surajmal Vihar, New Delhi – 110092
               </div>
             </div>
             <div className="office">

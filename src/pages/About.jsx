@@ -135,7 +135,7 @@ export default function About() {
       {/* ===== Premium hero ===== */}
       <div className="prime-hero">
         <div className="prime-hero__badge"
-        style={{ color: "#fff" }}
+        style={{ color: "#000000" }}
         >
         Since 2011 • Multi-jurisdiction advisory</div>
         <h1 className="prime-hero__title"
@@ -143,7 +143,7 @@ export default function About() {
         >
         About INSIGHT</h1>
         <p className="prime-hero__lead"
-        style={{ color: "#fff" }}
+        style={{ color: "#000000" }}
         >
         We are a seasoned business consultant specializing in financial advisory, tax compliance and business setup solutions across India, UAE, UK and USA. With deep expertise in regulatory frameworks and financial strategies, we help businesses optimise operations, save costs and achieve sustainable growth.
         </p>
@@ -518,7 +518,7 @@ export default function About() {
 
       {/* ===== Bottom CTA ===== */}
       <div className="about-cta">
-        <div className="about-cta__title" style={{ color: "#fff" }}>Ready to get started?</div>
+        <div className="about-cta__title" style={{ color: "#000000" }}>Ready to get started?</div>
         <div className="about-cta__actions">
           <a className="btn-primary" href="/contact">Contact us</a>
           <a className="btn-ghost" href="/services">Explore services</a>
