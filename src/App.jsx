@@ -17,6 +17,7 @@ import Downloads from './pages/downloads'
 import ScrollToTop from './components/ScrollToTop'
 import pageBg from './assets/page-bg.jpg'
 import FluidCursor from './components/FluidCursor'
+import Notfound from './pages/notfound'
 
 /** A small floating toggle rendered into <body> so it's never clipped/hidden */
 function FxToggle({ on, setOn }) {
@@ -104,6 +105,7 @@ export default function App(){
           <Route path="/contact" element={<Contact />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/downloads" element={<Downloads/>} />
+          <Route path="*" element={<Notfound />} />
         </Routes>
       </main>
 
