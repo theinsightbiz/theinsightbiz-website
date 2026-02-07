@@ -1,21 +1,14 @@
 import React from "react";
 import { Link, useRouteError } from "react-router-dom";
-
+import Lottie from "lottie-react";
+import notFoundAnimation from "../assets/not-found.json";
 export default function Error() {
   const err = typeof useRouteError === "function" ? useRouteError() : null;
   const status = err?.status || err?.response?.status || 404;
 
   return (
-    <div style={{ minHeight: "100vh", display: "grid", placeItems: "center", padding: 24 }}>
-      <section style={{ textAlign: "center", maxWidth: 520 }}>
-        <h1 style={{ margin: 0 }}>{status}</h1>
-        <p style={{ marginTop: 8 }}>
-          {status === 404 ? "Page not found." : "Something went wrong."}
-        </p>
-        <Link to="/" style={{ display: "inline-block", marginTop: 12 }}>
-          Go home
-        </Link>
-      </section>
+    <div>
+      <Lottie animationData={notFoundAnimation} loop={true} />
     </div>
   );
 }
