@@ -6,7 +6,7 @@ export default function Error() {
   const status = err?.status || err?.response?.status || 404;
 
   return (
-    <main style={{ minHeight: "100vh", display: "grid", placeItems: "center", padding: 24 }}>
+    <div style={{ minHeight: "100vh", display: "grid", placeItems: "center", padding: 24 }}>
       <section style={{ textAlign: "center", maxWidth: 520 }}>
         <h1 style={{ margin: 0 }}>{status}</h1>
         <p style={{ marginTop: 8 }}>
@@ -16,6 +16,6 @@ export default function Error() {
           Go home
         </Link>
       </section>
-    </main>
+    </div>
   );
 }
