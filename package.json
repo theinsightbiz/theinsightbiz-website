@@ -8,6 +8,7 @@
     "build": "vite build",
     "preview": "vite preview"
   },
+// git
   "dependencies": {
     "@studio-freight/lenis": "^1.0.42",
     "gsap": "^3.13.0",
