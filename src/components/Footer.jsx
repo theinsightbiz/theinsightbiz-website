@@ -23,10 +23,10 @@ export default function Footer(){
         <div>
           <h4>Head Office</h4>
           <p style={{ color: '#000000' }}><FaMapMarkerAlt/> Office No. 34 & 35, C Block, DDA Market, Surajmal Vihar, New Delhi – 110092</p>
-          <h4>Branch Office</h4>
+          <h4>Branch Offices</h4>
           <p style={{ color: '#000000' }}><FaMapMarkerAlt/> Hamriyah Street, Al Fahidi, Bur Dubai, Dubai</p>
-          <h4>Branch Office</h4>
           <p style={{ color: '#000000' }}><FaMapMarkerAlt/> 134-140 Church Road, Hove, East Sussex, UK</p>
+          <p style={{ color: '#000000' }}><FaMapMarkerAlt/> 16/F, Tower 5, The Gateway, Harbour City, Tsim Sha Tsui, Hong Kong</p>
         </div>
         <div>
           <h4>Contact</h4>

@@ -304,6 +304,10 @@ export default function Contact() {
               <div className="v">
                 134-140 Church Road, Hove, East Sussex, UK
               </div>
+              <div className="k">Branch Office</div>
+              <div className="v">
+                16/F, Tower 5, The Gateway, Harbour City, Tsim Sha Tsui, Hong Kong
+              </div>
             </div>
             <div className="hours">
               <div className="k">Opening Hours</div>
