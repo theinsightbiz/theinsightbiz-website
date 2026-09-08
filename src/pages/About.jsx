@@ -246,7 +246,7 @@ export default function About() {
               />
               <div className="member-card__glass"></div>
               <div className="member-card__info" aria-hidden="true">
-                <h3 className="member-card__name">Hrithik Raj</h3>
+                <h3 className="member-card__name">CA Hrithik Raj</h3>
                 <p className="member-card__role">Consultant • Chartered Accountant</p>
                 <p className="member-card__bio">
                   Cross-border consultant for India, UAE, UK & USA tax and compliances; structures, filings, and checklists.
@@ -274,7 +274,7 @@ export default function About() {
               />
               <div className="member-card__glass"></div>
               <div className="member-card__info" aria-hidden="true">
-                <h3 className="member-card__name">Pratik Raj</h3>
+                <h3 className="member-card__name">CS Pratik Raj</h3>
                 <p className="member-card__role">Partner • Compliance Officer</p>
                 <p className="member-card__bio">
                   Incorporations across India/UAE/UK/USA; SEBI, FEMA (ODI/FDI), and Companies Act, 2013 compliances.
